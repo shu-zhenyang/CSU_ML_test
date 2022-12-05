@@ -1,0 +1,1956 @@
+,id,user_login,user_id,position,path,body
+0,529825,sschulze,807321,94.0,org.springframework.web/src/main/java/org/springframework/web/filter/HttpPutFormContentFilter.java,"According to the HTML-Spec, the Content-Type can be suffixed by optional parameters. In my scenario (using ExtJs/Sencha Touch) the parameter ""charset"" is transferred. So getContentType()==""application/x-www-form-urlencoded; charset=UTF-8"".
+I'd suggest to use ""startsWith"" instead of ""equals"".
+"
+1,530606,rstoyanchev,401908,,,"Hi Stefan, thanks for pointing out this issue. It is not fixed in trunk [cs=4869](https://fisheye.springsource.org/changelog/spring-framework?cs=4860).
+"
+2,925766,cbeams,301810,,,"Adapted from original commit at kdvolder@1b255a1
+"
+3,1336593,poutsma,330665,145.0,spring-web/src/main/java/org/springframework/http/MediaType.java,"These three lines can be folded into one: 
+
+Comparator<?>[] comparators = new Comparator[] { MediaType.SPECIFICITY_COMPARATOR, MediaType.QUALITY_VALUE_COMPARATOR} 
+"
+4,1420758,stevemac007,540954,4.0,org.springframework.context/src/main/java/org/springframework/validation/DataBinder.java,"Why was the null check around the validator in the validate() method removed?  I can agree that to call validate() without a validator set is probably wrong, but migrating from pre spring 3.1 up here causes some wierd NPE's when calling validate().
+
+The null check is still in place on the validate(Object... validationHints) method.
+"
+5,1520308,cbeams,301810,4.0,org.springframework.context/src/main/java/org/springframework/validation/DataBinder.java,"@stevemac007, have you considered adding a JIRA issue about this?  A single comment here will probably get lost.
+"
+6,1772210,jeffbrown,15482,,,"I think spring-lang-groovy was already in the list so it is there twice now.
+"
+7,1775063,cbeams,301810,,,"@jeffbrown - oops, thanks. After discussing with @jhoeller, we're actually going to fold the new module into the existing modules after all. So this will soon be moot.
+"
+8,1775388,jeffbrown,15482,,,"Something that will need to be addressed if the code is moved into any of the other subprojects is configuring the joint compiler.  Right now the spring-lang-groovy subproject is configured with this...
+
+```
+compileJava.enabled=false
+sourceSets {
+    main {
+        groovy {
+            srcDir 'src/main/java'
+        }
+    }
+}
+```
+
+What that does is disables the java compiler for this subproject and adds the src/main/java directory to the groovy compiler's set of source directories.  That way when the groovy compiler runs it will find all of the files under src/main/groovy and src/main/java and make sure they all get compiled together.  They need to be compiled together because there are bidirectional dependencies between the java and the groovy code.
+
+There are another couple of options.
+
+One other option is to not do any special configuration stuff but put all of the .java source files in the .groovy source directory.  If you do this, then the groovy compiler will find them by default and no special config is necessary.  This feels funky to me, but it works.
+
+Another option is to not disable the java compiler but instead just remove src/main/java from the java compilers set of source directories and in addition to that, add src/main/java to the set of groovy source directories.  That looks something like this...
+
+```
+sourceSets {
+    main {
+        groovy.srcDir 'src/main/java'
+        java.srcDirs = []
+    }
+}
+```
+
+That would be instead of (not in addition to) the other configuration snippet I showed above.
+"
+9,1775436,ldaley,17825,,,"@jeffbrown This is a more accurate model. If I understand, you have no standalone Java source in this project. It's always better to be explicit about this kind of thing and model it thoroughly than being implicit about it.
+"
+10,1781660,jeffbrown,15482,,,"Luke,
+
+When you say ""This is a more accurate model"", to which ""This"" are you referring?
+
+There is standalone Java source in this project.
+"
+11,1805780,ractive,783861,,,"Any comments why the OSGi headers have been removed or how OSGi compatibility will be ensured?
+http://forum.springsource.org/showthread.php?129344-Spring-3-2-Milestone-1-and-OSGi-meta-data
+"
+12,2088121,philwebb,519772,,,"@cbeams The --XX:MaxHeapSize setting was added to the Windows build a little while ago [1]. I assumed that it would be harmless in the default build as well.
+
+Nice to see how to run additional code after a task.  I searched so much, with no avail, for that info.
+
+[1] https://github.com/SpringSource/spring-framework/commit/8e7622bb8a6a078d92531b657f105cec953c4166#L0L11
+"
+13,2088461,cbeams,301810,,,"Ah, that's right. I had forgotten about adding the MaxHeapSize setting on the Windows side. That was done to avoid build failures on the windows CI machine. We should put that bit back. Go ahead if you like.
+
+On Nov 1, 2012, at 5:20 PM, Phil Webb notifications@github.com wrote:
+
+> @cbeams The --XX:MaxHeapSize setting was added to the Windows build a little while ago [1]. I assumed that it would be harmless in the default build as well.
+> 
+> Nice to see how to run additional code after a task. I searched so much, with no avail, for that info.
+> 
+> [1] SpringSource/spring-framework@8e7622b#L0L11
+> 
+> —
+> Reply to this email directly or view it on GitHub.
+"
+14,2088789,philwebb,519772,,,"@cbeams I have made RegistrationPolicy.valueOf package scope. Is that OK with you?
+"
+15,2089142,cbeams,301810,,,"I suppose that'll be fine. The idea was to keep it public and allow anyone who wants to adapt from the #REGISTRATION_\* constants to the new enum style the opportunity to do so; but given that in practice this will probably only come up in relation to use of MBeanRegistrationSupport and subclasses, those same users can just call the now-deprecated #setRegistrationBehavior(int) as per usual.
+
+Thanks.
+
+On Nov 1, 2012, at 7:12 PM, Phil Webb notifications@github.com wrote:
+
+> @cbeams I have made RegistrationPolicy.valueOf package scope. Is that OK with you?
+> 
+> —
+> Reply to this email directly or view it on GitHub.
+"
+16,2089176,philwebb,519772,,,"That was my thinking. Plus if we ever removed the deprecated REGISTRATION_ values the public method on the enum would make no sense.
+"
+17,2238239,Powerrr,773219,7.0,spring-core/src/main/java/org/springframework/core/GenericTypeResolver.java,"Shouldn't this `if` block be moved inside the `getRawType(Type, Map<TypeVariable, Type>)` method so that other methods (such as `resolveParameterType(...)` and `resolveReturnType(...)`) could handle generic arrays too?
+"
+18,2242270,rstoyanchev,401908,7.0,spring-core/src/main/java/org/springframework/core/GenericTypeResolver.java,"The method is recursive and needs `Class<?>` as the return value. Other parts of the code that already rely getRawType, do generic array processing as a separate step externally. 
+"
+19,2393864,cbeams,301810,59.0,build.gradle,"@philwebb, this change causes `./gradlew clean api` to fail, because spring-core's asmRepackJar and cglibRepackJar tasks are not executed, meaning that these JARs are not available on the classpath when `javadoc` is trying to resolve symbols.
+
+Your comment states that ""This commit also updates the api JavaDoc task to ensure that dependencies are not resolved too early."" — what was the actual problem here? Why was it ""bad"" to have deps resolving early?
+
+In any case, can you see about fixing this up? I'd prefer not to go the route of having `api` depend on (cglib|asm)RepackJar tasks — this means that `api` has to know ""too much"", IMO.
+
+Thanks!
+"
+20,2429625,cbeams,301810,,,"Thanks, @sbrannen. Just noted that the copyright headers haven't been updated to 2013. Also, a minor point, but the the test methods named ""_OneSecond_"" aren't exactly accurate anymore now that the timeouts have been reduced from 1000ms to 20ms.
+"
+21,2429951,sbrannen,104798,,,"Good catch! I'll fix that ASAP.
+"
+22,2504073,KingBuzzer,546041,,,"Then you cannot use spring-orm and transitively depend on spring-jdbc and spring-tx for instance. This will probably break a lot of builds.
+"
+23,2504422,sslavic,176382,,,"@KingBuzzer It's a bad practice to use undeclared dependencies. In Apache Maven world maven-dependency-plugin analyze goal can help one flush out this and similar bad practices.
+"
+24,2504488,philwebb,519772,,,"@KingBuzzer,
+
+Thanks for raising this. These particular projects are merged into other projects and it was not my intention to change the dependency scope in the published POMs. Unfortunately it appears that the merge dependency is taking precedence and this is indeed a bug.
+
+See https://jira.springsource.org/browse/SPR-10218 for more details.
+"
+25,2538931,philwebb,519772,59.0,build.gradle,"Commit f92f58d0b37c5bc03a355b9e3e1a0a99fe14478c has fixed this
+"
+26,2711793,cbeams,301810,37.0,spring-aspects/src/main/java/org/springframework/beans/factory/aspectj/AbstractDependencyInjectionAspect.aj,"@rwinch, shouldn't this pointcut get the @CodeGenerationHint as well, given that it contains an `if`?
+"
+27,2711809,cbeams,301810,12.0,spring-aspects/src/main/java/org/springframework/orm/jpa/aspectj/JpaExceptionTranslatorAspect.aj,"@rwinch, this might have just been a one-time formatting mistake, but your ASL template was out of the ordinary here. As you can see, I've reformatted it as per usual below. You might want to double-check your template just in case.
+"
+28,2711815,cbeams,301810,38.0,spring-aspects/src/main/java/org/springframework/orm/jpa/aspectj/JpaExceptionTranslatorAspect.aj,"@rwinch, I also made this change, assuming that there's no need for a @CodeGenerationHint given that no `if` is used in the pointcut declaration. Does that look correct to you?
+"
+29,2713423,graemerocher,66626,5.0,spring-webmvc/src/main/java/org/springframework/web/servlet/FrameworkServlet.java,"Unfortunately this commit has broken stuff in Grails as we provide our own GrailsWebRequest instance which is always being overridden by Spring due to the new instanceof check, whilst previously it was left in place. There is also no way to customize this behaviour :(
+
+Any way to make this customizable?
+"
+30,2713471,cbeams,301810,5.0,spring-webmvc/src/main/java/org/springframework/web/servlet/FrameworkServlet.java,"/cc'ing @rstoyanchev, just in case he doesn't otherwise see this.
+"
+31,2713504,sbrannen,104798,5.0,spring-webmvc/src/main/java/org/springframework/web/servlet/FrameworkServlet.java,"@graemerocher, can you please create a new JIRA issue for this, linking to SPR-10025, and explaining the Grails use case?
+"
+32,2713608,graemerocher,66626,5.0,spring-webmvc/src/main/java/org/springframework/web/servlet/FrameworkServlet.java,"Reported https://jira.springsource.org/browse/SPR-10342
+"
+33,2713827,rwinch,362503,12.0,spring-aspects/src/main/java/org/springframework/orm/jpa/aspectj/JpaExceptionTranslatorAspect.aj,"Thanks...I'm not sure what happened here. I will update my template accordingly
+"
+34,2713855,rwinch,362503,38.0,spring-aspects/src/main/java/org/springframework/orm/jpa/aspectj/JpaExceptionTranslatorAspect.aj,"Yes it looks correct. I added the `@CodeGenerationHint` for any location that had an if statement that showed up in the class files so whitespace changes should be fine now.
+"
+35,2714862,rwinch,362503,12.0,spring-aspects/src/main/java/org/springframework/orm/jpa/aspectj/JpaExceptionTranslatorAspect.aj,"@cbeams FYI..I figured out what happened. My code templates were automatically getting formatted. Specifically Use code formatter was checked under Window > Preferences > Java > Editor > Templates 
+"
+36,2714891,cbeams,301810,12.0,spring-aspects/src/main/java/org/springframework/orm/jpa/aspectj/JpaExceptionTranslatorAspect.aj,"Ah, good to know, thanks!
+
+On Feb 28, 2013, at 5:23 PM, Rob Winch notifications@github.com wrote:
+
+> FYI..I figured out what happened. My code templates were automatically getting formatted. Specifically Use code formatter was checked under Window > Preferences > Java > Editor > Templates
+> 
+> —
+> Reply to this email directly or view it on GitHub.
+"
+37,2714909,cbeams,301810,12.0,spring-aspects/src/main/java/org/springframework/orm/jpa/aspectj/JpaExceptionTranslatorAspect.aj,"@philwebb, is that something we should fix/remove in the shared eclipse settings?
+
+On Feb 28, 2013, at 5:26 PM, Chris Beams cbeams@vmware.com wrote:
+
+> Ah, good to know, thanks!
+> 
+> On Feb 28, 2013, at 5:23 PM, Rob Winch notifications@github.com wrote:
+> 
+> > FYI..I figured out what happened. My code templates were automatically getting formatted. Specifically Use code formatter was checked under Window > Preferences > Java > Editor > Templates
+> > 
+> > —
+> > Reply to this email directly or view it on GitHub.
+"
+38,2715065,rwinch,362503,12.0,spring-aspects/src/main/java/org/springframework/orm/jpa/aspectj/JpaExceptionTranslatorAspect.aj,"The setting is global workspace setting, so I'm not sure it was the shared eclipse settings (I don't know that it can impact it since it is not a project level setting). I suspect it may have got checked when I was playing with [Eclipse Workspace Mechanic](http://code.google.com/a/eclipselabs.org/p/workspacemechanic/). I was looking int Workspace Mechanic for better ways of setting up consistent workspaces (if you have ideas love to hear them). 
+"
+39,2715529,sbrannen,104798,5.0,spring-webmvc/src/main/java/org/springframework/web/servlet/FrameworkServlet.java,"Thanks!
+"
+40,2718310,philwebb,519772,12.0,spring-aspects/src/main/java/org/springframework/orm/jpa/aspectj/JpaExceptionTranslatorAspect.aj,"It does not look like project specific overrides are supported so we can't fix the shared settings.
+"
+41,2720619,cbeams,301810,12.0,spring-aspects/src/main/java/org/springframework/orm/jpa/aspectj/JpaExceptionTranslatorAspect.aj,"Well, I'm not sure it's really a problem anyway. I have that box checked globally, and I haven't run into the ASL header formatting issue that Rob saw. Maybe we should just keep an eye out if it continues to be a nuisance.
+
+On Mar 1, 2013, at 12:40 AM, Phil Webb notifications@github.com wrote:
+
+> It does not look like project specific overrides are supported so we can't fix the shared settings.
+> 
+> —
+> Reply to this email directly or view it on GitHub.
+"
+42,2722479,rwinch,362503,12.0,spring-aspects/src/main/java/org/springframework/orm/jpa/aspectj/JpaExceptionTranslatorAspect.aj,"I think my instance was special. The problem occurred for me because I have a template that only contains the apache license to insert the license into files that already exist and did not have it (this file had it missing). If I create a new file it works, if I only insert the header it gets formatted.
+
+NOTE: I did the manual revert (rather than re-reverting my commit) since it was easier for me than merging the changes in from an automatic revert.
+"
+43,2723516,philwebb,519772,10.0,spring-beans/src/main/java/org/springframework/beans/factory/support/AbstractAutowireCapableBeanFactory.java,"@jhoeller Does this not reintroduce SPR-10304? If the typesToMatch is empty typesToMatch[0] will throw ArrayIndexOutOfBoundsException?
+"
+44,2723894,jhoeller,1263688,,,"Well, typesToMatch.length != 1 || !FactoryBean.class.equals(typesToMatch[0]) will only hit the second expression if the first turns out to be false - i.e. if typesToMatch.length == 1. In case of 0 or more than 1 elements, we'll simply return the predicted type as-is.
+"
+45,2723920,philwebb,519772,,,"Doh! Oh yea... In my head I read typesToMatch.length == 1.  Having a thicky moment :)
+"
+46,3155756,philwebb,519772,19.0,spring-context/src/main/java/org/springframework/context/annotation/Condition.java,"Whoops!
+"
+47,3302564,ElArabeLoco,4379701,,,"This breaks the form tag action in a portlet environment. In a portlet environment, the @action attribute must be kept as is, because it is usually generated by the portlet container via the portlet:actionURL/ tag, and that action does not necessarily start with the context root of the web application.
+"
+48,3302680,philwebb,519772,,,"I think this issue may have been raised already (see [comments in SPR-8684](https://jira.springsource.org/browse/SPR-8684?focusedCommentId=90022&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-90022). If this is a different problem could you please open a new [JIRA](https://jira.springsource.org).
+
+Cheers
+"
+49,3485152,philwebb,519772,31.0,spring-beans/src/main/java/org/springframework/beans/factory/support/DefaultSingletonBeanRegistry.java,"SPR-10674
+"
+50,3494054,philwebb,519772,15.0,spring-web/src/main/java/org/springframework/web/accept/ContentNegotiationManager.java,"SPR-10683
+"
+51,3653375,vorko,2226037,,,"there's a regression . see https://jira.springsource.org/browse/SPR-10752
+"
+52,3695948,rstoyanchev,401908,,,"this should be fixed now.
+"
+53,3947421,rwinch,362503,,,"@sbrannen I actually have some tests that started failing due to the fact that the method could no longer be null. The test was to test a library that was wrapping the request and occasionally returning null from the method. If we are going to do this, perhaps a better approach would be to throw an IllegalArgumentException so that it is apparent what is wrong.
+"
+54,4059936,sbrannen,104798,,,"@rwinch Do you mean `setMethod()` or `setRequestURI()`, or both?
+"
+55,4059973,sbrannen,104798,,,"From the Javadoc for `getMethod()` from `HttpServletRequest`:
+
+> Returns the name of the HTTP method with which this request was made, for example, GET, POST, or PUT. Same as the value of the CGI variable REQUEST_METHOD.
+
+So I would assume it is in fact an error if the supplied `method` is null or empty.
+
+Thoughts?
+"
+56,4060051,sbrannen,104798,,,"Now, that I think about it, we could even consider only allowing values such as those defined in `org.springframework.http.HttpMethod`.
+"
+57,4060093,sbrannen,104798,,,"For the sake of backwards compatibility, however, it might be best to revert the changes in this commit and simply refactor `getRequestURL()` so that it uses an empty string for the request URI if `getRequestURI()` returns `null`.
+
+Thoughts?
+"
+58,4069096,rwinch,362503,,,"@sbrannen - Thanks for the response and sorry for the delay on getting back to you. I have replied to you below:
+
+> > Do you mean setMethod() or setRequestURI(), or both?
+
+In my instance it was just an issue with the setMethod, but I think both should be treated similarly. You can refer to [this commit](https://github.com/spring-projects/spring-security/commit/086056f191bce7c0657ccef7a43fcdb18b7dded8#L6R31) for details.
+
+> > So I would assume it is in fact an error if the supplied method is null or empty.
+
+This is possible, but at times testing needs to cover cases where someone might implement a method incorrectly. For example, users may plug in an invalid HttpServletRequest wrapper and I would like to ensure I give meaningful errors and/or ensure that Security is still working correctly. So while it may not be valid, at times tests need to cover invalid usage too.
+
+Even if we decide to state that null is not allowed, I think that we should treat the null as an error in that instance so it is obvious to the user of MockHttpServletRequest that they are using it incorrectly.
+
+> > Now, that I think about it, we could even consider only allowing values such as those defined in org.springframework.http.HttpMethod
+
+I think we should allow anything since the HTTP method allows for [extension methods](http://tools.ietf.org/html/rfc2616#section-5.1.1)
+
+> > For the sake of backwards compatibility, however, it might be best to revert the changes in this commit and simply refactor getRequestURL() so that it uses an empty string for the request URI if getRequestURI() returns null.
+
+This seems reasonable to me. I do think we should address the method attribute as well.
+"
+59,4070729,sbrannen,104798,,,"OK. I've made the discussed changes. See commit ee5d6c8f83 for details.
+"
+60,4179855,mikesir87,746837,,,"I'm interested to know why this change occurred.  We have been following along with 4.0 and can no longer deploy our apps into our Glassfish instance due to ClassNotFound's being thrown from this change.
+
+Is there any expectation that Glassfish 4.0 will be supported?  I'm not aware of any ETA/release date for 4.0.1  
+
+I'd be happy to contribute a pull-request, but wanted to check in first.  I'm thinking it would check the DefaultHandshakeHandler whether it's Glassfish 4.0 or beyond and then provide an upgrade strategy that uses the TyrusEndpoint that's appropriate.  Thoughts?
+"
+61,4180135,rstoyanchev,401908,,,"I guess this would become less of an issue when 4.0.1 becomes available. If you submitted a PR it wouldn't hurt even when 4.0.1 becomes available. Thanks.
+"
+62,4187851,mikesir87,746837,,,"Just submitted the pull request - #364 Let me know what you think.
+"
+63,4334382,rwinch,362503,63.0,spring-messaging/src/main/java/org/springframework/messaging/MessageHeaders.java,"At a quick glance it appears it may make sense to make the IdGenerator interface and AlternativeJdkIdGenerator class private
+"
+64,4334499,rstoyanchev,401908,63.0,spring-messaging/src/main/java/org/springframework/messaging/MessageHeaders.java,"Ah yes, the AlternativeJdkIdGenerator should be private. The interface however is public still for this reason:
+http://docs.spring.io/spring-integration/docs/3.0.0.BUILD-SNAPSHOT/reference/html/messaging-construction-chapter.html#message-id-generation
+"
+65,4334530,rwinch,362503,63.0,spring-messaging/src/main/java/org/springframework/messaging/MessageHeaders.java,"That makes sense keeping the interface public...I had missed that. Thanks for the clarification :)
+"
+66,4367007,nebhale,60754,,,"@philwebb Does the 'refine resolve() algorithm to support narrowed types' in the commit log refer to types that are narrowed like `List` -> `ArrayList` or narrowed like `List` -> `List<String>`.  If it's the latter, I don't think that it's fixed (as indicated by last night's snapshot, `20131018-023*`).
+"
+67,4368703,philwebb,519772,,,"It was for `List<String>` -> `ArrayList` and was driven by the changes in 57a36f3f56852ac27ace62c1390ddc31bace17ac and a failing SpEL test.
+
+Are you seeing an issue that means `List` -> `List<String>` is also needed?
+"
+68,4368780,nebhale,60754,,,"Yeah.  @olivergierke and I found it the other day when I was trying to inject a copy of `PagedResourcesAssembler` as created automatically.  I was trying to autowire `PagedResourcesAssembler<Build>` and it didn't work (even though we observed the bean definition logs for the former).  I believe that he chatted with @jhoeller about it, but I'm not sure if the bug has been captured anywhere.  Suffice to say, that behavior still doesn't work today.
+"
+69,4368809,philwebb,519772,,,"First I have heard of that one. Will chat with him and see if we have an issue or at least a test to reproduce it.
+"
+70,4368953,odrotbohm,128577,,,"I've filed [SPR-10993](https://jira.springsource.org/browse/SPR-10993) and Jürgen's apparently already at it.
+"
+71,4369035,nebhale,60754,,,"Whoops.  Just opened [SPR-11004](https://jira.springsource.org/browse/SPR-11004) with a simple test-case in it.  I'll make a reference between to two.  Thanks for the input @olivergierke.
+"
+72,4451996,zyro23,1370899,166.0,spring-messaging/src/main/java/org/springframework/messaging/simp/handler/UserDestinationMessageHandler.java,"will this still work if a username contains a ""/""? thanks, zyro
+"
+73,4455882,rstoyanchev,401908,166.0,spring-messaging/src/main/java/org/springframework/messaging/simp/handler/UserDestinationMessageHandler.java,"unlikely, without adding support for encoding the username. do you have that case or just wondering?
+"
+74,4455952,zyro23,1370899,166.0,spring-messaging/src/main/java/org/springframework/messaging/simp/handler/UserDestinationMessageHandler.java,"tbh just wondering. give this a super low prio if any at all. but also i do not think we explicitely got usernames constrained to not include slashes... so the next user registration might be the one :)
+"
+75,4456899,rstoyanchev,401908,166.0,spring-messaging/src/main/java/org/springframework/messaging/simp/handler/UserDestinationMessageHandler.java,"okay thanks for the comment. 
+"
+76,4465463,pbobruk,5273082,153.0,spring-core/src/main/java/org/springframework/util/AntPathMatcher.java,"I think, that it should be greater than or equal, because in a multithreaded environment, the counter can be exceeded.
+
+``` java
+if (cachePatterns == null && this.stringMatcherCache.size() >= CACHE_TURNOFF_THRESHOLD) {
+                                                           ^^^^
+```
+"
+77,4469380,jhoeller,1263688,153.0,spring-core/src/main/java/org/springframework/util/AntPathMatcher.java,"Good catch - fixed now.
+
+We've also optimized RequestMappingInfoHandlerMapping to not pass the
+lookup path into the PathMatcher the way it did before; so we shouldn't see
+such AntPathMatcher cache overflowing caused by the framework itself
+anymore.
+
+Juergen
+
+On Wed, Oct 30, 2013 at 2:17 PM, pbobruk notifications@github.com wrote:
+
+> I think, that it should be greater than or equal, because in a
+> multithreaded environment, the counter can be exceeded.
+> 
+> if (cachePatterns == null && this.stringMatcherCache.size() >= CACHE_TURNOFF_THRESHOLD) {
+>                                                            ^^^^
+> 
+> —
+> Reply to this email directly or view it on GitHubhttps://github.com/spring-projects/spring-framework/commit/326154270fa6338010a1c047044fc4a9f21e910b#commitcomment-4465463
+> .
+"
+78,4547605,katmatt,231232,11.0,spring-context/src/main/java/org/springframework/context/annotation/PropertySource.java,"@philwebb How is this supposed to work when using JDK < 8? java.lang.annotation.repetable seems to have @Retention(RetentionPolicy.RUNTIME)... We just tried to run an example which uses @PropertySource using JDK 1.7 and it fails with a ClassNotFoundException! 
+"
+79,4570926,philwebb,519772,11.0,spring-context/src/main/java/org/springframework/context/annotation/PropertySource.java,"We were under the impression that this annotation would be ignored in JDK 7, I have added a JIRA issue that we will look to address before RC2:
+https://jira.springsource.org/browse/
+
+---
+
+@katmatt, we are having trouble replicating this, could you add a comment on the JIRA to help us reproduce it? Cheers.
+"
+80,4575117,zyro23,1370899,,,"hi, what is the expected behavior of
+- @SendTo without a value if there is no destination message header?
+- @MethodMapping without a value?
+
+i think using the annotated methods name as fallback in both cases would be a sensible default?
+or is this by chance already the current behavior and i managed to miss it :) ?
+"
+81,4576268,rstoyanchev,401908,,,"If the method returns a value and there is no `@SendTo` or there is one but without a value, then the destination of the incoming message is used with a default prefix of ""/topic"". This way a client can send a message, have it processed, and then broadcast it -- i.e. the client sends message to ""/app/foo"", the method is mapped to ""/foo"" (the ""/app"" prefix stripped), and the return value is sent as a message to ""/topic/foo"" where the ""/topic"" is configurable but should work well as a default.
+
+A @MessageMapping without a value would be mapped to ""/"".
+
+Does that make sense?
+
+These will be documented properly soon by the way.
+"
+82,4579315,zyro23,1370899,,,"yup, thank you. eagerly awaiting the docs :)
+"
+83,4760691,davidboden,1673471,19.0,spring-expression/src/main/java/org/springframework/expression/spel/support/ReflectivePropertyAccessor.java,"This line hasn't survived to Spring 3.2.5.RELEASE. The method's behaviour has therefore changed for ""is"" accessors from 3.2.4.RELEASE. It's returning void methods because it's no longer restricted to returning only boolean or Boolean return type methods.
+
+New block reads:
+{code}
+                    if (method.getName().equals(prefix + methodSuffix)
+                            && method.getParameterTypes().length == numberOfParams
+                            && (!mustBeStatic || Modifier.isStatic(method.getModifiers()))) {
+                        return method;
+                    }
+{code}
+"
+84,4761980,philwebb,519772,19.0,spring-expression/src/main/java/org/springframework/expression/spel/support/ReflectivePropertyAccessor.java,"Sorry about that, I have raised https://jira.springsource.org/browse/SPR-11142 if you want to track.
+"
+85,4762180,davidboden,1673471,19.0,spring-expression/src/main/java/org/springframework/expression/spel/support/ReflectivePropertyAccessor.java,"Many thanks Phil. Our unit tests caught it as part of a throwaway trial Spring upgrade, so absolutely no effort expended on my side. Nice one for raising the Jira!
+"
+86,4771195,zyro23,1370899,18.0,spring-messaging/src/main/java/org/springframework/messaging/simp/stomp/StompBrokerRelayMessageHandler.java,"this import seems to have a transitive dependency on reactor. this makes it currently (spring-4.0.rc2) not possible to enable the stomp relay via messageBrokerRegistry.enableStompBrokerRelay() in a project without reactor...
+"
+87,4772250,rstoyanchev,401908,18.0,spring-messaging/src/main/java/org/springframework/messaging/simp/stomp/StompBrokerRelayMessageHandler.java,"Good point, currently reactor-tcp is the only available implementation but we should make full use of the abstraction still and leave the option open. Can you create a ticket in JIRA pls?
+"
+88,4774317,zyro23,1370899,18.0,spring-messaging/src/main/java/org/springframework/messaging/simp/stomp/StompBrokerRelayMessageHandler.java,"https://jira.springsource.org/browse/SPR-11153
+"
+89,4812866,odrotbohm,128577,30.0,src/asciidoc/index.adoc,"Does that make sense? There's probably no `SqlMapAccountDao` for JPA, right? `SqlMap` is a iBatis concept/term IIRC.
+"
+90,4812894,philwebb,519772,30.0,src/asciidoc/index.adoc,"I am sure you are right, I have not actually used iBatis. What would be a better choice of name here? Just drop the SqlMap prefix?
+"
+91,4812908,odrotbohm,128577,30.0,src/asciidoc/index.adoc,"If it's just dummy code `JpaAccountDao` should work here. I thought that line was actually referring to real code living somewhere, so I thought it was an odd change.
+"
+92,4812931,philwebb,519772,30.0,src/asciidoc/index.adoc,"If it is real code, it won't work with Spring 4. Given the 3 day countdown I will change it as suggested and blindly assume that the real code doesn't exist :)
+"
+93,4812983,odrotbohm,128577,30.0,src/asciidoc/index.adoc,"+1
+"
+94,4922221,krishna-reddy,6157851,,,"ok
+"
+95,4933879,zyro23,1370899,196.0,spring-websocket/src/main/java/org/springframework/web/messaging/stomp/service/InvocableMessageHandlerMethod.java,"does this invocation respect proxies? i had no luck trying to annotate a handler method with anything else than the messaging-specific annotations... im thinking of transactional behavior, method-based security, aop, etc.? thanks, zyro
+"
+96,4946361,zyro23,1370899,76.0,spring-messaging/src/main/java/org/springframework/messaging/simp/handler/DefaultUserDestinationResolver.java,"it looks like this hard-coded ""queue"" suffix for the subscription prefix makes it impossible to use a pattern like ""/user/exchange/amq.direct/..."" instead of ""/user/queue/..."".
+e.g. with rabbitmq this means to be restricted to durable, no-auto-delete queues atm?
+if someone can quickly confirm this observation, ill raise a jira.
+"
+97,4956014,rstoyanchev,401908,76.0,spring-messaging/src/main/java/org/springframework/messaging/simp/handler/DefaultUserDestinationResolver.java,"Yes please raise a JIRA, thanks!
+"
+98,4956029,rstoyanchev,401908,196.0,spring-websocket/src/main/java/org/springframework/web/messaging/stomp/service/InvocableMessageHandlerMethod.java,"It should be comparable to do as in Spring MVC. In other words, yes, it should be possible. If not raise a bug, thanks.
+"
+99,5310393,sslavic,176382,,,"Just noticed [commons-fileupload 1.3.1 release announcement](http://mail-archives.apache.org/mod_mbox/commons-user/201402.mbox/%3C52F373FC.9030907%40apache.org%3E) and [CVE-2014-0050](http://seclists.org/fulldisclosure/2014/Feb/41) and thought of fixing this in Spring by upgrading, only to find it's already done. Well done for the team!
+"
+100,5776900,snicoll,490484,,,"`ext.tilesRequestVersion` can be confusing at first sight. It can be understood as the _requested_ version. I don't know if that makes sense to rename it, just my 0.0.2€
+"
+101,5777096,jhoeller,1263688,,,"I've dropped tiles-request-api completely with my latest commit (the AspectJ upgrade) since it comes as a transitive dependency of Tiles anyway - which is why I dropped it in the spring-webmvc dependencies before. It just got reintroduced from the spring-test dependencies where, as far as I can see, it can be equally simply dropped.
+
+BTW, good point about Tiles version constants here, Sam! Just not for tiles-request-api if we can avoid it...
+"
+102,5778041,sbrannen,104798,,,"Sure thing!
+
+I actually didn't check whether the Tiles request API was being pulled in transitively. So thanks for improving that as well!
+"
+103,5909859,rstoyanchev,401908,,,"> Prior to this commit, @SubscribeMapping mapped methods (backed with @SendTo\* annotations, or not) would send MESSAGEs with the wrong destination. 
+
+The logic for @SendTo is different and is unrelated to this issue -- either @SendTo has a destination in which case it is used as is or it has none in which case we prepend with ""/topic/"" or ""/queue/"", in which case we're not ""replying"" with a STOMP MESSAGE to the WebSocket session but rather broadcasting with a STOMP SEND to the broker.
+
+In short the issue only applies to @SubscribeMapping methods without @SendTo\* annotations. 
+"
+104,5910819,bclozel,103264,,,"In that case, the `SendToMethodReturnValueHandler` was relying on the inbound message destination, and not the lookup destination. So maybe this was a 2 issues in one fix.
+"
+105,5911336,rstoyanchev,401908,,,"Remember the inbound message destination was updated to be the lookup destination.
+"
+106,5911368,bclozel,103264,,,"Yes :+1: 
+"
+107,5941584,snicoll,490484,,,"Sam, I found 616 usage oif `{@code @` on master. Do you intend to fix that as well?
+"
+108,5941675,sbrannen,104798,,,"`{@code @MyAnnotation}` is fine. That was actually my change (i.e., from `{@code &#064;...}` to `{@code @...}`).
+
+FYI: I'm pretty sure that the presence of `{@code &#064;...}` is a side effect of our _recent_ (well not not recent) global replacement of `<code>&#064;...</code>`. `&#064;` was often necessary for the HTML code tags but does not get interpreted correctly within the `{@code}` Javadoc tag.
+
+I wasn't planning on any kind of global replacement, but if you noticed the presence of `{@code &#064;...}` in other places, then yes, we should fix this globally.
+"
+109,5941693,snicoll,490484,,,"Oh great, I misread your commit. I thought you changed `{@code @` to `{@code &#064;`
+
+Sorry for the noise!
+"
+110,5941759,sbrannen,104798,,,"FYI: I went ahead and fixed the remaining occurrences of `{@code &#064;` in d53b4988399e6242725ebe51efd450a0091fe8dc.
+"
+111,6053710,sbrannen,104798,,,"`+<aclement@gopivotal.com> <david_syer@hotmail.com>` looks a little suspect to me. ;)
+"
+112,6053719,sbrannen,104798,,,"Maybe we should also add an ""Unknown at Aspire"" entry for Juergen as well. ;)
+"
+113,6053872,philwebb,519772,,,"Ahh yes, I missed that one. Now fixed.
+"
+114,6512395,btiernay,2717578,63.0,spring-beans/src/main/java/org/springframework/beans/factory/config/YamlPropertiesFactoryBean.java,"Is this now the case?
+"
+115,6519077,snicoll,490484,63.0,spring-beans/src/main/java/org/springframework/beans/factory/config/YamlPropertiesFactoryBean.java,"I am not sure I understand what you meant. This feature is available on master and `4.1.0.BUILD-SNAPSHOT`. A RC1 is scheduled end of this month.
+"
+116,6956398,zyro23,1370899,,,"thanks!
+"
+117,6957833,artembilan,1071590,119.0,spring-messaging/src/main/java/org/springframework/messaging/support/AbstractMessageChannel.java,"Hi Rossen!
+Woundn't you mind to explain how it cleans `ThreadLocal` resources from `interceptor.preSend` if it returns `null`? 
+I don't see `finally` in the main `send` code.
+And here we don't invoke any `afterSendCompletion`, if the first `interceptor.preSend` returns `null`. And even don't invoke `afterSendCompletion` of this first iterceptor.
+Or do we leave it to the iterceptor implementation, as for `ThreadLocal` clean to the `afterSendCompletion` anyway?
+"
+118,6959992,rstoyanchev,401908,119.0,spring-messaging/src/main/java/org/springframework/messaging/support/AbstractMessageChannel.java,"hi Artem, yes indeed any interceptor that returns null from preSend will not be invoked with afterSendCompletion. As the one to effectively end the send, the interceptor is aware of the completion. I expect interceptors performing thread local setup will not be returning null but if conditional logic was required for any reason, they can still do the right thing. Note also the Javadoc  of afterSendCompletion:
+
+```
+ * <p>Note that this will be invoked only if preSend successfully completed
+ * and returned a Message, i.e. it did not return {@code null}.
+```
+"
+119,6960059,artembilan,1071590,119.0,spring-messaging/src/main/java/org/springframework/messaging/support/AbstractMessageChannel.java,"Got it. Thanks. Right, if can't do anything automatically the protection oursevles with Docs is a good compromise.
+Well, it is one more breaking change for us, but we should do that anyway.
+I'm take a look closer, when will come up to the solution for SI.
+
+@garyrussell, any objections for this solution?
+"
+120,6960276,garyrussell,483832,119.0,spring-messaging/src/main/java/org/springframework/messaging/support/AbstractMessageChannel.java,"Looks good to me.
+
+One little nit...
+
+```
+logger.debug(name + "" returned null from preSend, i.e. precluding the send."");
+```
+
+We usually use `if (logger.isDebugEnabled()) {...}` to avoid the string concatenation when debugging is off.
+"
+121,6960301,rstoyanchev,401908,119.0,spring-messaging/src/main/java/org/springframework/messaging/support/AbstractMessageChannel.java,"Yeah since the interface is shared, the very addition of those methods implies they need to be implemented in SI as well. So either way we need to make a collective decision. I do think it's a bit hard to justify not having such methods since without  them it is impossible to do any kind of cleanup reliably. 
+
+What kind of breaking changes have you seen so far?
+"
+122,6960349,artembilan,1071590,119.0,spring-messaging/src/main/java/org/springframework/messaging/support/AbstractMessageChannel.java,"Now we can't conver this functionality until SF 4.1 will be minimal for SI: seems to me a lot of reflection is needed now for our `AbstractMessageChannel.ChannelInterceptorList` to determine, if target `ChannelInterceptor` has those new methods or not for SF 4.0.
+"
+123,6960428,rstoyanchev,401908,119.0,spring-messaging/src/main/java/org/springframework/messaging/support/AbstractMessageChannel.java,"Good point Gary, especially important in such hot spots of activity. I've also deliberately avoided any other logging for that reason but this is one I left. I'll make it conditional.
+"
+124,6963223,rstoyanchev,401908,60.0,spring-webmvc/src/main/java/org/springframework/web/servlet/resource/AppCacheResourceTransformer.java,"How about renaming this to AppCacheManifestResourceTransfomer (or even AppCacheManifestTransfomer) to differentiate a little better from CachingResourceTransformer? 
+"
+125,6963255,bclozel,103264,60.0,spring-webmvc/src/main/java/org/springframework/web/servlet/resource/AppCacheResourceTransformer.java,"That would be less confusing, yes.
+Changing this right now (to AppCacheManifestTransfomer - since the Manifest is the Resource, here).
+"
+126,7005065,garyrussell,483832,6.0,spring-messaging/src/main/java/org/springframework/messaging/support/GenericMessage.java,"Hi @rstoyanchev ,
+
+What drove this change? I kind of liked the addition of the type to the log for classes that override `toString()`, but I suppose it's redundant for those that don't.
+
+cc/ @artembilan
+"
+127,7006624,rstoyanchev,401908,6.0,spring-messaging/src/main/java/org/springframework/messaging/support/GenericMessage.java,"Yes redundancy is what I had in mind although I don't feel strongly either way. In fact I'd be okay with bringing it back to the way it was. Actually I did a lot logging-related optimizations by adding methods to the MessageHeaderAccessor class (and sub-classes). See for example the [methods in MessageHeaderAccessor](https://github.com/spring-projects/spring-framework/blob/master/spring-messaging/src/main/java/org/springframework/messaging/support/MessageHeaderAccessor.java#L421-L465) and also [the ones in StompHeaderAccessor](https://github.com/spring-projects/spring-framework/blob/master/spring-messaging/src/main/java/org/springframework/messaging/simp/stomp/StompHeaderAccessor.java#L386-L447) has even more.
+"
+128,7117968,snicoll,490484,95.0,spring-jms/src/main/java/org/springframework/jms/config/AbstractJmsListenerContainerFactory.java,"Maybe we should rename that to `ListenerContainerInstance` as well.
+"
+129,7123471,aantono,22290,79.0,spring-web/src/main/java/org/springframework/http/converter/protobuf/ProtobufHttpMessageConverter.java,"Would this not throw an NPE given the assertion test on line :91?
+"
+130,7123608,bclozel,103264,79.0,spring-web/src/main/java/org/springframework/http/converter/protobuf/ProtobufHttpMessageConverter.java,"Yes, but it's been fixed by @rstoyanchev in 5be1ff281c71
+"
+131,7386217,Antibrumm,3802537,,,"I just discovered a little bug during the initialization phase of the Jackson2ObjectMapperFactoryBean. It does not seem to have an impact on the running system finally.
+
+`getObjectType` is called before `afterPropertiesSet` thus the `ObjectMapper` can be null at this time, leading in an `InvalidArgumentException` during start up. 
+
+```
+@Override
+public Class<?> getObjectType() {
+    Assert.notNull(this.objectMapper, ""ObjectMapper must not be null"");
+    return this.objectMapper.getClass();
+}
+```
+
+This is stated in the `getObjectType()` documentation:
+
+""This method can be called before this FactoryBean has been fully initialized. It must not rely on state created during initialization; of course, it can still use such state if available.""
+
+```
+java.lang.IllegalArgumentException: ObjectMapper must not be null
+   at org.springframework.util.Assert.notNull(Assert.java:112) ~[spring-core-4.1.0.BUILD-SNAPSHOT.jar:4.1.0.BUILD-SNAPSHOT]
+   at org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean.getObjectType(Jackson2ObjectMapperFactoryBean.java:489) ~[spring-web-4.1.0.BUILD-SNAPSHOT.jar:4.1.0.BUILD-SNAPSHOT]
+   at org.springframework.beans.factory.support.FactoryBeanRegistrySupport.getTypeForFactoryBean(FactoryBeanRegistrySupport.java:66) ~[spring-beans-4.1.0.BUILD-SNAPSHOT.jar:4.1.0.BUILD-SNAPSHOT]
+   at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.getTypeForFactoryBean(AbstractAutowireCapableBeanFactory.java:781) [spring-beans-4.1.0.BUILD-SNAPSHOT.jar:4.1.0.BUILD-SNAPSHOT]
+```
+"
+132,7387635,sdeleuze,141109,,,"Thanks for reporting this bug, I will fix it before RC2 release.
+"
+133,7387970,sdeleuze,141109,,,"Fixed by the commit: https://github.com/spring-projects/spring-framework/commit/ebc726a9154a72d49e34f345ec3461bb59f87681
+"
+134,7599874,gdrouet,2384248,18.0,spring-webmvc/src/main/java/org/springframework/web/servlet/resource/ResourceHttpRequestHandler.java,"@rstoyanchev this assertion continues force the user to set at least one location
+"
+135,7873493,romank0,1078674,7.0,spring-jdbc/src/main/java/org/springframework/jdbc/datasource/JdbcTransactionObjectSupport.java,"I think this fix is incorrect as it will introduces discrepancy between database notion of rollback to savepoint and `JdbcTransactionObjectSupport` (and its clients) view of rollback to savepoint. That is this fix does not allow  replicate scenario absolutely valid in database:
+
+```
+BEGIN;
+SAVEPOINT A;
+ROLLBACK TO SAVEPOINT A;
+ROLLBACK TO SAVEPOINT A;
+COMMIT;
+```
+
+I believe the correct fix is like this https://github.com/romank0/spring-framework/commit/e2b7b2af026f3dc73bd66b12b906120b1a62f05c
+The reason I didn't create PR for this is [the bug](https://issues.apache.org/jira/browse/OPENJPA-2530) in openjpa `rollbackToSavepoint` which is used for integration tests. The bug prevents this fix from working.
+"
+136,7940195,aldoluciano,1568138,,,"Amazed at how quick this was addressed.
+"
+137,7942338,rstoyanchev,401908,90.0,spring-web/src/main/java/org/springframework/web/context/request/async/WebAsyncManager.java,"Good catch!
+"
+138,7981605,bclozel,103264,,,":+1: 
+"
+139,7984404,sdeleuze,141109,,,":+1:  too !
+"
+140,8110609,leizhiyuan,2684384,,,"@Li-Lee  你是哪位小伙伴?
+"
+141,8265172,candrews,194713,,,"@bclozel I'm kind of sad that I don't have to appear as the commit's author... I was really hoping to get credit for this work.
+"
+142,8280376,philwebb,519772,,,"@candrews I've [added you](https://github.com/spring-projects/spring-framework/commit/d5bf6713edc9225023141d06692633a6f8b196d6) as an `@author` (and using your ID). Best we can do I'm afraid without rewriting git history.
+
+Thanks for the contribution!
+"
+143,8406208,andrei-ivanov,6377070,91.0,spring-context-support/src/main/java/org/springframework/cache/jcache/interceptor/DefaultJCacheOperationSource.java,"typo?
+"
+144,8406505,snicoll,490484,91.0,spring-context-support/src/main/java/org/springframework/cache/jcache/interceptor/DefaultJCacheOperationSource.java,"indeed. Fixed in 330897b411000a30bcb94c81a7d1304c01bddae6. Thanks for reporting!
+"
+145,8932743,donnchadh,582849,43.0,spring-tx/src/main/java/org/springframework/transaction/interceptor/TransactionAspectSupport.java,"This seems like quite a significant change in behaviour. On the next call to this method most of the logic will be skipped due to the check at the beginning:
+
+``` java
+        if (this.transactionManager != null || this.beanFactory == null || txAttr == null) {
+            return this.transactionManager;
+        }
+```
+
+I'm seeing behaviour where the qualifier seems to be ignored because of this.
+"
+146,8932950,snicoll,490484,43.0,spring-tx/src/main/java/org/springframework/transaction/interceptor/TransactionAspectSupport.java,"mmm, looks like it indeed. Could you please report the issue?
+"
+147,8946442,donnchadh,582849,43.0,spring-tx/src/main/java/org/springframework/transaction/interceptor/TransactionAspectSupport.java,"I've created https://jira.spring.io/browse/SPR-12541 for this.
+"
+148,9127488,bclozel,103264,,,"thanks! :+1: 
+"
+149,9207102,bclozel,103264,,,"Thanks :sweat_smile:
+"
+150,9207695,sbrannen,104798,,,"prego!
+"
+151,9649221,mdeinum,606761,,,"There is already a general section about this in the explanation about init/destroy methods of the containers. You might want to put a reference in there back to that section (http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#beans-factory-lifecycle-default-init-destroy-methods) (See the last paragraph of that section).
+"
+152,9962434,sbrannen,104798,,,"Aha... you beat me to it. ;)
+"
+153,10039104,dcoraboeuf,1206964,63.0,spring-web/src/main/java/org/springframework/web/util/UriComponentsBuilder.java,"If X-Forwarded-Port is set to 443, by a SSL nginx proxy for example for the application running on http/8080, the builder's port remains set to 8080?
+This check has been removed in the previous version of ServletUriComponentsBuilder
+"
+154,10043339,rstoyanchev,401908,63.0,spring-web/src/main/java/org/springframework/web/util/UriComponentsBuilder.java,"I believe that's the same issue reported here: 
+https://jira.spring.io/browse/SPR-12771
+"
+155,10045415,dcoraboeuf,1206964,63.0,spring-web/src/main/java/org/springframework/web/util/UriComponentsBuilder.java,"It looks exactly like it. Thanks.
+"
+156,10162594,vbochenin,6388399,52.0,spring-web/src/main/java/org/springframework/web/util/ContentCachingRequestWrapper.java,"When you call getParameterMap(), Tomcat,  for example, reads parameters from InputStream, so impossible to read input stream in servlet 
+"
+157,10162832,bclozel,103264,52.0,spring-web/src/main/java/org/springframework/web/util/ContentCachingRequestWrapper.java,"Are you saying there's a bug here?
+If so, could you [file a jira issue](https://jira.spring.io) on the Spring Framework project and describe the issue there?
+"
+158,10163673,vbochenin,6388399,52.0,spring-web/src/main/java/org/springframework/web/util/ContentCachingRequestWrapper.java,"https://jira.spring.io/browse/SPR-12810
+"
+159,10571998,panchenko,440271,14.0,spring-jdbc/src/main/java/org/springframework/jdbc/core/StatementCreatorUtils.java,"This change causes exceptions for us. We are using PostgreSQL and passing String values for JSON fields as Types.OTHER using JdbcTemplate. 
+IMHO JdbcTemplate should not be too smart - if I pass String as OTHER - it should reach the driver as is. OTHER is documented as 
+_indicates that the SQL type is database-specific and gets mapped to a Java object that can be accessed via the methods getObject and setObject_
+So, probably some other place using OTHER is just not doing that correctly?
+"
+160,10572001,snicoll,490484,14.0,spring-jdbc/src/main/java/org/springframework/jdbc/core/StatementCreatorUtils.java,"Could you please create an issue in our tracker? Thanks!
+"
+161,10572045,panchenko,440271,14.0,spring-jdbc/src/main/java/org/springframework/jdbc/core/StatementCreatorUtils.java,"Sure, filed https://jira.spring.io/browse/SPR-12890
+"
+162,10700157,cemo,44156,,,"thank you @rstoyanchev 
+"
+163,10791110,ttddyy,459116,,,"Hello @sbrannen 
+
+By looking the change, I'm just wondering about closing of application context.
+
+When cached AppCtx is removed by GC, does the AppCtx  get closed?
+If not, normally AppCtx  registers shutdown hook to JVM to close itself (`AbstractApplicationContext#registerShutdownHook()`). Does it work properly?
+"
+164,10793621,sbrannen,104798,,,"Hi @ttddyy,
+
+That's very astute of you! Thanks for reviewing the change and commenting.
+
+Luckily, I realized the logic error on my own as well and reverted the changes accordingly in commit d66d1605430c73444082d219214edb74327d3c13.
+
+Cheers,
+
+Sam
+"
+165,10798168,soudmaijer,225975,,,"Awesome! :thumbsup:
+"
+166,10814785,ttddyy,459116,,,":D
+"
+167,10915640,rstoyanchev,401908,,,"Thanks!
+"
+168,10936610,tgkprog,4226677,4.0,spring-aop/src/main/java/org/springframework/aop/AopInvocationException.java,"Cant use in cache as not serialize. Can we initialize the serialization id?
+"
+169,11043161,sbrannen,104798,,,"THANK YOU!!! ;)
+"
+170,11084726,sbrannen,104798,,,"Thank you, thank you, thank you!!!
+
+I was about to revert the upgrade to Gradle 2.4.
+
+So thanks for figuring out the fix! :)
+"
+171,11084818,bclozel,103264,,,"No problem :-)
+Hopefully we'll get rid of docbook soon and only use aciidoctor (its renderer must support multi page documentation first).
+"
+172,11119990,sbrannen,104798,,,"@jhoeller, the Javadoc for some of these classes and `package-info.java` files refer to Hibernate 4 instead of Hibernate 5.
+
+Just FYI... ;)
+"
+173,11142563,sbrannen,104798,,,"Awesome... Wihoo!!!! :)
+"
+174,11747566,VladRassokhin,552079,46.0,spring-beans/src/main/java/org/springframework/beans/factory/xml/BeansDtdResolver.java,"It's better/faster to use `systemId.indexOf(DTD_NAME, lastPathSeparator);`
+This would prevent incorrect behaviour on next line if systemId would be 'http://something/spring-beans/dtd/spring-beans.dtd'
+"
+175,11765397,and1kaney,3964499,,,"if setDontSetAutoCommitFalse(true), quartz run with non transactional
+"
+176,11954609,brbsk,6382838,,,"Hi,
+is `beforeTestClass` method intended to close a test ApplicationContext before a given test class without opening a new context for this test class?
+Best regards,
+B.
+"
+177,11954809,sbrannen,104798,,,"Yes.
+
+Whenever a context is marked as _dirty_, the context is closed, but it is not immediately recreated.
+
+The context will only be recreated if a test is actually configured to use the context.
+
+FYI: the context typically gets created in the `DependencyInjectionTestExecutionListener` which is configured _before_ the `DirtiesContextTestExecutionListener`.
+"
+178,11954861,sbrannen,104798,,,"However, since you've asked... your question makes me think that there in fact might be an ordering issue with regard to dependency injection and dirtying of contexts before test methods.
+
+I'll definitely put some more thought into this. So thanks for asking the question! ;)
+"
+179,11955152,brbsk,6382838,,,"You're welcome, and thank you very much for your answer :)
+
+I've asked this question because actually I am facing a little problem with this at the moment. I have a test class annotated as follows:
+`@TestExecutionListeners({CustomDirtiesContextTestExecutionListener.class})`
+`@SpringApplicationConfiguration(classes = Application.class, initializers = TestProfileInitializer.class)`
+My `CustomDirtiesContextTestExecutionListener` extends `DirtiesContextTestExecutionListener` and implements `beforeTestClass` method in exactly the same way as `DirtiesContextTestExecutionListener`'s 
+`afterTestClass` does. However during the test execution the context is only being closed without a new context being created.
+
+I am afraid that there might be no point in closing a context before the test without providing it a new one. What do you think?
+"
+180,11955281,sbrannen,104798,,,"The `DependencyInjectionTestExecutionListener` is responsible for loading the context and then injecting dependencies from the context into the test instance.
+
+So you have to make sure that the `TestExecutionListeners` are ordered properly.
+
+In your example, it appears that the standard ordering mechanism should apply. See [Ordering TestExecutionListeners](http://docs.spring.io/spring/docs/current/spring-framework-reference/html/testing.html#testcontext-tel-config-ordering) in the reference manual for details.
+"
+181,11955317,sbrannen,104798,,,"By the way, any time a `TestExecutionListener` invokes the `getApplicationContext()` method on the `TestContext`, a new context will be loaded if it's not already in the `ContextCache`.
+"
+182,11955342,brbsk,6382838,,,"Yes, I got this to work. Thanks a lot! :)
+"
+183,11955348,sbrannen,104798,,,"oh....... please share the solution!
+"
+184,11955380,brbsk,6382838,,,"I simply added the `DependencyInjectionTestExecutionListener` than you've mentioned to my `@TestExecutionListeners({CustomDirtiesContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class})` ;)
+"
+185,11955665,sbrannen,104798,,,"ok. cool!
+
+Glad it worked so easily for you.
+"
+186,11955681,sbrannen,104798,,,"Out of curiosity, which version of `spring-test` are you using?
+"
+187,11955722,brbsk,6382838,,,"4.1.6.RELEASE
+"
+188,11956449,sbrannen,104798,,,"OK. Thanks for all of your input!
+"
+189,11959843,sbrannen,104798,,,"@barbraz, as I mentioned earlier, your question got me thinking, and it turns out that there is in fact a bug with this commit. 
+
+I have created JIRA issue [SPR-13180](https://jira.spring.io/browse/SPR-13180) to address this issue.
+
+Thanks again for prompting me to re-evaluate the behavior.
+
+Sam
+"
+190,11959940,brbsk,6382838,,,"You're welcome, I'm glad I could help :)
+"
+191,12252017,sbrannen,104798,34.0,spring-context/src/test/java/org/springframework/scheduling/annotation/EnableSchedulingTests.java,"@jhoeller, I see you beat me to the fix, but I pushed my additional _polishing_ anyway (0153913ef4597e6a47517f763961a4c6cc232443). :wink: 
+"
+192,12269718,gedankennebel,1632331,,,"nice one !! :)
+"
+193,12283049,sbrannen,104798,,,"Awesome!
+
+Just in time for 4.2 GA. :smile: 
+"
+194,12326190,winterbe,485033,,,"As a side note: There's a nasty nashorn bug when sharing ScriptEngines upon different threads even if the evaluated scripts are thread safe: 
+
+https://bugs.openjdk.java.net/browse/JDK-8075006
+
+This bug can easily destroy your servers thread pool as I had to experience lately. ;)
+
+It's fixed for 8u60. I wouldn't recommend to use a shared ScriptEngine prior to this fix. 
+
+I fixed this issue by using a pool of engines (instead of thread-locals). 
+"
+195,12331691,sdeleuze,141109,,,"Thanks for this information, I have added the related documentation with the commit https://github.com/spring-projects/spring-framework/commit/8e5244ac3dd218cceef42ee5fe959f932fe875e4.
+"
+196,12687994,sbrannen,104798,,,"Thanks, @jhoeller! :smile: 
+"
+197,12906857,hpham,217085,,,"Hi Jürgen,
+
+@Transactional(propagation = Propagation.SUPPORTS, isolation = Isolation.REPEATABLE_READ, readOnly = true)
+
+if you have this transactional configuration, you would also get the warning, although you do not need a transaction. Is this correct?
+
+Hanh
+"
+198,13043413,graemerocher,66626,,,"I don't understand this change, it makes testing the setting of the `Expires` header much more difficult surely? You now have to go to the source of `MockHttpServletResponse` and look up the private `DATE_FORMAT` variable and then construct a formatted date from the long number in order to write a test. Surely this is not an improvement?
+"
+199,13043810,bclozel,103264,,,"I believe you don't need to parse dates nor read the source code to use `long getDateHeader(String name)` and `setDateHeader(String name, long time)`. The main improvement here: writing valid HTTP date headers. 
+You can take a look at the [original issue](https://jira.spring.io/browse/SPR-11912) for more background on this.
+
+Is there something missing here?
+"
+200,13043849,graemerocher,66626,,,"ok so `long getDateHeader(String name)` is an alternative, but it is a breaking change as `String getHeader(String name)` now returns the formatted string, I assume this has been added to some upgrade notes somewhere?
+"
+201,13043990,bclozel,103264,,,"I'll add this [here](https://docs.spring.io/spring-framework/docs/4.2.x/spring-framework-reference/htmlsingle/#_testing_improvements_3).
+"
+202,13464228,EternalSpring,8206118,,,"perfect !
+"
+203,13506676,greg-pendlebury,2540158,52.0,spring-web/src/main/java/org/springframework/web/context/request/ServletWebRequest.java,"I think this line has introduced a bug discussed here: http://stackoverflow.com/questions/32612027/spring-4-web-java-lang-illegalargumentexception-no-matching-constant-for-0
+
+The status code is being tested before it is set sometimes.
+"
+204,13524027,bclozel,103264,52.0,spring-web/src/main/java/org/springframework/web/context/request/ServletWebRequest.java,"Fixed with 39726740 - thanks!
+"
+205,14410357,cnsgithub,13161711,,,"Hi, This (or a related commit) seems to have severe impact on Spring deployments on Wildfly. ClassNotFoundExceptions found all over the place. With 4.2.2 everything worked fine. Please take a look. I'm copying the root exception here.
+
+It seems that the spring module wants to directly access classes of the deployment (*.ear). I don't think this should be the case, as the modules should be strictly separated and shouldnt have a dependency on the deployment, whereas the deployment can have dependency to spring
+
+```
+Caused by: java.lang.RuntimeException: java.lang.ClassNotFoundException: ,mypackage.ApplicationException from [Module ""org.springframework:main"" from local module loader @6321e813 (finder: local module finder @79be0360 (roots: C:\server\WildFly\wildfly-9.0.1.Final\modules,C:\server\WildFly\wildfly-9.0.1.Final\modules\system\layers\base))]
+    at org.springframework.asm.ClassWriter.getCommonSuperClass(ClassWriter.java:1684)
+    at org.springframework.asm.ClassWriter.getMergedType(ClassWriter.java:1654)
+    at org.springframework.asm.Frame.merge(Frame.java:1426)
+    at org.springframework.asm.Frame.merge(Frame.java:1337)
+    at org.springframework.asm.MethodWriter.visitMaxs(MethodWriter.java:1475)
+    at org.springframework.cglib.core.CodeEmitter.visitMaxs(CodeEmitter.java:842)
+    at org.springframework.cglib.transform.impl.UndeclaredThrowableTransformer$1.visitMaxs(UndeclaredThrowableTransformer.java:56)
+    at org.springframework.cglib.core.CodeEmitter.visitMaxs(CodeEmitter.java:842)
+    at org.springframework.cglib.core.CodeEmitter.end_method(CodeEmitter.java:138)
+    at org.springframework.cglib.proxy.MethodInterceptorGenerator.generate(MethodInterceptorGenerator.java:131)
+    at org.springfr
+```
+
+jboss-deployment-structure.xml
+contains dependency: <module name=""org.springframework"" meta-inf=""export"" export=""true""/>
+
+spring module.xml
+
+```
+<module xmlns=""urn:jboss:module:1.1"" name=""org.springframework"">
+    <resources>
+        <resource-root path=""aopalliance-1.0.jar""/>
+        <resource-root path=""aspectjrt-1.8.7.jar""/>
+        <resource-root path=""aspectjweaver-1.8.7.jar""/>
+        <resource-root path=""spring-aop-4.2.3.RELEASE.jar""/>
+        <resource-root path=""spring-aspects-4.2.3.RELEASE.jar""/>
+        <resource-root path=""spring-beans-4.2.3.RELEASE.jar""/>
+        <resource-root path=""spring-context-4.2.3.RELEASE.jar""/>
+        <resource-root path=""spring-context-support-4.2.3.RELEASE.jar""/>
+        <resource-root path=""spring-core-4.2.3.RELEASE.jar""/>
+        <resource-root path=""spring-expression-4.2.3.RELEASE.jar""/>
+        <resource-root path=""spring-instrument-4.2.3.RELEASE.jar""/>
+        <resource-root path=""spring-instrument-tomcat-4.2.3.RELEASE.jar""/>
+        <resource-root path=""spring-jdbc-4.2.3.RELEASE.jar""/>
+        <resource-root path=""spring-jms-4.2.3.RELEASE.jar""/>
+        <resource-root path=""spring-messaging-4.2.3.RELEASE.jar""/>
+        <resource-root path=""spring-orm-4.2.3.RELEASE.jar""/>
+        <resource-root path=""spring-oxm-4.2.3.RELEASE.jar""/>
+        <resource-root path=""spring-test-4.2.3.RELEASE.jar""/>
+        <resource-root path=""spring-tx-4.2.3.RELEASE.jar""/>
+        <resource-root path=""spring-web-4.2.3.RELEASE.jar""/>
+        <resource-root path=""spring-webmvc-4.2.3.RELEASE.jar""/>
+        <resource-root path=""spring-webmvc-portlet-4.2.3.RELEASE.jar""/>
+        <resource-root path=""spring-websocket-4.2.3.RELEASE.jar""/>
+        <resource-root path=""spring-security-config-4.0.3.RELEASE.jar""/>
+        <resource-root path=""spring-security-core-4.0.3.RELEASE.jar""/>  
+        <resource-root path=""spring-security-web-4.0.3.RELEASE.jar""/>
+    </resources>
+    <dependencies>  
+        <module name=""javax.api""/>
+        <module name=""javax.annotation.api""/>
+        <module name=""javax.el.api""/>
+        <module name=""javax.enterprise.api""/>
+        <module name=""javax.ejb.api""/>
+        <module name=""javax.faces.api""/>
+        <module name=""javax.interceptor.api""/>
+        <module name=""javax.persistence.api""/>
+        <module name=""javax.servlet.api""/>
+        <module name=""javax.jms.api""/>
+        <module name=""javax.servlet.jsp.api""/>
+        <module name=""javax.transaction.api""/>
+        <module name=""org.hibernate""/>      
+        <module name=""org.apache.commons.lang""/>
+        <module name=""org.apache.commons.logging""/>  
+        <module name=""org.jboss.vfs""/>
+        <module name=""org.quartz""/>
+     </dependencies>  
+</module>
+```
+"
+206,14410598,snicoll,490484,,,"Can you please create an issue with what you're experiencing?
+"
+207,14416053,cnsgithub,13161711,,,"I dont know why but issue creation seems to be disabled on github? maybe i dont have rights? Please just copy+paste this into the appropriate place, its faster than having me to figure out how to do it..
+
+By the way i know the reason why it happens as well now. Since WildFly has multiple classloaders (per module) the getClass().getClassLoader() call below is causing an exception as it will try to use the spring module classloader for any package name (passed as string). My suggestion would be to pass the ClassLoader of the *.ear / deployment where the Spring Beans are loaded to make it compatible again with Wildfly 9
+
+```
+public class ClassWriter extends ClassVisitor {  ....
+
+ protected String getCommonSuperClass(final String type1, final String type2) {
+        Class<?> c, d;
+        ClassLoader classLoader = getClass().getClassLoader();
+        try {
+            c = Class.forName(type1.replace('/', '.'), false, classLoader);
+            d = Class.forName(type2.replace('/', '.'), false, classLoader);
+        } catch (Exception e) {
+            throw new RuntimeException(e.toString());
+        }
+        if (c.isAs
+```
+"
+208,14416143,snicoll,490484,,,"issues are managed on [Jira](https://jira.spring.io/browse/SPR)
+"
+209,14635373,briandilley,1068495,14.0,spring-web/src/main/java/org/springframework/http/server/ServerHttpRequest.java,"what was this removed?
+
+Also, current implementation returns a doubly url encded url when calling getUR() (for Servlet impl)
+"
+210,14648225,Hinsteny,5526657,,,"Now that the Log4jConfigurer  is Deprecated . What should be used for log4j of log4j2 ?
+
+thanks!
+"
+211,14688912,rstoyanchev,401908,14.0,spring-web/src/main/java/org/springframework/http/server/ServerHttpRequest.java,"This was never in any GA release, so it wasn't removed. It was just never exposed. 
+
+For the encoding issue, feel free to [create a ticket](jira.springsource.org/browse/SPR) in JIRA. Thanks.
+"
+212,14965679,PascalSchumacher,2707245,,,"should be ""reasonably"" I guess
+"
+213,14967251,rstoyanchev,401908,,,"Fixed, thanks.
+"
+214,15267127,rstoyanchev,401908,26.0,spring-webmvc/src/main/java/org/springframework/web/servlet/resource/VersionedResource.java,"4.2.5?
+"
+215,15640111,40lsgy1,9530004,,,"When I want to cache data in ServletInputStream, I find ContentCachingRequestWrapper in Spring. Thank you and your code. But I do not understand is it ok that cachedContent is never closed in your code? 
+"
+216,15907865,libetl,1233790,,,"Thank you for your help,
+Regards,
+Lionel. (Reporter of SPR-13917)
+"
+217,15962794,ngbalk,5477368,,,"Was this commit intended to resolve CVE-2013-6430?
+http://pivotal.io/security/cve-2013-6430
+"
+218,16033518,tzvatot,3798998,,,"what version of spring 4.2.x will the fix be included in?
+"
+219,16033695,sdeleuze,141109,,,"4.2.5, more details on https://jira.spring.io/browse/SPR-13853
+"
+220,16184277,philwebb,519772,3.0,spring-webmvc/src/main/java/org/springframework/web/servlet/mvc/condition/RequestMethodsRequestCondition.java,"FYI This update breaks a [Spring Boot test](https://github.com/spring-projects/spring-boot/blob/3352e60631c4bec64cd10e2bf495ec7fcd310427/spring-boot-autoconfigure/src/test/java/org/springframework/boot/autoconfigure/mobile/DeviceResolverAutoConfigurationTests.java#L93) where we use a `MockHttpServletRequest` but don't explicitly set a method.
+
+`getRequestMethod` returns `null`, this one exits then `RequestMappingInfo.getMatchingCondition` returns early also with `null`.
+
+We can update the test to set the method but I thought it was worth raising.
+"
+221,16185606,rstoyanchev,401908,3.0,spring-webmvc/src/main/java/org/springframework/web/servlet/mvc/condition/RequestMethodsRequestCondition.java,"That seems like a regression indeed. At runtime a `null` would be considered a custom method that's not in the RequestMethod enum values. However an empty methods condition should match to anything. I'll fix that shortly.
+"
+222,16185900,rstoyanchev,401908,3.0,spring-webmvc/src/main/java/org/springframework/web/servlet/mvc/condition/RequestMethodsRequestCondition.java,"Here is the fix https://github.com/spring-projects/spring-framework/commit/08eb623c41d0ba8276d4131330271ea0f49c7879.
+"
+223,16462914,ttddyy,459116,,,"it's a small change but big benefit for ones who tweak spring-test framework. :+1: 
+"
+224,16668229,juanmf,886723,24.0,spring-core/src/main/java/org/springframework/core/LocalVariableTableParameterNameDiscoverer.java,"In LocalVariableTableParameterNameDiscoverer.java#getParameterNames(Method m)
+I think returning null is a bad Idea. It's probably the reason why we are getting null pointer exception. Maybe an empty String[] would be a better implementation of the API.
+"
+225,16673399,snicoll,490484,24.0,spring-core/src/main/java/org/springframework/core/LocalVariableTableParameterNameDiscoverer.java,"@juanmf this is not the place to discuss about an issue. If you feel you've hit a bug in the framework, please [create a new issue](https://jira.spring.io/browse/SPR/?selectedTab=com.atlassian.jira.jira-projects-plugin:summary-panel) that explains what you're experiencing.
+"
+226,16731662,snicoll,490484,,,"@rstoyanchev could it be that it broke the [Boot build](https://build.spring.io/browse/BOOT-PUB-3874)? 
+"
+227,16732771,rstoyanchev,401908,,,"Yes checking..
+"
+228,16920527,ElomAtsouAgboka,17599005,,,"Hi, I am relatively new on Spring. I have just two years of experience. I am reading the code and I have some gap that I will like someone to help me with it. `Configuration<?> configuration` declaration has been used. I can't see anywhere on the page which package this Configuration<?> element belongs to. Maybe I am not using Github well. Someone help.
+"
+229,16928862,zhwwashere,17424707,,,"cool！
+"
+230,16968759,junwchina,1160453,,,"Hello, When will you release this feature to a release version?
+"
+231,16971511,rstoyanchev,401908,,,"You can track this information from the referenced ticket above https://jira.spring.io/browse/SPR-13402 and then under versions https://jira.spring.io/browse/SPR.
+"
+232,16982883,junwchina,1160453,,,"Got it. Thanks :)
+"
+233,17057904,aalmazzo,1134439,,,"We are using AppDynamics in our production system and we had an outage because this APM started sending a header with an empty value ""singularity"", """".
+
+Hopefully this can be addressed by Spring promptly.
+"
+234,17061452,snicoll,490484,,,"@aalmazzo this is not the place to discuss issues. If you believe you've found an issue in Spring Framework, please [create an issue in the tracker](https://jira.spring.io/browse/SPR)
+"
+235,17398673,klaus-sap,18526427,,,"In sql-error-codes.xml, could you add ""HDB"" as databaseProductName? This is the name which you get from the Hana JDBC driver.
+"
+236,17398755,snicoll,490484,,,"@klaus-sap that's not the place to discuss this. Please open a PR or create an issue in [our issue tracker](https://jira.spring.io/browse/SPR)
+"
+237,17670118,aclement,226298,5.0,src/asciidoc/core-expressions.adoc,"Just one comment - it isn't `T(Integer.class)` it would be `T(Integer)` - no need for the class suffix. You will get an error if you supply the suffix.
+"
+238,17743325,kibertoad,1847934,,,"Any chance for a new RC with this change in the nearby future? Otherwise new Hibernate is unusable with Spring, and we'd rather avoid using snapshot builds.
+"
+239,17743440,jhoeller,1263688,,,"Spring Framework 4.3 GA is scheduled for release on Wednesday June 8th. No need for a further RC if we can roll it into GA right away, I'd say :-)
+"
+240,17743486,kibertoad,1847934,,,"Great news! Thank you, will wait for that then.
+"
+241,17748723,kazuki43zoo,5616270,66.0,spring-test/src/main/java/org/springframework/test/web/client/MockRestServiceServer.java,"Hi @rstoyanchev , is this code correct ? 
+
+I think it should modify as follow:
+
+``` java
+this.ignoreExpectOrder = ignoreExpectOrder;
+```
+
+What do you think ?
+"
+242,17751730,rstoyanchev,401908,66.0,spring-test/src/main/java/org/springframework/test/web/client/MockRestServiceServer.java,"Thanks, that should be fixed now.
+"
+243,17751791,kazuki43zoo,5616270,66.0,spring-test/src/main/java/org/springframework/test/web/client/MockRestServiceServer.java,"Thanks for fix 👍 
+"
+244,18044649,sbrannen,104798,,,"👍 
+"
+245,18105215,sbrannen,104798,,,"Oops! I totally forgot about `package-info`. Thanks for catching that! 👍 
+"
+246,18112326,sbrannen,104798,,,"Oops... unnoticed until July. 
+
+Good catch! 😉 
+"
+247,18112329,sbrannen,104798,,,"The moment we've all been waiting for.... 5.0 on `master`! 👍 
+"
+248,18184507,zjunothing,10829314,,,"good work.
+"
+249,18211365,php-coder,87088,5.0,spring-core/src/main/java/org/springframework/util/AntPathMatcher.java,"@bclozel You forgot to update setter after changing the default value: https://github.com/spring-projects/spring-framework/blob/3ce49819f2f7a425ecc05c1f50a7fac296fc051d/spring-core/src/main/java/org/springframework/util/AntPathMatcher.java#L133-L139
+"
+250,18211530,bclozel,103264,5.0,spring-core/src/main/java/org/springframework/util/AntPathMatcher.java,"Ha, good catch!
+This has been fixed by 147a35f4f1 and d11c624fb0
+
+Thanks!
+"
+251,18394845,sbrannen,104798,,,"Thanks, @jhoeller! 👍 
+"
+252,18394887,sbrannen,104798,,,"Awesome, @jhoeller! It's great to see the last of the remaining JUnit 3 based tests go the way of the dodo bird. 😉 
+"
+253,18673365,chenrui333,1580956,7.0,spring-web/src/main/java/org/springframework/web/util/UriComponentsBuilder.java,"can we add `@since 4.0` for this API? Just a thought.
+"
+254,18687332,jhoeller,1263688,7.0,spring-web/src/main/java/org/springframework/web/util/UriComponentsBuilder.java,"Good point, added now!
+"
+255,18688248,chenrui333,1580956,7.0,spring-web/src/main/java/org/springframework/web/util/UriComponentsBuilder.java,"Cool, thanks.
+"
+256,18807302,ttddyy,459116,51.0,spring-test/src/main/java/org/springframework/test/context/junit/jupiter/DisabledIf.java,"ah, this is nice!!
+no need to bloat the `SpringExtension` class for new feature
+"
+257,18912405,sbrannen,104798,,,"Thanks! 👍 
+"
+258,18920981,rstoyanchev,401908,,,"I guess my refactoring to those tests didn't work out so well. Thanks Brian!
+"
+259,18943330,Fireflyever,20367191,35.0,spring-tx/src/main/java/org/springframework/transaction/config/AnnotationDrivenBeanDefinitionParser.java,"Hi Snicoll, 
+
+Could I know why there is no protection for duplicate register TRANSACTIONAL_EVENT_LISTENER_FACTORY_BEAN_NAME under registerTransactionalEventListenerFactory?
+
+I can see like other method: registerTransactionAspect and configureAutoProxyCreator, there has protection for duplicate bean registration.
+
+Many Thanks!
+"
+260,18957940,snicoll,490484,35.0,spring-tx/src/main/java/org/springframework/transaction/config/AnnotationDrivenBeanDefinitionParser.java,"It's not a duplicate bean registration. Rather than asking why it's not protected, maybe you should explain how it is a problem for you. Commit comments aren't a great to exchange idea so feel free to create an issue in the tracker with your problem and we can take it from there.
+"
+261,18981224,wertklop,1822236,20.0,org.springframework.beans/src/main/java/org/springframework/beans/PropertyValue.java,"why not `original.getSource();` ?
+"
+262,18984700,jhoeller,1263688,20.0,org.springframework.beans/src/main/java/org/springframework/beans/PropertyValue.java,"We're using the source field to intentionally preserve the `PropertyValue` resolution chain here, not just the original source object. See `getOriginalPropertyValue()` below.
+"
+263,19064476,sbrannen,104798,33.0,spring-web-reactive/src/main/java/org/springframework/web/reactive/function/BodyInsertor.java,"Although ""insertor"" is apparently acceptable in special contexts (at least as I learned from a quick Google search), the common (correct?) spelling with regard to technology is ""inserter"". 😉 
+"
+264,19064557,poutsma,330665,33.0,spring-web-reactive/src/main/java/org/springframework/web/reactive/function/BodyInsertor.java,"The goal was to be consistent with BodyExtractor.
+"
+265,19064580,sbrannen,104798,33.0,spring-web-reactive/src/main/java/org/springframework/web/reactive/function/BodyInsertor.java,"Hmmmm.... we're talking about the English language here. So we can't really count on _consistency_ with regard to any spelling rules. ;)
+
+As a native speaker, ""insertor"" just looks wrong. Besides, neither Merriam Webster nor the Oxford English dictionary considers that to be a word (at least not the online versions).
+
+Take that for what it's worth.
+"
+266,19064736,poutsma,330665,33.0,spring-web-reactive/src/main/java/org/springframework/web/reactive/function/BodyInsertor.java,"Ok, I will change the name to `BodyInserter`
+"
+267,19064795,poutsma,330665,33.0,spring-web-reactive/src/main/java/org/springframework/web/reactive/function/BodyInsertor.java,"Fixed, see 778ef026801533c6030d774d52504ef9a72cb48f.
+"
+268,19064812,sbrannen,104798,33.0,spring-web-reactive/src/main/java/org/springframework/web/reactive/function/BodyInsertor.java,"That allows the built-in spellchecker module in my brain to continue to operate in background mode. Thanks! 👍 
+"
+269,19150333,maksymkovalenko,11414489,135.0,spring-web-reactive/src/test/java/org/springframework/web/reactive/result/method/annotation/RequestMappingMessageConversionIntegrationTests.java,"What's not clear is how to control HTTP status code when `Observable` (or `Single`) returns error. For example, depending on the error, I might want to return specific error code (and maybe body). Even in success case, I might want to return `200` or `204`.
+Test does not demonstrate this, what's the recipe?
+"
+270,19150688,rstoyanchev,401908,135.0,spring-web-reactive/src/test/java/org/springframework/web/reactive/result/method/annotation/RequestMappingMessageConversionIntegrationTests.java,"You can add an `@ExceptionHandler` method. If the error occurs before the first item is published, you can still change to a different response status and body.
+"
+271,19151641,maksymkovalenko,11414489,135.0,spring-web-reactive/src/test/java/org/springframework/web/reactive/result/method/annotation/RequestMappingMessageConversionIntegrationTests.java,"Isn't `@ExceptionHandler` for sync methods only? And for async results like `Observable`, is it really applicable?
+"
+272,19153285,rstoyanchev,401908,135.0,spring-web-reactive/src/test/java/org/springframework/web/reactive/result/method/annotation/RequestMappingMessageConversionIntegrationTests.java,"No it's not for sync methods only. We've support to make sure it works as I said it does. See https://github.com/spring-projects/spring-framework/blob/master/spring-web-reactive/src/test/java/org/springframework/web/reactive/result/method/annotation/RequestMappingExceptionHandlingIntegrationTests.java. It's based on a Reactive Streams publisher but it's the same idea.
+"
+273,19374529,tangleiao,4972042,34.0,build.gradle,"optional(""javax.faces:javax.faces-api:2.2"")
+"
+274,19503742,poutsma,330665,42.0,src/asciidoc/web-reactive.adoc,"You could even change this to `bodyToMono(Account.class)`, as of fa9cc1eb1a7755d3e3d91e3a89954e85b02b26f2.
+"
+275,19596225,mjustin,1580571,25.0,src/asciidoc/web-mvc.adoc,"409 is Conflict; 412 is Precondition Failed: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes .  That said, the code seems to be correct; it's just the documentation that has this error.
+"
+276,19602422,sbrannen,104798,4.0,build.gradle,"Since I assume this was a mistake, I reverted this in c448739b7bc0a16862f0ebdc7662aa66597b54df.
+
+Please correct me if my assumption was invalid. 😉 
+
+In any case, it wreaks havoc on `gradle eclipse` (see https://discuss.gradle.org/t/eclipse-plugin-not-downloading-source-if-jar-found-in-mavenlocal/2182/7) resulting in source JARs no longer being included in the generated Eclipse project settings. So I hope we can do without the use of `mavenLocal()`.
+"
+277,19852854,joshlandin,3354981,,,"It's worth noting that this change to org.springframework.util.CollectionUtils.mergePropertiesIntoMap() has the potential to break users that are using PropertyPlaceholderConfigurer with their own Properties instance plugged-in overriding getProperty(String). Given the above change, their override will never be called for properties merged into the placeholder configurer. Their workaround is to also override Hashtable.get(Object) in their custom class."
+278,19857200,snicoll,490484,,,@joshlandin thanks for the feedback! Could you please create a Spring Framework issue at https://jira.spring.io/browse/SPR ? 
+279,19996008,javase,3367137,,,"I want to get a list about what's new in spring 5.x, where can I get the list ?"
+280,19996051,snicoll,490484,,,@javase it's still in progress but that information is [on the wiki](https://github.com/spring-projects/spring-framework/wiki/What%27s-New-in-the-Spring-Framework)
+281,19997207,kazuki43zoo,5616270,14.0,spring-webmvc/src/main/java/org/springframework/web/servlet/mvc/ParameterizableViewController.java,"Hi @rstoyanchev 
+
+By this change, we cannot handle a POST request using the view controller .
+If possible, i want to know a reason that applied this changes to the view controller (i clouldn't found a reason into JIRA tickets).
+
+Thanks.
+"
+282,20001822,rstoyanchev,401908,14.0,spring-webmvc/src/main/java/org/springframework/web/servlet/mvc/ParameterizableViewController.java,"I suppose no strong reason, just the expectation that on a POST you do need controller logic to handle form data, data binding, validation, etc. You can still call setSupportedMethods on the ParameterizableViewController but this is not exposed in the MVC Java config nor the MVC namespace."
+283,20003539,gdrouet,2384248,206.0,spring-core/src/main/java/org/springframework/core/ReactiveAdapterRegistry.java,@rstoyanchev I suspect this change to cause an error in my application. I have `RxJava` 1 in my classpath and get a `java.lang.NoClassDefFoundError: io/reactivex/Completable`. You should prefix `Completable::complete` with `rx` package to avoid `RxJava` 2 reference.
+284,20003768,rstoyanchev,401908,206.0,spring-core/src/main/java/org/springframework/core/ReactiveAdapterRegistry.java,I pushed a fix for this. Thanks!
+285,20017506,kazuki43zoo,5616270,14.0,spring-webmvc/src/main/java/org/springframework/web/servlet/mvc/ParameterizableViewController.java,"@rstoyanchev 
+
+Thanks for replaying !!
+
+> I suppose no strong reason, just the expectation that on a POST you do need controller logic to handle form data, data binding, validation, etc.
+
+I agree with your opinion basically.
+In my application, i used the the view controller mechanism to specify a forwarding path( instead of redirect path) when authentication processing of Spring Security is failing, However this configuration has not been worked on Soring 4.3.
+I'll have a  plan to fix  to use a handler method instead of view controller.
+"
+286,20203778,hazendaz,975267,14.0,spring-webmvc/src/main/java/org/springframework/web/servlet/mvc/ParameterizableViewController.java,@kazuki43zoo I got caught by this too in psi-probe.  I'm still stumbling my way through learning spring.  I have a fix in place but know there is a better way.  Please share solution you use with handler method when you get a chance ;)
+287,20276425,gjd6640,3105435,29.0,spring-jms/src/main/java/org/springframework/jms/listener/adapter/AbstractAdaptableMessageListener.java,"This change may have introduced a bug. I'm writing up the details in a Jira ticket now and will link to that here in a bit.
+
+It appears that you simplified the code in this class by moving the SimpleMessageConverter initialization to the top. This enabled removal of a method and a constructor. However, the side-effect of this change is that classes that extend MessageListenerAdapter or this class and rely on _their_ implementation of ""initDefaultStrategies()"" being invoked at time of construction no longer get that behavior. The result is a break in compatibility between Spring 4.1.0+ and versions prior to it."
+288,20282870,dl1ely,427752,,,"Line https://github.com/spring-projects/spring-framework/blob/master/spring-web/src/main/java/org/springframework/web/filter/ForwardedHeaderFilter.java#L265 does not allow to escape from the own ContextPath without constructing an absolute URL. We are running behind the Zuul reverse proxy and need to redirect from a login service to some startpage service which are on the same port seen from the outside. Using `response.sendRedirect(""/start/"")` would redirect to `http://server:port/start/` before, now it redirects to `http://server:port/RedirectSenderContextPath/start/`. Is this expected behaviour?"
+289,20313170,djechelon,3042285,17.0,spring-core/src/main/java/org/springframework/core/env/AbstractPropertyResolver.java,"To quote @guybrush: ""Pretty please with marshmallows, don't change `public` APIs during a bugfix release"".
+I was inheriting `PropertySourcesPropertyResolver` and referencing `protected conversionService` directly.
+
+Not much of a burden, simply had to replace direct references with the appropriate getter. In 5 minutes my code compiled again, but I thought I could simply upgrade the JARs from SPR 4.3.4 to 4.3.5 since it was a simple bugfix release.
+
+😄 I hope next time upgrade will be smoother. This was just a comment that took the same time to fix the code 😄 "
+290,20313569,jhoeller,1263688,17.0,spring-core/src/main/java/org/springframework/core/env/AbstractPropertyResolver.java,"This was unavoidable, unfortunately, since we couldn't lazily initialize the `ConversionService` otherwise and would let you run into an NPE... I'd rather let your code fail to compile if it talks to the `conversionService` field directly, which it was never intended to. I consider it a mistake that the field was ever `protected` to begin with.
+
+In general, we do not intend to make such changes in maintenance releases. It was a tradeoff to do it in the 4.3.x line at this point still, in order to get the benefits of lazy initialization, while leaving 4.2.9 the way it was.
+
+In any case, sorry for the hassle! Glad that you could resolve it so quickly."
+291,20327774,CallMeLingMin,24598618,8.0,spring-beans/src/main/java/org/springframework/beans/factory/support/AbstractBeanFactory.java,据哈市风口浪尖上的看法了
+292,20327779,snicoll,490484,8.0,spring-beans/src/main/java/org/springframework/beans/factory/support/AbstractBeanFactory.java,@CallMeLingMin I am afraid you'll have to comment in English.
+293,20661979,nestabur,6052881,33.0,spring-core/src/test/java/org/springframework/util/LinkedMultiValueMapTests.java,What would be the expectation if the value is added twice? is the value duplicated?
+294,20662034,poutsma,330665,33.0,spring-core/src/test/java/org/springframework/util/LinkedMultiValueMapTests.java,"Yes, the value would be duplicated."
+295,20662055,nestabur,6052881,21.0,spring-web/src/main/java/org/springframework/http/client/InterceptingClientHttpRequest.java,is there no test covering this scenario?
+296,20662083,nestabur,6052881,33.0,spring-core/src/test/java/org/springframework/util/LinkedMultiValueMapTests.java,Thx for the clarification ;)
+297,20662125,poutsma,330665,21.0,spring-web/src/main/java/org/springframework/http/client/InterceptingClientHttpRequest.java,"There is no new test in this patch, no. The existing `org.springframework.http.client.InterceptingClientHttpRequestFactoryTests#changeHeaders` seemed sufficient."
+298,20662403,nestabur,6052881,21.0,spring-web/src/main/java/org/springframework/http/client/InterceptingClientHttpRequest.java,"But it is not covering the addition of headers when there are existing headers added by the factory, isn't it?"
+299,20662587,poutsma,330665,21.0,spring-web/src/main/java/org/springframework/http/client/InterceptingClientHttpRequest.java,"The explicit scenario is not tested, no. But the logic is tested in the LinkedMultiValueMapTests above, so we can assume that same code works in this scenario as well."
+300,20676343,rajadilipkolli,24761580,20.0,spring-aop/src/main/java/org/springframework/aop/aspectj/TypePatternClassFilter.java,"@jhoeller Just Asking if we can consider using Objects.requireNonNull(obj, message) instead of Assert.notNull ? I know using Assert.notNull is common practice across Spring Framework"
+301,20676377,jhoeller,1263688,20.0,spring-aop/src/main/java/org/springframework/aop/aspectj/TypePatternClassFilter.java,"`Objects.requireNonNull` is certainly a viable option in user code or external libraries. However, for the Spring codebase itself, I'd rather stick with our `Assert.notNull` facility since it throws an `IllegalArgumentException` instead of a `NullPointerException`, and this seems a better fit for our argument assertions that we're exclusively using it for."
+302,20676488,rajadilipkolli,24761580,20.0,spring-aop/src/main/java/org/springframework/aop/aspectj/TypePatternClassFilter.java,Agreed
+303,20814475,poutsma,330665,,,"The reason for limiting these to `ServerHttpRequest` was to make sure that autocompletion does not list `toFormData` on `ClientHttpResponse.body` methods, since reading form data from a client response does not make a lot of sense. What is your reason for making this change, @rstoyanchev ?"
+304,20990323,yluhadiya7,3855818,,,@philwebb This change is missing in 4.1.9 release. Can you please confirm if its no more needed in 4.1.9. We are using 4.1.9 and facing issues similar to SPR-11394 in our production environment. 
+305,20990866,snicoll,490484,,,"@yluhadiya7 commenting on commit isn't a good way to get feedback. The code may have been polished or adapted. If you believe you have found an issue, please create an issue in [the tracker](https://jira.spring.io/browse/SPR) with as much details as possible (a sample would be ideal)."
+306,20992271,yluhadiya7,3855818,,,"@snicoll Absolutely will follow proper mediums to discuss issues. I will raise issue on tracker with all possible details. 
+Thanks"
+307,20992460,jhoeller,1263688,,,"A quick note here: A revised version of this change is present in 4.1.9 as well, as far as I can tell. If you got any remaining performance issues there, feel free to report them on JIRA. However, please note that we will only fix them in the 4.3.x line at this point, since 4.1.x and even 4.2.x have reached their end of maintenance already. As a consequence, it would be great if you could test against the 4.3.6 release first."
+308,21032188,sucg,13437670,158.0,spring-messaging/src/main/java/org/springframework/messaging/simp/broker/DefaultSubscriptionRegistry.java,"Hi, Why override removeEldestEntry() method? 
+The CacheLimit default value is 1024,we have a problem.
+Firstly, we connected 5000 clients, and sended 5000 message for each client. All 5000 clients received msg.
+Secondly, we disconnected the 5000 clients, and reconnected 5000 clients again.
+Finally, we also sended 5000 messages for each client, only 1024 clients received msg. we want that all 5000 clients can receive message.
+
+Thanks~
+"
+309,21090153,rstoyanchev,401908,158.0,spring-messaging/src/main/java/org/springframework/messaging/simp/broker/DefaultSubscriptionRegistry.java,Main discussion is under https://jira.spring.io/browse/SPR-15282.
+310,21429854,jonathanborenstein,16280010,,,"I use STS and import using Gradle. When I download and import using Gradle I'm getting this error:
+
+Description	Resource	Path	Location	Type
+The container 'Project and External Dependencies' references non existing library '/home/jon/Desktop/spring-framework-master-E/spring-core/build/libs/spring-objenesis-repack-2.5.1.jar'	spring-jdbc		Build path	Build Path Problem
+
+It also happens for the cglib jar as well.
+
+Not sure why this is happening."
+311,21429929,jonathanborenstein,16280010,,,Both errors are happening on each Spring Module.
+312,21429973,gregturn,311040,,,Could be this => https://twitter.com/springops/status/844183194886901764
+313,21430022,jonathanborenstein,16280010,,,"Thanks. I'm guessing it could be that.
+
+I was wondering if it was a local problem, but that could certainly be it."
+314,21440288,jonathanborenstein,16280010,,,"I looked at their Twitter account and it says they fixed it, but I'm still getting that same error.
+
+Description	Resource	Path	Location	Type
+The container 'Project and External Dependencies' references non existing library '/home/jon/Desktop/spring-framework-master-F/spring-core/build/libs/spring-cglib-repack-3.2.5.jar'	spring-aop		Build path	Build Path Problem
+
+I'm posting the error here because I thought it had to do with this specific commit. It seems to be only for the cglib and objenesis jars."
+315,21458748,rstoyanchev,401908,11.0,spring-web/src/main/java/org/springframework/http/MediaTypeFactory.java,Couldn't this be `Optional.ofNullable(filename).flatMap(this::getMediaType)`?
+316,21458827,poutsma,330665,11.0,spring-web/src/main/java/org/springframework/http/MediaTypeFactory.java,[Great minds think alike...](https://github.com/poutsma/spring-framework/commit/284938eeb0a3533223d3f30607c2470b203bbd09#diff-2d65b1fea04eda99a45a246133a9263fR107)
+317,21462397,bclozel,103264,,,What happens if you try building with the gradle CLI?
+318,21468850,jonathanborenstein,16280010,,,That did fix the problem. Thanks.
+319,21644861,sbrannen,104798,,,👍 
+320,21654255,herau,2950666,,,"causing issue in Spring boot 2.0.0-SNAPSHOT 
+
+`spring-boot/spring-boot/src/test/java/org/springframework/boot/logging/java/JavaLoggingSystemTests.java:[67,17] cannot find symbol [ERROR] symbol: class Jdk14Logger`"
+321,21654377,jhoeller,1263688,,,"That seems like a hard-coded reference to Commons Logging internals which certainly won't work since we got our own `java.util.logging` adapter now and aren't using/exposing `Jdk14Logger` anymore...
+
+@wilkinsona, is this trying to enforce `java.util.logging` somehow, or why else is not simply using `LogFactory.getLog`?"
+322,21654422,wilkinsona,914682,,,"@herau As I said on Gitter, I'm working on a fix for this now.
+
+@jhoeller I believe I have this in hand. I'll let you know if I hit any problems."
+323,21657894,sbrannen,104798,,,👍 
+324,21706845,mgerlach,837437,184.0,spring-core/src/main/java/org/springframework/core/GenericTypeResolver.java,"Hi @jhoeller removal of this method broke org/springframework/data/spring-data-commons/2.0.0.BUILD-SNAPSHOT/spring-data-commons-2.0.0.BUILD-20170410.151338-20.jar!/org/springframework/data/util/ClassTypeInformation where it is called in line 129 --- I am aware of the deprecation, any hints on how to replace the call?"
+325,21707290,mgerlach,837437,184.0,spring-core/src/main/java/org/springframework/core/GenericTypeResolver.java,@olivergierke already created https://jira.spring.io/browse/SPR-15429 ... 
+326,21784020,andrei-ivanov,6377070,47.0,spring-aop/src/main/java/org/springframework/aop/framework/CglibAopProxy.java,Typo: implmenting
+327,21784069,jhoeller,1263688,47.0,spring-aop/src/main/java/org/springframework/aop/framework/CglibAopProxy.java,Good catch! I'll fix this right away.
+328,21821296,seckinozden,4036699,12.0,spring-web/src/test/java/org/springframework/web/filter/ForwardedHeaderFilterTests.java,"It seems like this assert gonna fail every time.  ""?key=value"" string is concatenated at the end of the RequestURL, but the base string which is used to compare the RequestURL does not have that part. Is this implemented on this way on purpose, or is this a detail that is unnoticed?"
+329,21918670,sbrannen,104798,6.0,spring-core/src/main/java/org/springframework/core/annotation/AnnotationUtils.java,Looks like we implemented the same _polishing_. Now I'll have to rebase and refactor. 😉 
+330,22027161,alive-z,13806116,,,Refactor ？
+331,22465446,rstoyanchev,401908,24.0,spring-test/src/test/java/org/springframework/test/web/reactive/server/samples/ResponseEntityTests.java,"Nice, actually shorter as a bonus + no static import required."
+332,22528716,diy19901030,6149436,20.0,spring-aop/src/main/java/org/springframework/aop/aspectj/TypePatternClassFilter.java,"@jhoeller hello~ when I compiler the spring-web, always have the error ,As following: org.springframework.http.client.reactive.AbstractClientHttpRequest.doCommit(Supplier<? extends Mono<Void>>){
+...
+List<? extends Mono<Void>> actions = this.commitActions.stream()
+				.map(Supplier::get).collect(Collectors.toList()); 
+// Here give the error message :""Error: incompatible types: type inference is not in conformity with the ceiling""
+}
+Can you give me some sugestion? Thanks!"
+333,22566437,sbrannen,104798,,,Blagodaria! 😉 
+334,22680474,xhaggi,1878991,,,We can't enable auto escaping feature of freemarker for all variable outputs because it'll escape the bind status values twice in case `defaultHtmlEscape` setting is enabled.
+335,22971842,jpushpendradolphin,17879448,,,good one
+336,23050302,usulkies,10584010,,,When running jdeps -jdkinternals  on the spring-jdbc-3.2.18.RELEASE.jar it gives a warning that it uses JDK Internal API: com.sun.rowset.CachedRowSetImpl which will not be supported in future java versions. It suggests to replace it with javax.sql.rowset.RowSetProvider
+337,23050512,snicoll,490484,,,@usulkies commenting on a commit that is 5 years old is not a great way to get support. 3.2 is EOL and this code isn't present in recent versions of the framework. Thanks!
+338,23057924,dawud-tan,3692062,14.0,spring-webflux/src/main/java/org/springframework/web/reactive/function/client/DefaultExchangeStrategiesBuilder.java,hm.. a lot of refactor happen.. >.< :3
+339,23433365,sbuettner,1607241,65.0,spring-webflux/src/main/java/org/springframework/web/reactive/function/client/WebClientResponseException.java,Curious whether it would be possible to use a constant for `new byte[0]` like for the headers with ` HttpHeaders.EMPTY` instead of creating a new object each time?
+340,23434426,poutsma,330665,65.0,spring-webflux/src/main/java/org/springframework/web/reactive/function/client/WebClientResponseException.java,"It would be possible, but I'm not sure what would be advantage. In the grand picture of things, having a 12 byte overhead for allocating a new array is not that big of a deal. Moreover, in typical usage the passed `responseBody` is not null, but at the very least an empty array.
+
+The reason we introduced the `EMPTY` for `HttpHeaders` constant is not to save memory by sharing an instance, but rather because the constructor for creating a read-only instance is private, meaning that we cannot use it from this exception class."
+341,23434568,sbuettner,1607241,65.0,spring-webflux/src/main/java/org/springframework/web/reactive/function/client/WebClientResponseException.java,"@poutsma Thank you for the detailed response (no pun intended). 
+
+I thought it could help when testing for empty responses but I guess thats more of a side issue."
+342,23462283,perceptron8,6061749,71.0,spring-web/src/main/java/org/springframework/web/util/pattern/PathPattern.java,NPE?
+343,23464325,perceptron8,6061749,,,"@rstoyanchev How about functionally equivalent, null-safe* replacement?
+
+```
+public static final Comparator<PathPattern> SPECIFICITY_COMPARATOR = Comparator.nullsLast(
+	Comparator.<PathPattern>
+		comparingInt(p -> p.isCatchAll() ? 1 : 0)
+		.thenComparingInt(p -> p.isCatchAll() ? p.getNormalizedLength() : p.getScore())
+		.thenComparingInt(p -> p.isCatchAll() ? p.getScore() : p.getNormalizedLength())
+	);
+```
+
+* is it really necessary?"
+344,23630289,rstoyanchev,401908,71.0,spring-web/src/main/java/org/springframework/web/util/pattern/PathPattern.java,Indeed this was previously in compareTo where p1 couldn't be null. I've updated this https://github.com/spring-projects/spring-framework/commit/631b546d1cd31738142acc75884bbf7d7d4ad11d.
+345,23630374,perceptron8,6061749,71.0,spring-web/src/main/java/org/springframework/web/util/pattern/PathPattern.java,That's nice :) What about https://github.com/spring-projects/spring-framework/commit/08dfce2cb551aeb660502fd48a20abe7a8c82226#commitcomment-23464325?
+346,23631703,perceptron8,6061749,18.0,spring-web/src/main/java/org/springframework/web/util/pattern/PathPattern.java,"@rstoyanchev Still NPE? Once again - please, take a look at https://github.com/spring-projects/spring-framework/commit/08dfce2cb551aeb660502fd48a20abe7a8c82226#commitcomment-23464325
+
+Also, you should probably rewrite your test to be more direct:
+
+```
+assertTrue(SPECIFICITY_COMPARATOR.compare(null, null) == 0);
+assertTrue(SPECIFICITY_COMPARATOR.compare(parse(""/non-null""), null) < 0);
+assertTrue(SPECIFICITY_COMPARATOR.compare(null, parse(""/non-null"")) > 0); // here's your NPE!
+assertTrue(SPECIFICITY_COMPARATOR.compare(parse(""/non-null""), parse(""/non-null"")) == 0);
+assertTrue(SPECIFICITY_COMPARATOR.compare(parse(""/hotels/*""), parse(""/hotels/**"")) < 0);
+// and so on...
+```
+
+You don't need to sort a collection.
+"
+347,23634126,rstoyanchev,401908,,,"Good idea. [Here it is](https://github.com/spring-projects/spring-framework/commit/8c4b1ab781c305328eb98ce7b2eb39f8b57c4753) but notice that `normalizedLength` is negated since we want the opposite of int order (in this case higher is better) and also slightly re-arranged for readability.
+"
+348,23634147,rstoyanchev,401908,18.0,spring-web/src/main/java/org/springframework/web/util/pattern/PathPattern.java,I've taken up your other suggestion to use `Comparator.nullsLast` and also added the extra test suggested here.
+349,23635890,perceptron8,6061749,,,"This is really minor, but...
+1. `.thenComparingInt(PathPattern::getScore)` could be used to eliminate boxing,
+2. `-x` performs better than `-1 * x` (negation is cheaper than multiplication).
+
+... and thanks for positive feedback ;)"
+350,23636706,rstoyanchev,401908,,,Oops for 1) and for 2) I found it easy to overlook the `-`. That said I've [now added](https://github.com/spring-projects/spring-framework/commit/280c64ba357440ea13eb4ccefc62984f4567e49f) a dedicated method to get the score by normalized length. Thanks!
+351,23784157,jjzazuet,1002433,,,Nice! This helped me correct incorrect content payloads sent by Android 7's `WebSocket` implementation. Thanks!
+352,24188233,wuyuyan2256,21964548,,,"I am sorry, above description is wrong. It's correct in the following,
+when we set ""localeResolver"" to realize the i18n dynamic switching, if we access to the jsp page directly, it's invalid."
+353,24455748,dmak,366965,,,Can this patch be ported to 4.x branch? Thanks a lot in advance!
+354,24455926,jhoeller,1263688,,,"Which part specifically? We are using defensive `XMLInputFactory` variants in 4.3.x already, and this change here just extracted its common setup to `StaxUtils` and used it in 5.0's new `XmlEventDecoder`.
+
+Do you intend to reuse that common setup in other places? I guess we could backport the new method on `StaxUtils`... but for our internal purposes that's not really necessary."
+355,24487445,dmak,366965,,,"Thanks for quick reply, Juergen!
+You have captured the idea correctly. In our application we are also concerned about the security and would like to re-use the code from `StaxUtils.createDefensiveInputFactory()`. From one side we can copy-paste it, but it's better to rely on more experienced team (Spring). In other words, I am not interested in infrastructural changes per ce, but rather care about code duplication."
+356,24646940,voidc,5302792,101.0,spring-webflux/src/main/java/org/springframework/web/reactive/function/client/DefaultWebClient.java,"Hi, I am curious why you cast the Throwable Mono here. This causes a ClassCastException for me, whereas the method [bodyToMono(Class<T>)](#diff-0b2f3488b6ba2af28d0422a4123e9e5bR417) above shows the correct behavior. Could you please explain this decision?"
+357,24647023,voidc,5302792,16.0,spring-webflux/src/main/java/org/springframework/web/reactive/function/client/DefaultWebClient.java,"Hi, I am curious why you cast the Throwable Mono here. This causes a ClassCastException for me, whereas the method [bodyToMono(Class)](#diff-0b2f3488b6ba2af28d0422a4123e9e5bR413) above shows the correct behavior. Could you please explain this decision?"
+358,24647318,poutsma,330665,101.0,spring-webflux/src/main/java/org/springframework/web/reactive/function/client/DefaultWebClient.java,"That's a bug, thanks for spotting it! I've created https://jira.spring.io/browse/SPR-16025, which has been fixed in master."
+359,24647455,voidc,5302792,16.0,spring-webflux/src/main/java/org/springframework/web/reactive/function/client/DefaultWebClient.java,Fixed in https://jira.spring.io/browse/SPR-16025
+360,24651472,sbrannen,104798,,,"That's one way to fix it, but I think double back ticks would also do the job: 
+
+```md
+``@Autowired``'s __required__ ...
+```
+
+😉 "
+361,24751668,zyro23,1370899,112.0,spring-context/src/main/java/org/springframework/context/support/PostProcessorRegistrationDelegate.java,"are the newly added `BeanDefinitionRegistryPostProcessor`s not supposed to be sorted as well?
+
+we are having an ordering problem where one `BeanDefinitionRegistryPostProcessor` adds multiple other `BeanDefinitionRegistryPostProcessor`s. those additional ones get applied in arbitrary order (i.e. not in the order that would correspond to their `Ordered` precedence).
+
+thank you for any feedback/opinion in advance!"
+362,25120510,kartoffelsup,1819197,6.0,spring-core/src/test/java/org/springframework/util/StringUtilsTests.java,Prefix*
+363,25121169,jhoeller,1263688,6.0,spring-core/src/test/java/org/springframework/util/StringUtilsTests.java,"Good catch! Fixed now, to be pushed along with another refinement."
+364,25339405,dgrahn,394709,,,"With this commit, how can `/{*path}` style URI matching be used?"
+365,25340627,rstoyanchev,401908,,,"Currently that syntax is not supported in Spring MVC. 
+
+The reason we pulled out `ParsingPathMatcher` is because of the realization that putting the new `PathPattern` behind the `PathMatcher` interface isn't the right approach. It needs to be presented as an alternative both at the configuration level (i.e. using one or the other) and implemented that way too (i.e. separate code paths).
+
+For the `/{*path}` syntax there are only two options on the Spring MVC side. Either we enhance `PathMatcher` to support the syntax as well, or add support for `PathPatternParser`.
+"
+366,25352927,dgrahn,394709,,,Thanks. I'm going to point this out to the Baeldung article.
+367,26439596,philwebb,519772,,,@rstoyanchev  AspectJ 1.9 beta isn't in `https://repo.spring.io/snapshot`. I think you need both `/milestone` and `/snapshot`. It's probably working on the CI and locally because it's in the Gradle cache. The build fails for me locally.
+368,26440690,rstoyanchev,401908,,,You're right. I thought they were meant to work like that (e.g. snapshot has milestones and releases). At any rate I've added it back.
+369,26986181,PascalSchumacher,2707245,1.0,spring-core/spring-core.gradle,Nitpick: With cglib 3.2.6 this comment is no longer accurate as 3.2.6 uses asm 6.0.
+370,27315105,zshamrock,1122268,,,Nice!
+371,27534097,sbrannen,104798,6.0,spring-oxm/src/main/java/org/springframework/oxm/jaxb/Jaxb2Marshaller.java,"That took 4 commits today, but I think this looks very well _polished_ now. 😉 "
+372,27780306,rstoyanchev,401908,58.0,spring-web/src/main/java/org/springframework/http/server/reactive/DefaultServerHttpRequestBuilder.java,I think the fragment can be left out since a client has no way to send it.
+373,27780315,rstoyanchev,401908,41.0,spring-web/src/main/java/org/springframework/http/server/reactive/DefaultServerHttpRequestBuilder.java,Should this be `getRawUserInfo()`?
+374,27787166,jhoeller,1263688,41.0,spring-web/src/main/java/org/springframework/http/server/reactive/DefaultServerHttpRequestBuilder.java,Indeed!
+375,27787177,jhoeller,1263688,58.0,spring-web/src/main/java/org/springframework/http/server/reactive/DefaultServerHttpRequestBuilder.java,"Since it doesn't hurt, I'd rather leave it here for potential extraction into a common delegate... but change it to `getRawFragment()`, along the lines of `getRawUserInfo()` above."
+376,28027789,RobustWing,10339279,,,"I have a web application in which I use Spring framework, when I did a security analysis with Acunetix, I got several errors, among them the Directory Traversal.
+
+This is Acunetix's remediation:
+Users of affected Spring versions should upgrade to the latest version:
+Users of 3.2.x should upgrade to 3.2.12 or later
+Users of 4.0.x should upgrade to 4.0.8 or later
+Users of 4.1.x should upgrade to 4.1.2 or later
+
+The version of Spring that I was using was 4.2.4, the recommendation was to update to the last release of the version used, in this case it would be 4.2.9, I made the change of version and ran the Acunetix software again but it keeps on taking me out the same problem.
+
+How can i fix this problem?Thanks in advance.
+
+"
+377,28028704,snicoll,490484,,,@IronWong commenting on a commit is not a great way to get support. Please ask on StackOverflow
+378,28056011,rstoyanchev,401908,,,"@IronWong, you should first check [supported versions](https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-Versions). The 4.2.x branch is not supported. 
+
+If you believe you there is an issue in a supported branch, you need to report it responsibly, in private, via https://pivotal.io/security. Note that this page also contains a list of CVEs that have been previously reported and addressed, including the versions affected. "
+379,28213743,284831721,1803564,13.0,spring-web/src/main/java/org/springframework/http/client/SimpleBufferingAsyncClientHttpRequest.java,why? Constants always on the left in most popular suggestion.
+380,28280020,toaler,1082867,5.0,spring-beans/src/main/java/org/springframework/beans/factory/support/AbstractAutowireCapableBeanFactory.java,@jhoeller why the specialized type check here?
+381,28280137,jhoeller,1263688,5.0,spring-beans/src/main/java/org/springframework/beans/factory/support/AbstractAutowireCapableBeanFactory.java,"For defensiveness since we're downcasting it right afterwards: We're effectively checking for a singleton that appears rather unexpectedly, and since we haven't controlled creation of that particular instance, it seems better to not make any assumptions and leniently ignore it if it is not a FactoryBean for any reason. We're also avoiding any potential for a regression there since we haven't checked for such a singleton before, so existing code could otherwise potentially fail with a ClassCastException in such a mismatch scenario."
+382,28280898,toaler,1082867,5.0,spring-beans/src/main/java/org/springframework/beans/factory/support/AbstractAutowireCapableBeanFactory.java,"Makes sense, thanks."
+383,28326454,zhanglc,4049133,30.0,spring-web/src/main/java/org/springframework/web/util/UriComponentsBuilder.java,"if proxy with port just like:http://www.test.com:8080,this line can't get the right uri! "
+384,28330518,rstoyanchev,401908,30.0,spring-web/src/main/java/org/springframework/web/util/UriComponentsBuilder.java,You can create a ticket at https://jira.spring.io/browse/SPR.
+385,28344020,RobustWing,10339279,,,"@snicoll I'm sorry but there is no helpful answer on StackOverflow for this question.
+@rstoyanchev Thank you for your suggestion"
+386,28369748,koh-osug,5708343,,,"This is not working together with Spring Boot devtools 2.0.1.BUILD-SNAPSHOT: org\springframework\boot\devtools\restart\Restarter.java
+
+It is still using: clear(AnnotationUtils.class, ""annotatedInterfaceCache"");
+
+Also other changes like `AnnotationUtils.clearCache()` are causing issue. 
+
+This results from the Spring Boot documentation giving instructions to use a SNAPSHOT version: the https://docs.spring.io/spring-boot/docs/2.0.1.BUILD-SNAPSHOT/reference/htmlsingle/#using-boot-devtools-restart"
+387,28390618,ArvinRong,3940375,,,Hi~ Is the purpose of registering with ROLE_INFRASTRUCTURE here in order to avoid ImportAwareBeanPostProcessor to be post processed?
+388,28390899,snicoll,490484,,,Yes
+389,28399634,bclozel,103264,,,"@koh-osug This has been fixed in spring-projects/spring-boot#12719
+Please report Spring Boot issues directly on its issue tracker instead of commenting on commits in the future."
+390,28450654,zhanhb,6323014,29.0,spring-test/src/main/java/org/springframework/test/web/servlet/TestDispatcherServlet.java,"After migrate to spring 4.3.15, I got exception on this line.
+```
+java.lang.ClassCastException: org.springframework.security.web.servletapi.HttpServlet3RequestFactory$SecurityContextAsyncContext cannot be cast to org.springframework.mock.web.MockAsyncContext
+	at org.springframework.test.web.servlet.TestDispatcherServlet.initAsyncDispatchLatch(TestDispatcherServlet.java:90)
+	at org.springframework.test.web.servlet.TestDispatcherServlet.service(TestDispatcherServlet.java:68)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:742)
+	at org.springframework.mock.web.MockFilterChain$ServletFilterProxy.doFilter(MockFilterChain.java:160)
+	at org.springframework.mock.web.MockFilterChain.doFilter(MockFilterChain.java:127)
+	at org.springframework.web.filter.ShallowEtagHeaderFilter.doFilterInternal(ShallowEtagHeaderFilter.java:110)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+...
+```"
+391,28451272,sbrannen,104798,29.0,spring-test/src/main/java/org/springframework/test/web/servlet/TestDispatcherServlet.java,"@zhanhb, this appears to be a bug.
+
+Can you please open a [JIRA issue](https://jira.spring.io/secure/CreateIssue!default.jspa) to report it?!"
+392,28452502,zhanhb,6323014,29.0,spring-test/src/main/java/org/springframework/test/web/servlet/TestDispatcherServlet.java,https://jira.spring.io/browse/SPR-16698
+393,28453111,sbrannen,104798,29.0,spring-test/src/main/java/org/springframework/test/web/servlet/TestDispatcherServlet.java,Thanks for creating the issue!
+394,28504639,sbrannen,104798,,,"I was just about to upgrade to JUnit 5.1.1.
+
+Thanks 😉 "
+395,28542615,sandeep0940,13603050,,,"Hi. we are facing bean creation issue because of this change...In AbstractAutowireCapableBeanFactory.java,  in getTypeForFactoryMethod...in following line...You are saving something in cache but returning something else. Ideally whatever saved in cache should be returned right as we are using cache in first step of method call next time?
+
+mbd.factoryMethodReturnType = (uniqueCandidate != null ?
++					ResolvableType.forMethodReturnType(uniqueCandidate) : ResolvableType.forClass(commonType));
+ 		}
++		return commonType;
+
+
+In our usecase, uniqueCandidate is not null..So, wrong ResolvableType saved in factoryMethodReturnType which is causing issues for next call of the method. 
+
+First my generic question is...Ideally you should return and save in cache same variables. That is not happening here
+
+Then next question is why uniqueCandidate is being used to save in factoryMethodReturnType rather than commonType
+
+
+
+
+
+
+"
+396,28542734,snicoll,490484,,,@sandeep0940 please do not use comments to report an issue. Can you please [create an issue](https://jira.spring.io/browse/SPR)? Sharing a sample would be ideal.
+397,28850549,lomo-dcm,34700303,20.0,spring-messaging/src/main/java/org/springframework/messaging/simp/broker/DefaultSubscriptionRegistry.java,SimpleEvaluationContext 这个是哪个jar包里面的
+398,28908005,mattsheppard,12991,,,"Not sure why yet, and no doubt it's something I've done, but upgrading an app from java 8 to java 10 I'm hitting the following here...
+
+```
+Caused by: java.lang.NoSuchMethodError: javax.annotation.Resource.lookup()Ljava/lang/String;
+        at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor$ResourceElement.<init>(CommonAnnotationBeanPostProcessor.java:609)
+        at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.lambda$buildResourceMetadata$0(CommonAnnotationBeanPostProcessor.java:373)
+        at org.springframework.util.ReflectionUtils.doWithLocalFields(ReflectionUtils.java:692)
+        at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.buildResourceMetadata(CommonAnnotationBeanPostProcessor.java:355)
+        at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.findResourceMetadata(CommonAnnotationBeanPostProcessor.java:339)
+        at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.postProcessMergedBeanDefinition(CommonAnnotationBeanPostProcessor.java:298)
+        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyMergedBeanDefinitionPostProcessors(AbstractAutowireCapableBeanFactory.java:1016)
+        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:553)
+        ... 47 more
+```
+
+Just recording it in case it's a useful breadcrumb to someone else later."
+399,28908150,mattsheppard,12991,,,"Yeah, seems to have been an old copy of jsr250-api-1.0.jar on the classpath - Presumably the old version left the lookupValue as null and for whatever reason that didn't matter to this particular app."
+400,29032121,andrei-ivanov,6377070,7.0,spring-websocket/src/main/resources/org/springframework/web/socket/config/spring-websocket.xsd,maybe xsd:int instead of string?
+401,29043096,rstoyanchev,401908,7.0,spring-websocket/src/main/resources/org/springframework/web/socket/config/spring-websocket.xsd,Yes indeed.
+402,29044459,andrei-ivanov,6377070,46.0,spring-webflux/src/main/java/org/springframework/web/reactive/socket/HandshakeInfo.java,Copy/paste error
+403,29044866,snicoll,490484,46.0,spring-webflux/src/main/java/org/springframework/web/reactive/socket/HandshakeInfo.java,"Thank you, fixed in https://github.com/spring-projects/spring-framework/commit/36f8d49c4a057b3aa79a633112a25800b9367f17"
+404,29195201,emaysyuk,12937626,24.0,spring-tx/src/main/java/org/springframework/transaction/support/ResourceHolderSynchronization.java,"@jhoeller , @rwinch 
+Shouldn't this method call em.flush() as in case [SpringSessionSynchronization](https://github.com/spring-projects/spring-framework/blob/master/spring-orm/src/main/java/org/springframework/orm/hibernate5/SpringSessionSynchronization.java#L95) ?
+
+Both [ResourceHolderSynchronization](https://github.com/spring-projects/spring-framework/blob/master/spring-tx/src/main/java/org/springframework/transaction/support/ResourceHolderSynchronization.java#L68) and [SpringSessionSynchronization](https://github.com/spring-projects/spring-framework/blob/master/spring-orm/src/main/java/org/springframework/orm/hibernate5/SpringSessionSynchronization.java#L95) implement TransactionSynchronization interface but beforeCommit method implemented in different manner for ResourceHolderSynchronization. Is there any reason why beforeCommit method should be empty for ResourceHolderSynchronization?
+
+Here is my problem.
+When I used pure hibernate session factory (not JPA) I was able to register custom TransactionSynchronization inside PostUpdateHibernateListener and Spring executed both beforeCompletion and afterCompletion methods of my custom TransactionSynchronization . Then I started using JPA entity manager factory and noticed that Spring doesn't call beforeCompletion method of my custom TransactionSynchronization. That's because Spring doesn't flush session before ""beforeCompletion"" method anymore and flush happens inside [commit phase](https://github.com/spring-projects/spring-framework/blob/master/spring-tx/src/main/java/org/springframework/transaction/support/AbstractPlatformTransactionManager.java#L746) (after [beforeCompletion](https://github.com/spring-projects/spring-framework/blob/master/spring-tx/src/main/java/org/springframework/transaction/support/AbstractPlatformTransactionManager.java#L731)).
+
+I should mention that in case pure session factory Spring flushes session [in this part of AbstractPlatformTransactionManager](https://github.com/spring-projects/spring-framework/blob/master/spring-tx/src/main/java/org/springframework/transaction/support/AbstractPlatformTransactionManager.java#L730) (using [SpringSessionSynchronization#beforeCommit](https://github.com/spring-projects/spring-framework/blob/master/spring-orm/src/main/java/org/springframework/orm/hibernate5/SpringSessionSynchronization.java#L95)) that allows [beforeCompletion](https://github.com/spring-projects/spring-framework/blob/master/spring-tx/src/main/java/org/springframework/transaction/support/AbstractPlatformTransactionManager.java#L731) method to be executed."
+405,29310277,sbrannen,104798,,,👍 
+406,29329884,snicoll,490484,8.0,spring-messaging/src/main/java/org/springframework/messaging/handler/annotation/SendTo.java,"Doesn't that apply to JMS and RabbitMQ transport as well? If so, do we have a test that validates that behaviour?"
+407,29332949,rstoyanchev,401908,8.0,spring-messaging/src/main/java/org/springframework/messaging/handler/annotation/SendTo.java,Good question. I didn't check as I was merely polishing here. That said I see [there is one](https://github.com/spring-projects/spring-framework/blob/0b64bcd319abf39be435dd7b631c2045d60a8039/spring-jms/src/test/java/org/springframework/jms/config/MethodJmsListenerEndpointTests.java#L522).
+408,29338625,xenoterracide,5517,22.0,src/docs/asciidoc/web/webflux.adoc,this wouldn't compile? guessing it's supposed to be `RequestMappingInfo info = mapping`
+409,29338640,xenoterracide,5517,22.0,src/docs/asciidoc/web/webmvc.adoc,same.
+410,29338935,rstoyanchev,401908,22.0,src/docs/asciidoc/web/webflux.adoc,Not sure what the issue is actually. There is a [static factory method](https://github.com/spring-projects/spring-framework/blob/928b7804c836b818d363abca0168c35b7a8702b4/spring-webmvc/src/main/java/org/springframework/web/servlet/mvc/method/RequestMappingInfo.java#L348) on RequestMapingInfo called paths.
+411,29339223,xenoterracide,5517,22.0,src/docs/asciidoc/web/webflux.adoc,"oh... I didn't realize that, formatting difference I guess... or just ID10T review on my part, never mind then. I saw the class, and was like that's weird... in part because the class and method call are on a different line, I tend to only do that different line thing when chaining methods (not statics)."
+412,29571019,DavidTanner,368889,15.0,spring-beans/src/main/java/org/springframework/beans/factory/support/DefaultSingletonBeanRegistry.java,"This change breaks the AbstractBeanFactory in several places, making 5.0.7 unusable."
+413,29571410,jhoeller,1263688,15.0,spring-beans/src/main/java/org/springframework/beans/factory/support/DefaultSingletonBeanRegistry.java,"Breaks `AbstractBeanFactory` in which respect? It's effectively an internal refactoring, moving the `logger` field up the class hierarchy but still initializing it for the concrete class. Unless you were to declare classes into that core Spring package yourself, expecting package-level access to such fields, you shouldn't see any side effects. Am I missing something?"
+414,29571429,jhoeller,1263688,15.0,spring-beans/src/main/java/org/springframework/beans/factory/support/DefaultSingletonBeanRegistry.java,"Or are you mixing and matching an old `spring-core` jar with a newer `spring-beans` jar, by any chance? `spring-beans-5.0.7` absolutely needs `spring-core-5.0.7` on the classpath... as usual for any Spring Framework release."
+415,29571541,jhoeller,1263688,15.0,spring-beans/src/main/java/org/springframework/beans/factory/support/DefaultSingletonBeanRegistry.java,Just noticed https://jira.spring.io/projects/SPR/issues/SPR-16996... I suppose it works for you now? Was it indeed a jar version mismatch?
+416,29571886,DavidTanner,368889,15.0,spring-beans/src/main/java/org/springframework/beans/factory/support/DefaultSingletonBeanRegistry.java,"Yes, it was. I didn't realize the core was at 6,and Finchley set the rest to 7"
+417,29633255,akmalick,5765159,,,"Thank you for looking into this.
+I just feel word **element**(instead of **entry**) would be the best fit here. 
+Just saying from the readability view point.
+The most generic method is `queryForList(..)` which returns a `List` where each **element** is a `Map` containing one entry for each column, using the column name as the key.
+
+Would like to know your thoughts on that."
+418,29633272,sbrannen,104798,,,"Sure that makes sense: element of a list vs. entry in a map.
+
+I'll make the change.
+
+Thanks!"
+419,29633279,sbrannen,104798,,,Done: 581acb62a0e0ecf35b5b829f2cd79e6afb37b6e7
+420,29633299,akmalick,5765159,,,That's great. thank you :)
+421,29667813,bh-e,12079655,,,"Hello. 
+
+Is this commit related to CVE-2018-11039 ? "
+422,29778689,rstoyanchev,401908,111.0,spring-webflux/src/main/java/org/springframework/web/reactive/function/BodyExtractors.java,Shouldn't the `message instanceof` check be sufficient? 
+423,29841987,vincenthsin,4216442,,,"The “text” is more meaningful than ""test""  in context."
+424,29894731,PascalSchumacher,2707245,13.0,spring-webflux/src/main/java/org/springframework/web/reactive/socket/adapter/NettyWebSocketSessionSupport.java,"Shouldn't this variable name have remained all uppercase, as it a constant? (Just wondering.)"
+425,29899626,jhoeller,1263688,13.0,spring-webflux/src/main/java/org/springframework/web/reactive/socket/adapter/NettyWebSocketSessionSupport.java,"We tend to consider such Maps as a sort of cache rather than an actual constant, so we use regular field casing in other such places as well. In the end it is a visual issue: Code that calls methods (like put) on an upper-case constant looks odd to me. A matter of taste, of course, but we're quite consistent about it."
+426,29912672,PascalSchumacher,2707245,13.0,spring-webflux/src/main/java/org/springframework/web/reactive/socket/adapter/NettyWebSocketSessionSupport.java,Thank you very much for the explanation!
+427,29920045,vpavic,1149230,15.0,spring-web/src/test/java/org/springframework/mock/web/test/MockHttpSession.java,"Whoops, thanks for catching that @jhoeller!"
+428,29996562,solomax,3870591,,,"Hello @jhoeller, OpenJPA 3.0.0 was recently released (JPA 2.1 compatible)
+Would it be possible to get OpenJPA support back?"
+429,29999397,snicoll,490484,,,@solomax please comment on the [related issue](https://jira.spring.io/browse/SPR-14426).
+430,29999525,solomax,3870591,,,"Done,
+Thanks for the pointer"
+431,30033408,sbrannen,104798,,,Why did you remove the `gradleVersion`?
+432,30033440,sbrannen,104798,,,"BTW, I know you can perform the upgrade directly from the command line via `./gradlew wrapper --gradle-version 4.9.1`, but that seems more complicated than just tracking the version in the build script as we've done for years. Plus, looking for the Gradle version in the `wrapper` task is pretty common, IMO."
+433,30036925,vpavic,1149230,,,"@sbrannen The only relevant/reliable place for determining Gradle version in use is the one used by the wrapper itself - and that's the `distributionUrl` property in `gradle/wrapper/gradle-wrapper.properties`. Using `gradleVersion` property on `wrapper` task is just a maintenance overhead, as the only time you need `gradleVersion` specified when invoking `wrapper` task is when you're upgrading Gradle. Otherwise (with no `gradleVersion` specified) the `wrapper` task just defaults to the current version.
+
+This also opens up way for a very simple upgrade procedure:
+
+- use SDKMAN to manage local installation of Gradle and keep the it up-to-date
+- use `$ gradle wrapper` (notice no wrapper here, this will use locally managed installation and update both `gradle/wrapper/gradle-wrapper.jar` and `gradle/wrapper/gradle-wrapper.properties`)
+- use `$ ./gradlew ...` afterwards as usual
+
+Besides, from the link I've provided in #1918 you can see that Gradle team themselves aren't advocating use of `gradleVersion` property on `wrapper` task."
+434,30043007,sbrannen,104798,,,"Hi @vpavic,
+
+Thanks for the very detailed explanation and rationale!
+
+I actually use a shell script that finds the ""most local"" `gradlew` for me. So I don't ever (or very very rarely) actually type `gradlew`. Plus, I actually liked having the version in the build script and then just executing `gradle wrapper` to update, but that's just my personal preference. Thus, I don't know that I can agree with your very simple upgrade procedure. In any case, I _can_ agree to disagree. 😉 
+
+Cheers,
+
+Sam"
+435,30043067,snicoll,490484,,,"For the record (obvious as I’ve merged the PR) I agree with Vedran that keeping that version there is a maintenance overhead.
+
+Thanks for the detailed explanation @vpavic ! "
+436,30047728,sdwarwick,7736675,,,"The online version of the spring documentation doesn't seem to have picked this up - Classes in 
+
+https://docs.spring.io/spring-framework/docs/5.1.0.RC1/javadoc-api/
+
+do not show a ""use"" menu item.   Is this something simple to change?   The online version is a key resource.
+"
+437,30047924,vpavic,1149230,,,"> I actually use a shell script that finds the ""most local"" `gradlew` for me. So I don't ever (or very very rarely) actually type `gradlew`.
+
+That sounds like something specific to your environment, and not a typical usage of Gradle (wrapper) or way to build this project (according to instructions within the codebase).
+
+Sure, we can agree to disagree :slightly_smiling_face:, but I can't see how something that involves use of an editor (to update `build.gradle`) can be simpler than the following few commands:
+
+```shell
+$ sdk ug gradle
+$ gradle wrapper
+$ git add gradle/wrapper/gradle-wrapper.* && git commit -m ""Upgrade Gradle to x.x""
+```"
+438,30051475,sbrannen,104798,,,"Looks like I only did half the work... looking into it now.
+
+Thanks for bringing this to my attention!"
+439,30051901,sbrannen,104798,,,"@sdwarwick, I fixed that for 5.1 in 13c090b41d45d5c3e0e278ad44d784f5a5cdc7aa."
+440,30051909,sbrannen,104798,,,new JIRA issue: https://jira.spring.io/browse/SPR-17173
+441,30051951,sbrannen,104798,,,And backported to 5.0.x in e306d3e83a740eb5c84a5d0faac90a63c65aa09c.
+442,30052492,sbrannen,104798,,,"> That sounds like something specific to your environment, and not a typical usage of Gradle (wrapper) or way to build this project (according to instructions within the codebase).
+
+I think it's actually a pretty common tool to use, and I highly recommend it.
+
+See: https://discuss.gradle.org/t/is-there-a-way-to-make-gradlew-available-within-all-sub-directories/6521
+
+I use the `find-gradle` script by Chris Beams mentioned in that thread. He recommended it to me when he used to be a Core Spring committer. 
+
+There is nothing ""unusual"" about it. It runs the exact same `gradlew` shell script that is run on your machine. 😉 
+
+It's just that I can type `gradle` in the root directory of the Spring Framework or in any of its subdirectories, and it works the same (without having to type `../../../gradlew`, etc.)."
+443,30073235,sbrannen,104798,,,👍 
+444,30083335,sbrannen,104798,,,"> Upgrade to JUnit Jupiter 5.3 RC1
+
+I was going to do that today. 😉 
+
+Thanks, @jhoeller "
+445,30381888,amitprakash89,34413907,11.0,spring-webmvc/src/test/java/org/springframework/web/servlet/mvc/method/annotation/RequestResponseBodyMethodProcessorTests.java,I see this is just a String comment changes. Is there any reason for it?
+446,30383954,quaff,143040,11.0,spring-webmvc/src/test/java/org/springframework/web/servlet/mvc/method/annotation/RequestResponseBodyMethodProcessorTests.java,"Do you know what ""typo"" means?"
+447,30402337,joakime,191721,,,"This is a big upgrade (to some)
+Are you ok with the changes to default SSL/TLS Cipher exclusion list?
+See: eclipse/jetty.project#2807"
+448,30542702,bclozel,103264,,,"Spring Framework is merely compiling against Jetty, but not forcing a dependency on any application.
+Spring Boot on the other hand upgraded its managed dependency in spring-projects/spring-boot#14362 and nobody complained so far."
+449,30609110,languno,31815798,3.0,spring-web/src/test/java/org/springframework/mock/web/test/MockBodyContent.java,Is this intent to be 2017?
+450,30609569,snicoll,490484,3.0,spring-web/src/test/java/org/springframework/mock/web/test/MockBodyContent.java,"Nope, good catch. I've fixed that in 7ca6b9f"
+451,31052789,rstoyanchev,401908,7.0,spring-web/src/main/java/org/springframework/http/codec/ServerSentEventHttpMessageWriter.java,"Couldn't there still be an issue with this buffer allocation, in case of a serialization issue with encoding the event data (e.g. JSON)? Perhaps an onDiscardHook after the Flux.concat could provide better guarantees?"
+452,31056009,poutsma,330665,7.0,spring-web/src/main/java/org/springframework/http/codec/ServerSentEventHttpMessageWriter.java,"You're right, I added one. https://github.com/spring-projects/spring-framework/commit/e68bf010dad4067e9a72d6ffa9502047b44f53ee"
+453,31068728,shijh,1212402,,,"The line 46
+`		if (it.path) {
+`
+should be
+`		if (it.path && it.path.contains(""/"")) {
+`
+"
+454,31358610,rstoyanchev,401908,13.0,spring-web/src/main/java/org/springframework/http/codec/EncoderHttpMessageWriter.java,Why check for transfer-encoding at all? We removed this in 5.1 entirely. Any reason to keep it here?
+455,31369637,bclozel,103264,13.0,spring-web/src/main/java/org/springframework/http/codec/EncoderHttpMessageWriter.java,Done!
+456,31700059,Damarudhar,29673927,8.0,spring-test/src/main/java/org/springframework/mock/web/MockHttpServletRequest.java,dont use this keywor for better readability
+457,31713626,AsinRay,37131069,5.0,spring-webmvc/src/main/java/org/springframework/web/servlet/mvc/method/annotation/ServletRequestMethodArgumentResolver.java,"No need to assert  `session != null` , since `request.getSession()` always returns a no-null HttpSession"
+458,31828243,dadiyang,28141217,,,"Accoring to [websocket-stomp-handle-broker-relay-configure](https://docs.spring.io/spring/docs/5.1.3.RELEASE/spring-framework-reference/web.html#websocket-stomp-handle-broker-relay-configure)
+> By default, the STOMP broker relay always connects, and reconnects as needed if connectivity is lost, to the same host and port. If you wish to supply multiple addresses, on each attempt to connect, you can configure a supplier of addresses, instead of a fixed host and port. The following example shows how to do that:
+```java
+    private ReactorNettyTcpClient<byte[]> createTcpClient() {
+        return new ReactorNettyTcpClient<>(
+                client -> client.addressSupplier(() -> ... ),
+                new StompReactorNettyCodec());
+    }
+```
+Now that you remove the `public ReactorNettyTcpClient(Consumer<ClientOptions.Builder<?>> optionsConsumer, ReactorNettyCodec<P> codec)` constructor, how can we supply multiple addresses on each attempt?"
+459,31830187,rstoyanchev,401908,,,See https://jira.spring.io/browse/SPR-17523.
+460,31830737,dadiyang,28141217,,,"Thanks a lot! 
+
+According to [SPR-17523](https://jira.spring.io/browse/SPR-17523), Rossen Stoyanchev add a new constructor `public ReactorNettyTcpClient(Function<TcpClient, TcpClient> configurer, ReactorNettyCodec<P> codec)` in Spring 5.1.3 as an alternative to the removed one.
+
+I was using SpringBoot 2.1.0.RELEASE which depend on Spring 5.1.2. Therefore, it doesn't support the sample code in Spring doc to create TcpClient. 
+
+Finally, I upgrade my SpringBoot version to 2.1.1.RELEASE which depend on Spring 5.1.3, and use the above function:
+
+```java
+ private ReactorNettyTcpClient<byte[]> createTcpClient() {
+        return new ReactorNettyTcpClient<>(
+                client -> client.addressSupplier(brokerConfig.getBrokerAddressSupplier()),
+                new StompReactorNettyCodec());
+    }
+```
+
+It works for me."
+461,31869698,sbrannen,104798,,,"> This commit now points to the `/element-list` page, which seems to contain the same information as the `package-list` page.
+
+It will... unless Reactor starts to include module info. For details, see: https://bugs.java.com/bugdatabase/view_bug.do?bug_id=8191363
+
+We ran into this issue in JUnit 5 as well.
+
+The root cause is that the `javadoc` tool in JDK 10+ no longer generates Javadoc that is compatible with the `javadoc` tool on JDKs prior to JDK 10. So if a build using JDK 8 (e.g., Spring's) attempts to _link_ to Javadoc published from an external project that generates the Javadoc using JDK 10+, Spring's Javadoc will not properly link to the external Javadoc.
+
+I personally think this is a bug in JDK 10+: JDK 10+ really should generate both `package-list` (for backward compatibility) and `element-list` (for forward compatibility).
+
+In any case, for JUnit 5 we manually copied `element-list` to `package-list` for previously released versions, and we now automatically copy `element-list` to `package-list` within our build (for details, see https://github.com/junit-team/junit5/issues/1289) . That works for the time being since JUnit 5 does not publish Java module info, but once we start doing that... we will then of course have to find a different solution in order to remove the module information from `element-list` that would break consumers that only know the syntax for `package-list`.
+
+"
+462,31897235,sbrannen,104798,,,👍 
+463,32231699,devdilson,9415675,,,Thanks @jhoeller!  
+464,32248578,rstoyanchev,401908,62.0,spring-core/src/main/java/org/springframework/util/MimeTypeUtils.java,"Some sort of comment at the top of all this would be a good idea, to ensure it doesn't ever get lost while ""polishing"" at some point in the future. "
+465,32248595,rstoyanchev,401908,87.0,spring-web/src/main/java/org/springframework/http/MediaType.java,Same here. It be too easy to for someone in the future to replace with a stream.
+466,32430833,jnizet,1608223,7.0,spring-test/src/main/kotlin/org/springframework/test/web/servlet/MockHttpServletRequestDsl.kt,This will thow a StackOverflowError: you're calling the setter inside the setter. It should be `field = value`
+467,32579986,checketts,416063,9.0,spring-test/src/main/kotlin/org/springframework/test/web/servlet/ResultActionsDsl.kt,"@sdeleuze  Can we make actions public so extension functions can reference it?
+"
+468,32589838,sdeleuze,141109,9.0,spring-test/src/main/kotlin/org/springframework/test/web/servlet/ResultActionsDsl.kt,I think extension functions can use `andExpect { match(customMatcher) }` or `andDo { handle(customHandler) }` instead. Would that match with your use case?
+469,32595999,checketts,416063,9.0,spring-test/src/main/kotlin/org/springframework/test/web/servlet/ResultActionsDsl.kt,I'll rebase my examples against this to try it out. 
+470,32598940,checketts,416063,9.0,spring-test/src/main/kotlin/org/springframework/test/web/servlet/ResultActionsDsl.kt,"OK it appears that it can work for an `andDo` usecase.
+
+Here are my thoughts around the changes:
+
+1. `MockMvcResultMatchersDsl` is no long open, however I demonstrated a need to subclass it (https://github.com/checketts/spring-framework/blob/48624482530902789113dc6ec287a695e18d3f20/spring-test/src/test/kotlin/org/springframework/test/web/servlet/DslControllerTest.kt#L31)
+
+2. When subclassing the `MockMvcResultMatchersDsl` I need a way to add an `andExpect` equivalent that will allow me to leverage that (https://github.com/checketts/spring-framework/blob/48624482530902789113dc6ec287a695e18d3f20/spring-test/src/test/kotlin/org/springframework/test/web/servlet/DslControllerTest.kt#L49).  Due to the subclassing, I need a way to access a `ResultActions`.
+
+I'm happy to try addressing this a different way if you have a different idea on how to extend the DSL for those custom matchers. Note I'm doing string extension functions to help clarify our tests (https://github.com/checketts/spring-framework/blob/48624482530902789113dc6ec287a695e18d3f20/spring-test/src/test/kotlin/org/springframework/test/web/servlet/DslControllerTest.kt#L32). I realize that might not be a good fit to put in the DSL itself, but it would be nice to allow users the extension points to leverage it when it clarifies their tests."
+471,32807689,checketts,416063,9.0,spring-test/src/main/kotlin/org/springframework/test/web/servlet/ResultActionsDsl.kt,"@sdeleuze Do you have any recommendations regarding points 1 and 2?  I'm really excited to leverage the DSL, and want to ensure I'll be able to convert my existing tests to use it."
+472,32945222,andrei-ivanov,6377070,13.0,spring-messaging/src/main/java/org/springframework/messaging/simp/stomp/StompEncoder.java,"You should use a consistent style for enum comparissons (`equals` vs `==`), in favor of `==`"
+473,32970074,jam01,10093076,,,🙌🙏
+474,33016028,sbrannen,104798,,,Oops! Thanks for taking care of that! 👍 
+475,33105391,ilya-murzinov,3704363,6.0,spring-web/src/main/java/org/springframework/http/codec/json/AbstractJackson2Decoder.java,"`getObjectMapper().getDeserializationContext()` return a blueprint, it does not return  the actual deserialization context according to deserialization config"
+476,33105630,jhoeller,1263688,6.0,spring-web/src/main/java/org/springframework/http/codec/json/AbstractJackson2Decoder.java,That's quite odd though. What is a blueprint good for there? And where does the Jackson API suggest to get the actual deserialization context from?
+477,33105688,jhoeller,1263688,6.0,spring-web/src/main/java/org/springframework/http/codec/json/AbstractJackson2Decoder.java,"It seems that Jackson's standard code paths call `DefaultDeserializationContext.createInstance(DeserializationConfig config, JsonParser jp, InjectableValues values)`... I guess we'll have to do the same."
+478,33105713,ilya-murzinov,3704363,6.0,spring-web/src/main/java/org/springframework/http/codec/json/AbstractJackson2Decoder.java,"I was kinda hoping that you know :)
+Internally, `ObjectMapper` creates new `DeserializationContext` using `com.fasterxml.jackson.databind.ObjectMapper#createDeserializationContext` every time it deserializes something"
+479,33121497,sbrannen,104798,,,Thanks! 👍 
+480,33226430,orangesir,7788128,,,why use static?
+481,33227972,sbrannen,104798,,,"@orangesir, I recommend the following discussion: [Why prefer non-static inner classes over static ones?](https://softwareengineering.stackexchange.com/questions/238782/why-prefer-non-static-inner-classes-over-static-ones)"
+482,33237571,orangesir,7788128,,,"> @orangesir, I recommend the following discussion: [Why prefer non-static inner classes over static ones?](https://softwareengineering.stackexchange.com/questions/238782/why-prefer-non-static-inner-classes-over-static-ones)
+
+thank you!"
+483,33240162,quaff,143040,,,It should be stats not status.
+484,33251398,sbrannen,104798,,,👍 
+485,33394928,bmistry13,9261969,,,"@rstoyanchev issue is still there.  getServletPath() is returning decoded value.   Please check https://stackoverflow.com/questions/13482020/encoded-slash-2f-with-spring-requestmapping-path-param-gives-http-400 
+
+Following subclass fixed issue: 
+
+```
+public class UrlPathHelperFixed extends UrlPathHelper {
+
+    public UrlPathHelperFixed() {
+        super.setUrlDecode(false);
+    }
+
+    @Override
+    public void setUrlDecode(boolean urlDecode) {
+        if (urlDecode) {
+            throw new IllegalArgumentException(""Handler ["" + UrlPathHelperFixed.class.getName() + ""] does not support URL decoding."");
+        }
+    }
+
+    @Override
+    public String getServletPath(HttpServletRequest request) {
+        String servletPath = getOriginatingServletPath(request);
+        return servletPath;
+    }
+
+    @Override
+    public String getOriginatingServletPath(HttpServletRequest request) {
+        String servletPath = request.getRequestURI().substring(request.getContextPath().length());
+        return servletPath;
+    }
+}
+```
+
+```
+/**
+ *  Fixed for the URL with %2F
+ *
+ */
+@Configurable
+@Component
+public class WebConfig implements WebMvcConfigurer {
+	
+	@Override
+	public void configurePathMatch(PathMatchConfigurer configurer) {
+		 UrlPathHelperFixed urlPathHelper = new UrlPathHelperFixed();
+	     urlPathHelper.setUrlDecode(false);
+	     configurer.setUrlPathHelper(urlPathHelper);
+	}
+
+}
+```
+
+"
+486,33515757,sbrannen,104798,,,Thanks for the polishing! 👍 
+487,33910264,sbrannen,104798,,,Thanks! 👍 
+488,34249109,ivancea,5280509,49.0,spring-core/src/main/java/org/springframework/core/convert/support/GenericConversionService.java,"I think this line should use now the supplier, as the user expects the return type to be his collection type"
+489,34249150,ivancea,5280509,40.0,spring-core/src/main/java/org/springframework/core/convert/support/GenericConversionService.java,"Can the supplier generic be a ""extends Collection<T>""? This way, the return type would match the supplier"
+490,34268716,firatkucuk,370762,49.0,spring-core/src/main/java/org/springframework/core/convert/support/GenericConversionService.java,"Yes, that's true. If it's a set it should return a Set."
+491,34268975,firatkucuk,370762,40.0,spring-core/src/main/java/org/springframework/core/convert/support/GenericConversionService.java,I added 2 tests for collection conversion it seems fine without extend. Could you tell me a test case which needs extend case?
+492,34269680,ivancea,5280509,40.0,spring-core/src/main/java/org/springframework/core/convert/support/GenericConversionService.java,"Something like ""C extends Collection<T>"". This way, you can just return C, and the user won't have to cast anything (like the convertList (List<T>) cast). "
+493,34274160,firatkucuk,370762,40.0,spring-core/src/main/java/org/springframework/core/convert/support/GenericConversionService.java,seems better now.
+494,34320042,sbrannen,104798,,,👍 
+495,34534269,rodwiddowson,249743,,,Thanks!
+496,34642210,LukeButters,7076477,62.0,spring-webflux/src/main/java/org/springframework/web/reactive/result/condition/RequestMethodsRequestCondition.java,"@rstoyanchev Nice work in adding that cache, that is what I came in looking to do.
+
+Significant time seems to be spent looking for a match within this for loop, would it be possible to take advantage of the map and turn the `String httpMethod` into a `RequestMethod` and then just check if `getMethods` contains that request method."
+497,34710372,dreis2211,6304496,59.0,buildSrc/src/main/java/org/springframework/build/compile/CompilerConventionsPlugin.java,@bclozel `COMPILER_ARGS` seems to contain duplicated compiler args given that `commonCompilerArgs` is already added. Do I miss something?
+498,34713927,bclozel,103264,59.0,buildSrc/src/main/java/org/springframework/build/compile/CompilerConventionsPlugin.java,Fixed! Thanks for the heads up!
+499,34728095,sbrannen,104798,,,"Thanks, @philwebb! 👍 "
+500,34790454,rstoyanchev,401908,62.0,spring-webflux/src/main/java/org/springframework/web/reactive/result/condition/RequestMethodsRequestCondition.java,Good point. We can also directly look up in `requestMethodConditionCache` with the `httpMethodValue`. I'll make those changes.
+501,34790956,rstoyanchev,401908,62.0,spring-webflux/src/main/java/org/springframework/web/reactive/result/condition/RequestMethodsRequestCondition.java,"Oops, never mind that. What you said with the possibility that resolving the `RequestMethod` could result in IAE for custom HTTP methods. Here is the resulting commit https://github.com/spring-projects/spring-framework/commit/1d2ebdeb8c81d5735ce5bb8a08aa7fa460e5379d."
+502,34791828,FidaaYousef,54395451,2.0,org.springframework.config.java/src/main/java/org/springframework/config/java/Bean.java,test
+503,34905587,sbrannen,104798,58.0,src/docs/asciidoc/testing.adoc,"@sdeleuze, I'd appreciate a quick review of this change."
+504,34905601,sdeleuze,141109,58.0,src/docs/asciidoc/testing.adoc,"I am away from keyboard but looks good, and very good point thanks!"
+505,35089324,sbrannen,104798,,,"Thanks for getting in touch, but it feels like this is a question that would be better suited to [Stack Overflow](http://stackoverflow.com/). 
+
+As mentioned in [the guidelines for contributing](https://github.com/spring-projects/spring-framework/blob/master/CONTRIBUTING.md#discuss), we prefer to use the issue tracker only for bugs and enhancements. Feel free to create an issue if you feel this is a genuine bug.
+
+In addition, you should refrain from making comments on commits like this."
+506,35091844,quaff,143040,,,"@sbrannen , why not reuse `org.springframework.scheduling.annotation.Scheduled.CRON_DISABLED` ?"
+507,35097372,sbrannen,104798,,,To avoid a package cycle
+508,35098104,sbrannen,104798,,,"@quaff, see also a676059699b2215f73a94f6d36d4a56acd1138cf"
+509,35172560,jbduncan,2482228,,,"Hi @sbrannen - have you considered compiling this test with `javax.tools.ToolProvider.getSystemJavaCompiler()` and running it with on an external `java -Xmx8M` process with `java.util.spi.ToolProvider.findFirst(""java"").run(...)` (which confusingly is a different `ToolProvider` class)?"
+510,35172605,jbduncan,2482228,,,"Having said this, I actually don't know what arguments one would need to pass to `java.util.spi.ToolProvider::run` to get it to run on JUnit 5..."
+511,35192188,sbrannen,104798,,,"Our build is based on Java 8, so we cannot use `java.util.spi.ToolProvider`.
+
+In any case, we have historically not introduced system integration tests of that form in the core Spring Framework. Rather, we are confident that the tests introduced in `AnnotationMatchingPointcutTests` sufficiently cover the bug fix. 
+
+`AsyncMethodsSpringTestContextIntegrationTests` was essentially only used to _find_ the bug, but I left it in place (and _disabled_) in case we need it again or a similar variant in the future."
+512,35198874,jbduncan,2482228,,,"Ahh okay, I understand the purpose of `AnnotationMatchingPointcutTests` and `AsyncMethodsSpringTestContextIntegrationTests` now.
+
+Thanks for enlightening me @sbrannen! :+1: "
+513,35223406,davidtinker,561033,5.0,spring-websocket/src/main/java/org/springframework/web/socket/messaging/SubProtocolWebSocketHandler.java,Shouldn't this be logged.warn(...) instead of logger.debug?
+514,35243754,rstoyanchev,401908,5.0,spring-websocket/src/main/java/org/springframework/web/socket/messaging/SubProtocolWebSocketHandler.java,Yes it should be. Thanks.
+515,35293276,sbrannen,104798,,,See #23700
+516,35656579,izeye,1059363,6.0,spring-web/src/main/java/org/springframework/web/server/adapter/HttpWebHandlerAdapter.java,"@rstoyanchev I'm not an English native speaker, but ""set"" seems to be a typo for ""check""."
+517,35745878,rstoyanchev,401908,6.0,spring-web/src/main/java/org/springframework/web/server/adapter/HttpWebHandlerAdapter.java,"@izeye by ""set the response"" I mean ""set the response status"". If that succeeds then we know the response is still okay, i.e. client hasn't gone, and most likely the error is from a remote call during request handling. "
+518,35746086,izeye,1059363,6.0,spring-web/src/main/java/org/springframework/web/server/adapter/HttpWebHandlerAdapter.java,@rstoyanchev Thanks for the feedback! I misread the following code somehow. Sorry.
+519,35839183,bsideup,1050762,35.0,spring-test/src/test/java/org/springframework/test/web/reactive/server/HttpHandlerConnectorTests.java,:+1:
+520,36029663,artembilan,1071590,4.0,spring-messaging/src/main/java/org/springframework/messaging/rsocket/annotation/support/RSocketFrameTypeMessageCondition.java,"@rstoyanchev ,
+
+This is braking change.
+It was `public` since `5.2.0` and Spring Integration relies on this constant: https://build.spring.io/browse/INT-MASTERSPRING40-895/.
+
+Anyway even if not SI, some other projects may use it already, therefore breaking change in the current `5.2.2`.
+
+Thanks"
+521,36030490,artembilan,1071590,7.0,spring-messaging/src/main/java/org/springframework/messaging/rsocket/annotation/support/RSocketFrameTypeMessageCondition.java,"Would be also great to make this new one as `public` as well since there is no `REQUEST_CONDITION` any more.
+Although that one should be at least deprecated instead of removal what is breaking change."
+522,36031220,PascalSchumacher,2707245,68.0,spring-test/src/test/java/org/springframework/test/web/servlet/samples/spr/ControllerAdviceIntegrationTests.java,I guess the empty comments (`//`) in this line and in the line above can be removed?
+523,36031391,rstoyanchev,401908,4.0,spring-messaging/src/main/java/org/springframework/messaging/rsocket/annotation/support/RSocketFrameTypeMessageCondition.java,"@artembilan I didn't realize these were used, and they were so recently introduced. I've restored them and deprecated the one that matches all interaction types, in favor of the new ones that are more specific and should be used instead.
+
+Thanks for the feedback."
+524,36031519,sbrannen,104798,68.0,spring-test/src/test/java/org/springframework/test/web/servlet/samples/spr/ControllerAdviceIntegrationTests.java,"One _could_ remove them, but I added them intentionally to avoid changes due to automated formatting rules."
+525,36125141,artembilan,1071590,17.0,spring-messaging/src/main/java/org/springframework/messaging/rsocket/RSocketRequester.java,"Isn't this a breaking change in the point release?
+
+I know there is no way to have an overloaded method with different return type and deprecate an existing one, but couldn't we live with ""specifying data more than once"" until the next minor version?
+
+Thanks"
+526,36135350,rstoyanchev,401908,17.0,spring-messaging/src/main/java/org/springframework/messaging/rsocket/RSocketRequester.java,"Yes it is a breaking change, and it is unfortunate but on the other hand this was arguably a mistake from the start, and we're only 1 point release from that start. Later in the maintenance cycle it would be a very different story. Not to ignore this is also the middle of a chained API that would only become an issue with a local `RSocketRequester.RequestSpec` variable after a call to `.data`, which is probably a low likelihood.
+
+"
+527,36161534,artembilan,1071590,17.0,spring-messaging/src/main/java/org/springframework/messaging/rsocket/RSocketRequester.java,"Yeah... OK. It wasn't hard to fix it in Spring Integration, so let's hope other consumers are not so sophisticated and won't suffer of this breaking change!
+
+Thanks"
+528,36164801,rstoyanchev,401908,17.0,spring-messaging/src/main/java/org/springframework/messaging/rsocket/RSocketRequester.java,"Yes, Spring Integration is a more advanced user. I would be most concerned about applications that depend on both Spring Framework and another library that builds on this, like SI, but we are early enough in the cycle that I don't think it's a big issue practically."
+529,36234276,silver885,57811947,11.0,spring-context-indexer/spring-context-indexer.gradle,Sp
+530,36264428,johnou,323497,37.0,spring-web/src/main/java/org/springframework/web/cors/DefaultCorsProcessor.java,"@sdeleuze nice fix, this should prevent various forms of cache poisoning attacks, https://textslashplain.com/2018/08/02/cors-and-vary/ explains the problem pretty well - in a nutshell requests without origin are cached and returned even if the subsequent request specifies origin."
+531,36287282,sbrannen,104798,,,See #24135
+532,36287292,sbrannen,104798,,,See #24135
+533,36560170,KanyCTa,1168054,38.0,spring-web/src/main/java/org/springframework/web/server/handler/ResponseStatusExceptionHandler.java,"Hello everyone! Faced with problem: new mech cant transfer multivalues headers like ""WWW-Authenticate: Negotiate, NTLM, etc"" in raw-style (in a Map<String, List<String>> in this case). ResponseStatusException.getHeaders returns simple Map. I can transfer multivalues only by converting to delimeted string and from it in exception handler. ServerHttpResponse.getHeaders() is HttpHeaders that implements MultiValueMap. Are any restrictions here for using MultiValueMap in ResponseStatusException.getHeaders() instead of Map? Thanks!"
+534,36586211,artembilan,1071590,10.0,spring-web/src/main/java/org/springframework/http/converter/StringHttpMessageConverter.java,"I have just started to fail with this change.
+My content type candidate is like this one:
+```
+if (CollectionUtils.isEmpty(acceptTypes)) {
+		acceptTypes = Collections.singletonList(MediaType.ALL);
+}
+```
+So, `MediaType.ALL` is really compatible with `MediaType.APPLICATION_JSON`, but it is wrong value for the `Content-Type` header:
+```
+java.lang.IllegalArgumentException: Content-Type cannot contain wildcard type '*'
+
+	at org.springframework.util.Assert.isTrue(Assert.java:118)
+	at org.springframework.http.HttpHeaders.setContentType(HttpHeaders.java:949)
+	at org.springframework.http.converter.StringHttpMessageConverter.addDefaultHeaders(StringHttpMessageConverter.java:109)
+	at org.springframework.http.converter.StringHttpMessageConverter.addDefaultHeaders(StringHttpMessageConverter.java:44)
+	at org.springframework.http.converter.AbstractHttpMessageConverter.write(AbstractHttpMessageConverter.java:211)
+```
+
+Any clues what to use instead of `MediaType.ALL` when no `Accept` header in the request?
+
+Or maybe this fix should be improved to skip `MediaType.ALL` as it is done in the super class:
+```
+if (contentType == null || contentType.isWildcardType() || contentType.isWildcardSubtype()) {
+		contentTypeToUse = getDefaultContentType(t);
+}
+```
+
+Thank you!"
+535,36634616,rstoyanchev,401908,10.0,spring-web/src/main/java/org/springframework/http/converter/StringHttpMessageConverter.java,"Yes we should add a check for `mediaType.isConcrete()` to protect as in the base class. Can you create an issue?
+
+I am curious where the wildcard media type comes from. At that point on the server side we've typically [already checked](https://github.com/spring-projects/spring-framework/blob/8082b338e2e2f2e931d289882f710c60a028ccc8/spring-webmvc/src/main/java/org/springframework/web/servlet/mvc/method/annotation/AbstractMessageConverterMethodProcessor.java#L261-L275) that it is concrete or fallen back on a default one. "
+536,36638473,rstoyanchev,401908,38.0,spring-web/src/main/java/org/springframework/web/server/handler/ResponseStatusExceptionHandler.java,No particular reason. A `MultiValueMap` would have been better indeed.
+537,36638594,artembilan,1071590,10.0,spring-web/src/main/java/org/springframework/http/converter/StringHttpMessageConverter.java,"Thank you, @rstoyanchev , for confirmation.
+Here is an https://github.com/spring-projects/spring-framework/issues/24283.
+
+I don't use an `AbstractMessageConverterMethodProcessor` in Spring Integration.
+There logic in the `HttpRequestHandlingMessagingGateway` is like this: https://github.com/spring-projects/spring-integration/blob/master/spring-integration-http/src/main/java/org/springframework/integration/http/inbound/HttpRequestHandlingMessagingGateway.java#L171
+
+So, instead of falling back to the `MediaType.APPLICATION_OCTET_STREAM` we try to rely on the Content-Type populated by the converted which fits to the `payload` we would like to return into the response.
+"
+538,36983785,saad14092,18527600,,,"@rstoyanchev I can't find this code in the 5.2.1.RELEASE, or in any od the following release tags on github. Has this enhancement been cancelled ?"
+539,36995633,sbrannen,104798,,,"@saad14092, that was altered in 69eba32284ae073e7dc0b014c13a3fec8093b266."
+540,37967323,maxxedev,5051664,12.0,src/docs/asciidoc/data-access.adoc,@sbrannen I don't think this compiles because there is another `actor` in outer scope.
+541,37976261,sbrannen,104798,12.0,src/docs/asciidoc/data-access.adoc,"Ahhh.... Good catch!
+
+I'll fix it. Thanks for pointing this out."
+542,38146195,mavigdor,8696298,124.0,spring-core/src/main/java/org/springframework/util/FileSystemUtils.java,"This implementation breaks previous behavior of copying a symbolic link to a directory. Instead of including the contents of that directory, only the name of that directory is created at the dest Path.
+
+The following modification will also recursively traverse the directory that the symbolic link points to.
+`Files.walkFileTree(src, EnumSet.of(FOLLOW_LINKS), Integer.MAX_VALUE, new SimpleFileVisitor<Path>() {`
+
+`
+e.g. ln - s /path/to/original /path/to/link
+copyRecursively(new File(""/path/to/link""), new File(""/path/to/dest"")
+`
+"
+543,38146291,jhoeller,1263688,124.0,spring-core/src/main/java/org/springframework/util/FileSystemUtils.java,"@mavigdor Well spotted! Please create a separate GitHub for this. We'll try to address it ASAP, also considering backports to the 5.1.x and 5.0.x lines in our April round of releases."
+544,38633441,kromit,5220821,17.0,spring-test/src/main/java/org/springframework/test/web/servlet/request/MockHttpServletRequestBuilder.java,"Ah yes, this broke 100+ of our tests although all urls do start wit `""/""`"
+545,38635743,bclozel,103264,17.0,spring-test/src/main/java/org/springframework/test/web/servlet/request/MockHttpServletRequestBuilder.java,"If this change is causing a regression, could you create a new issue with a small sample project showing the issue?"
+546,38718012,OpenTechConsult,50676767,31.0,spring-core/src/main/java/org/springframework/core/KotlinDetector.java,Why is this message confusing
+547,38724860,sdeleuze,141109,31.0,spring-core/src/main/java/org/springframework/core/KotlinDetector.java,See https://github.com/spring-projects/spring-framework/issues/24935
+548,39003837,quaff,143040,34.0,spring-oxm/src/main/java/org/springframework/oxm/xstream/XStreamMarshaller.java,Can we use `SingletonSupplier` to eliminate boilerplate code?
+549,39004537,sbrannen,104798,34.0,spring-oxm/src/main/java/org/springframework/oxm/xstream/XStreamMarshaller.java,"Good catch, @quaff! 
+
+I honestly didn't think about using the `SingletonSupplier` there since we don't use it that frequently, but it's a good fit for this use case.
+
+I'll update the code accordingly."
+550,39855231,wusthuke,9316160,20.0,spring-context/src/main/java/org/springframework/cache/interceptor/AbstractCacheInvoker.java,"there may should 
+```java
+if (immediate) {
+    cache.evictIfPresent(key);
+    cache.evict(key);
+}
+```"
+551,40285606,andrei-ivanov,6377070,13.0,spring-aop/src/main/java/org/springframework/aop/framework/DefaultAopProxyFactory.java,`Unknwon`
+552,40766569,quaff,143040,,,"@jhoeller since logger is not static now, I think it's better to use `getClass()` instead of `StandardWebSocketHandlerAdapter.class` to avoid potential copy-paste fault, WDYT?"
+553,40884483,moderakh,22279672,113.0,spring-web/src/main/java/org/springframework/http/client/reactive/ReactorClientHttpResponse.java,"```suggestion
+				logger.debug(""{} Releasing body, not yet subscribed."", this.logPrefix);
+```
+
+
+use place holder instead of string concatination"
+554,40926790,darren-wang,7202883,,,which version was this new feature first included?
+555,40927386,bclozel,103264,,,"* 4.3.26, see #23975
+* 5.0.16, see #23974
+* 5.1.12, see #23973
+* 5.2.2, see #23972"
+556,41161659,quaff,143040,40.0,spring-context/src/main/java/org/springframework/scheduling/support/CronExpression.java,@poutsma Should `CronExpression` and `CronType` implements `Serializable` ?
+557,41167096,poutsma,330665,40.0,spring-context/src/main/java/org/springframework/scheduling/support/CronExpression.java,"Why should `CronExpression` be? The class it replaces, `CronSequenceGenerator`, was not serializable either."
+558,41354549,quaff,143040,31.0,spring-core/src/main/java/org/springframework/core/metrics/jfr/FlightRecorderApplicationStartup.java,"@bclozel I think `++this.currentSequenceId` is not safe enough, beans maybe be created concurrently in future."
+559,41817468,artembilan,1071590,,,"Thank you, @rstoyanchev !
+I'll see what I can do with my stuff to eliminate duplication and how to register endpoints at runtime."
+560,42107049,quaff,143040,13.0,spring-web/src/main/java/org/springframework/http/converter/json/AbstractJackson2HttpMessageConverter.java,static method cannot be overridden.
+561,42184675,rstoyanchev,401908,13.0,spring-web/src/main/java/org/springframework/http/converter/json/AbstractJackson2HttpMessageConverter.java,"Indeed and this was already corrected, check the latest."
+562,42718113,quaff,143040,,,Should `MariaDB` in `supportedDatabaseProductsForFunctions` also?
+563,42718286,jhoeller,1263688,,,"Good point, I'll close that gap in the 5.1.x backport right away and will also commit it to 5.2.x afterwards."
+564,43448256,sabi0,11509875,13.0,spring-expression/src/main/java/org/springframework/expression/spel/ast/Elvis.java,"It  seems `ObjectUtils.isNotEmpty` should be used here. Or the javadoc should be updated to mention that an empty `String` is considered 'null' here (unlike, e.g. an empty `List`)."
+565,43448673,jhoeller,1263688,13.0,spring-expression/src/main/java/org/springframework/expression/spel/ast/Elvis.java,"This is mostly for strict alignment with SpEL's compilation code where it also only checks against empty Strings. Empty Strings do have a special role in SpEL expressions which are inherently derived from original Strings, whereas any other empty values are user-specific in some form. At this point I'm not trying to change SpEL's semantics there, just making the special empty String handling more explicit."
+566,43600803,lucasoares,10624972,17.0,spring-test/src/main/java/org/springframework/test/web/servlet/request/MockHttpServletRequestBuilder.java,"This broke tests here too. We was using empty string instead of ""/"""
+567,43922252,quaff,143040,,,Is this only a code style change?
+568,43933812,jhoeller,1263688,,,"Yep, just a code style change, aligned with `InjectionPoint.getAnnotations()` and similar places accessing such a lazy volatile field in our codebase."
+569,44087225,robotmrv,7793957,115.0,src/docs/asciidoc/web/webflux-webclient.adoc,"@rstoyanchev   
+as far as I see `Context`  would not be propagated as its scope ends just after exchange  
+only `ExchangeFunction` from the first request would be in the scope but not `flatMap` with result  
+the only way to propagate context to the nested request is to write context at 958 line (at the end of the chain)"
+570,44087554,robotmrv,7793957,115.0,src/docs/asciidoc/web/webflux-webclient.adoc,"```java
+return webClient.get()
+        .uri(""https://example.org/"")
+        .context(context -> context.put(""test"", ""testValue""))
+        .retrieve()
+        .toBodilessEntity()
+        .flatMap(entity -> Mono.deferContextual(contextView -> contextView.get(""test"")));
+```
+this fails with `java.util.NoSuchElementException: Context is empty`"
+571,44220816,mengelbrecht,8101,63.0,spring-test/src/main/kotlin/org/springframework/test/web/servlet/result/ModelResultMatchersDsl.kt,@sdeleuze is the `<T>` needed here? The `ModelResultMatchers::attributeErrorCount` function does not need it.
+572,44221613,sdeleuze,141109,63.0,spring-test/src/main/kotlin/org/springframework/test/web/servlet/result/ModelResultMatchersDsl.kt,"Good catch, fixed https://github.com/spring-projects/spring-framework/commit/0fd6c100a608d66c150985a906eddbb529ee50bd."
+573,44323152,quaff,143040,50.0,spring-web/src/main/java/org/springframework/web/util/UrlPathHelper.java,"It seems inner class is not necessary here, `HttpServletMapping` is not a method parameter or captured variable with lambda."
+574,44331663,jhoeller,1263688,50.0,spring-web/src/main/java/org/springframework/web/util/UrlPathHelper.java,"This is primarily for the ability to define local variables of type `HttpServletMapping` and `MappingMatch` since the Servlet container could potentially build new instances there for every method call. And once a local variable is defined of a potentially non-present type, even within an if block, we have seen issues before (in particular in the JVM's debug mode) so I'm rather opting for extra defensiveness there."
+575,44679749,quaff,143040,15.0,spring-web/src/main/java/org/springframework/http/MediaTypeFactory.java,May I ask why?
+576,44689991,rstoyanchev,401908,15.0,spring-web/src/main/java/org/springframework/http/MediaTypeFactory.java,It's a small optimization to avoid object creation. It's internal and doesn't bring enough benefit.
+577,44790403,quaff,143040,,,"I'm not sure this commit changes original behavior, `HashSet` cannot reserve order."
+578,44800458,shevtsiv,46355526,,,"> I'm not sure this commit changes original behavior, `HashSet` cannot reserve order.
+
+You are right, `HashSet` cannot reserve order, that's why it has been replaced with the `LinkedHashSet` in the next commit: https://github.com/spring-projects/spring-framework/commit/8c1d06e0c42b0b6da30ea4f62b0c6988f360c43f"
+579,45687451,unkownbean,39220613,5.0,spring-web/src/main/java/org/springframework/http/codec/EncoderHttpMessageWriter.java,hello
+580,45712669,Marcono1234,11685886,13.0,spring-web/src/main/java/org/springframework/web/multipart/MultipartFile.java,"> characters * such
+
+Is the `*` a formatting mistake?"
+581,45712687,Marcono1234,11685886,19.0,spring-web/src/main/java/org/springframework/web/multipart/MultipartFile.java,"The link text is incorrect, it says ""Section 3.4"" while it should be ""Section 4.2"""
+582,45727314,rstoyanchev,401908,19.0,spring-web/src/main/java/org/springframework/web/multipart/MultipartFile.java,"Thanks, I'm fixing these locally."
+583,45896595,patpatpat123,43899031,,,Many thanks 🙏
+584,48481978,drgnchan,40224023,35.0,spring-web/src/main/java/org/springframework/web/context/support/ServletContextResource.java,"when the realPath refer to a not existing file,is the method supposed to return false?"
+585,48894892,cgroenen,15829372,16.0,spring-context/src/test/java/org/springframework/scheduling/support/CronExpressionTests.java,"I think it should say +02:00 here. So, `2021-03-28T09:00:00+02:00[Europe/Amsterdam]` (summer time)"
+586,48894915,cgroenen,15829372,21.0,spring-context/src/test/java/org/springframework/scheduling/support/CronExpressionTests.java,"This time is summer time, so +02:00. The next is in winter time, so +01:00. I would expect."
+587,48895833,poutsma,330665,16.0,spring-context/src/test/java/org/springframework/scheduling/support/CronExpressionTests.java,You're right! Let me reopen the issue.
+588,48896195,poutsma,330665,16.0,spring-context/src/test/java/org/springframework/scheduling/support/CronExpressionTests.java,"Fixed in f982fd9, thanks @cgroenen !"
+589,49760907,sbrannen,104798,,,See #26830
+590,50210465,andrei-ivanov,6377070,23.0,spring-web/src/main/java/org/springframework/http/server/reactive/AbstractListenerReadPublisher.java,"nitpick: since `State` is an enum, you can use `==` instead of `equals`"
+591,50357328,rstoyanchev,401908,23.0,spring-web/src/main/java/org/springframework/http/server/reactive/AbstractListenerReadPublisher.java,yes you're right.
+592,50740931,PascalSchumacher,2707245,26.0,spring-web/src/main/java/org/springframework/http/HttpStatus.java,I guess this should be `use` instead of `used`?
+593,50770547,sbrannen,104798,26.0,spring-web/src/main/java/org/springframework/http/HttpStatus.java,Indeed. I'll make the change on `main`.
+594,51115987,res1st,8224219,,,"I have now an NPE here for my classes.
+XML config, no ordered interface."
+595,53484019,jhyot,8843969,3.0,spring-web/src/main/java/org/springframework/web/util/UriComponentsBuilder.java,"@rstoyanchev  (I hope this works - have not used this GitHub feature so far).
+Should here maybe be added a check for ""ws"" && port 80? ""ws"" is the counterpart to ""wss"" if not secure."
+596,53573703,rstoyanchev,401908,3.0,spring-web/src/main/java/org/springframework/web/util/UriComponentsBuilder.java,I've updated that. Thanks.
+597,54188589,William1104,5646008,13.0,spring-jdbc/src/main/java/org/springframework/jdbc/support/SQLExceptionTranslator.java,Why we make this changes in this PR? 
+598,54274957,rgmz,32133502,,,"Hey @sdeleuze,
+
+With https://github.com/Kotlin/kotlinx.serialization/pull/1164 now merged, how can we update `KotlinSerializationJsonEncoder.java` to leverage it? (Reference your [""TODO"" comment](https://github.com/spring-projects/spring-framework/commit/43faa439ab567c382e50ae670560024cebdf63d2#diff-859bda3f9af171fb40d5cf4200ad69b80132d72fed860ce17402735817d5a72aR97))."
+599,56449806,di72nn,1114779,4.0,src/docs/asciidoc/data-access.adoc,"@sbrannen you actually need this one or
+`select * from T_ACTOR where (id, last_name) in ((1, 'Johnson'), (2, 'Harrop'))` turns into
+`select * from T_ACTOR where (id, last_name) in 1, 'Johnson'), (2, 'Harrop'`"
+600,56450597,sbrannen,104798,4.0,src/docs/asciidoc/data-access.adoc,Doesn't it depend on the underlying database?
+601,56453940,di72nn,1114779,4.0,src/docs/asciidoc/data-access.adoc,I'm pretty sure the former is the intended version and the latter is simply broken (what with the unmatching parentheses).
+602,56512113,liaozan,26990889,1.0,gradle/toolchains.gradle,shoule be 1.8?
+603,56557332,di72nn,1114779,4.0,src/docs/asciidoc/data-access.adoc,"@sbrannen please have another look, it clearly [is broken now](https://docs.spring.io/spring-framework/docs/current/reference/html/data-access.html#jdbc-in-clause)."
+604,56558316,vpavic,1149230,4.0,src/docs/asciidoc/data-access.adoc,"Double parenthesis is used to denote an [index term](https://docs.asciidoctor.org/asciidoc/latest/sections/user-index/#index-terms) in asciidoc and should therefore be escaped, as it was previously."
+605,56574799,sbrannen,104798,4.0,src/docs/asciidoc/data-access.adoc,"@di72nn, I apologize. I didn't realize you were referring to the generated output. I thought you were commenting on the SQL syntax.
+
+@vpavic, thanks for pointing out the ""index term"" issue. I wasn't aware of that.
+
+I'll fix the Asciidoc!"
+606,56575698,sbrannen,104798,4.0,src/docs/asciidoc/data-access.adoc,Fixed in https://github.com/spring-projects/spring-framework/commit/008aa48d5c97b5f5969662f9cab5b0b7594cf1b5
+607,57306064,samabcde,22476925,7.0,spring-core/src/main/java/org/springframework/util/MimeType.java,This comment is outdated.
+608,57306111,samabcde,22476925,7.0,spring-web/src/main/java/org/springframework/http/MediaType.java,This comment is outdated.
+609,57308381,poutsma,330665,7.0,spring-core/src/main/java/org/springframework/util/MimeType.java,"Thanks for spotting this, fixed in https://github.com/spring-projects/spring-framework/commit/a4b74a320eb4612802dae31adab89d8295c66b8c"
+610,57801396,snicoll,490484,23.0,spring-test/src/main/java/org/springframework/test/context/BootstrapUtils.java,Shouldn't this be public so that we can reference the key?
+611,57818440,sbrannen,104798,23.0,spring-test/src/main/java/org/springframework/test/context/BootstrapUtils.java,"Indeed. That was just a POC. In the final commit, I moved it to `CacheAwareContextLoaderDelegate` and made it public."
+612,58619628,andrei-ivanov,6377070,8.0,spring-orm/src/main/java/org/springframework/orm/jpa/ExtendedEntityManagerCreator.java,why not `==` instead of `equals`? 😁
+613,60529790,PC-Chiu,8520547,,,"How to make the tag commit does not belong to any branch? 
+How @spring-builds spring-builds make it？"
+614,62177698,charboubmustapha,9570149,119.0,spring-web/src/main/java/org/springframework/http/HttpMethod.java,"the if else can be simplified by the use getOrDefault of the Map:  return mappings.getOrDefault(method,new HttpMethod(method));
+Or the use of if else is used for code visibility.
+Thanks :)"
+615,64618418,ttddyy,459116,5.0,spring-core/src/main/java/org/springframework/core/hint/package-info.java,nit: missing `@NonNullApi` and `@NonNullFields` for nullability.
+616,67735665,andrei-ivanov,6377070,36.0,spring-beans/src/main/java/org/springframework/beans/factory/support/RootBeanDefinition.java,would `lastIndexOf('.')` be better?
+617,68745779,sbrannen,104798,36.0,spring-beans/src/main/java/org/springframework/beans/factory/support/RootBeanDefinition.java,Good catch. See 9fbf5dc945688f879c6b3d112b631f54447eae03.
+618,69399943,quaff,143040,21.0,spring-web/src/main/java/org/springframework/http/DefaultHttpStatusCode.java,Should it be `org.springframework.lang.NonNull`?
+619,69432161,poutsma,330665,21.0,spring-web/src/main/java/org/springframework/http/DefaultHttpStatusCode.java,"Yes, it should. Thanks for spotting that!"
+620,69812896,sbrannen,104798,,,"> Are there specific detection and defense rules?
+
+In general we recommend that Java Serialization never be used with untrusted sources.
+
+In addition, `SerializationUtils` now contains a warning which provides a link to guidance provided by the Java team.
+
+https://github.com/spring-projects/spring-framework/blob/02d3e00d33a578fb776cc2c65a9c15d9a75b2072/spring-core/src/main/java/org/springframework/util/SerializationUtils.java#L33-L36"
+621,69816705,ENDZHT,37065019,,,Tomorrow there could be an exp worse than log4j2
+622,69817829,cloudwafs,27655248,,,"okok,   "
+623,69821498,noahzark,4402804,,,"Is this mr related to the [Spring core RCE](https://twitter.com/80vul/status/1508811365376729088) ?
+
+If yes, any POC?"
+624,69858612,robot183,55733256,,,"who have poc , thakns sir"
+625,69859908,caonima-png,63710926,,,where is the poc
+626,69860640,bugj,50521312,9.0,spring-core/src/test/java/org/springframework/util/SerializationUtilsTests.java,https://reurl.cc/RjNDLe
+627,69861521,Kontinuation,5501374,,,This commit does not resolve any already existing vulnerabilities and has nothing to do with spring core RCE. Just stop spamming this commit.
+628,69865838,hackchend,30649259,4.0,spring-context-support/src/main/java/org/springframework/cache/jcache/interceptor/CacheResultInterceptor.java,1
+629,69869363,tengyer,22452006,5.0,spring-context-support/src/main/java/org/springframework/cache/jcache/interceptor/CacheResultInterceptor.java,"`SerializationUtils.deserialize(SerializationUtils.serialize(exception))`  change to `SerializationUtils.clone(exception)`，
+but `clone(exception)` equals `deserialize(SerializationUtils.serialize(exception))` .
+so , what have changed ?"
+630,69869756,tengyer,22452006,5.0,spring-context-support/src/main/java/org/springframework/cache/jcache/interceptor/CacheResultInterceptor.java,"oh , it' marked `@Deprecated` on `SerializationUtils#deserialize`.
+Will the method `SerializationUtils#clone` be overridden in the future ?"
+631,69873066,sbrannen,104798,,,"> This commit does not resolve any already existing vulnerabilities and has nothing to do with spring core RCE. Just stop spamming this commit.
+
+What @Kontinuation said is correct.
+
+The purpose of this commit is to inform anyone who had previously been using `SerializationUtils#deserialize` that it is dangerous to deserialize objects from untrusted sources.
+
+The core Spring Framework does not use `SerializationUtils` to deserialize objects from untrusted sources.
+
+If you believe you have discovered a security issue, please report it responsibly with the dedicated page: https://spring.io/security-policy
+
+And please refrain from posting any additional comments to this commit.
+
+Thank you"
+632,70358919,Jeff-dev-engr,101497541,,,sana ol
+633,71719543,glybarra,44072944,,,This commit breaks our web app that is using servlet api 3.0. Any way it could be changed to use servlet api 3.0 comparable method setContentLength?
+634,71719761,bclozel,103264,,,"Spring Framework 5.x requires Servlet 3.1+.
+See https://github.com/spring-projects/spring-framework/wiki/Upgrading-to-Spring-Framework-5.x#upgrading-to-version-50"
+635,72356376,quaff,143040,101.0,spring-webflux/src/test/java/org/springframework/web/reactive/function/client/support/WebClientHttpServiceProxyTests.java,Why introduce new `@GetRequest` instead of existing `@GetMapping`?
+636,72525112,vy,72137,34.0,spring-webflux/src/main/java/org/springframework/web/reactive/result/method/annotation/RequestMappingHandlerAdapter.java,"Shouldn't we be protecting this causal chain retrieval against recursion? For inspiration, check out [how Log4j tackles this](/apache/logging-log4j2/blob/master/log4j-core/src/main/java/org/apache/logging/log4j/core/util/Throwables.java#L54)."
+637,73104052,Staticsubh,31039062,42.0,spring-context/src/main/java/org/springframework/jmx/export/MBeanExporter.java,"Why do we need to make the Mbean name not visible by default. Can we bring it back in info log level, to know which MBeans are getting registered."
+638,73195802,andrei-ivanov,6377070,63.0,src/docs/asciidoc/integration.adoc,"typo, just `Framework`"
+639,73207218,sbrannen,104798,63.0,src/docs/asciidoc/integration.adoc,This has been fixed in 2713f28c285c969118597f5c3337f0657e3eba6c.
+640,75900004,Fredy71557196,107096462,,,https://lucid.app/lucidchart/1600dc10-1c3e-4d30-a103-ed58205ef5bc/edit?viewport_loc=-1259%2C-15%2C1852%2C1395%2C0_0&invitationId=inv_5197992b-1a2b-442c-abe7-b0bf7772134b#
+641,77223630,christianwimmer,3046476,40.0,spring-core/graalvm/src/main/java/org/springframework/aot/graalvm/ConstantFieldSubstitutionProcessor.java,"An easier way to do the same thing should actually be to use a `NodePlugin` that constant-folds field accesses during bytecode parsing. See for example https://github.com/oracle/graal/blob/89e4cfc7aeea69970b60c64cd075ceb2a104e864/substratevm/src/com.oracle.svm.hosted/src/com/oracle/svm/hosted/phases/EarlyConstantFoldLoadFieldPlugin.java#L70
+
+But that of course is then still highly dependent on internals of the image generator, i.e., it will need to be fixed often when GraalVM changes."
+642,77252919,sdeleuze,141109,40.0,spring-core/graalvm/src/main/java/org/springframework/aot/graalvm/ConstantFieldSubstitutionProcessor.java,"Thanks for the hint, I think API stability is important for us so we may stick to the current arrangement. cc @philwebb "
+643,77315472,christianwimmer,3046476,40.0,spring-core/graalvm/src/main/java/org/springframework/aot/graalvm/ConstantFieldSubstitutionProcessor.java,"Well, this current solution is equally dependent on internals, so from that point of view both solutions are equally bad. Don't expect that this feature will work with future GraalVM releases. It might be broken already in the upcoming 22.2 release because `ConstantReadableJavaField` does not implement the new `AnnotationWrapper` interface.
+
+"
+644,77341807,sdeleuze,141109,40.0,spring-core/graalvm/src/main/java/org/springframework/aot/graalvm/ConstantFieldSubstitutionProcessor.java,"Indeed it is + there is another breakage due to the switch to module system, let's discuss that with @vjovanov, you and others asap."
+645,77347600,olpaw,16901644,6.0,spring-core/src/main/resources/META-INF/native-image/org.springframework/spring-core/native-image.properties,Using `--add-exports` here instead should be enough. I'd be surprised if you access any of those packages **reflectively** in your code.
+646,77413483,christianwimmer,3046476,40.0,spring-core/graalvm/src/main/java/org/springframework/aot/graalvm/ConstantFieldSubstitutionProcessor.java,"I have been thinking about a proper ""field value replacer"" API for quite a while. Not in the context of use cases like yours, but to replace the current non-API `RecomputeFieldValue` annotation. But I think we can make your use case work with such an API too. I think it is important that Spring gets to a point where it uses only stable native image API, i.e., does not have any import of anything in `com.oracle.svm`."
+647,77428541,sdeleuze,141109,40.0,spring-core/graalvm/src/main/java/org/springframework/aot/graalvm/ConstantFieldSubstitutionProcessor.java,"That would be ideal. Short term, it seems we have fixed the compatbility issues with GraalVM 22.2. A nice outcome would be to get stable API for that in time for GraalVM 22.3 in order to use it for Spring Framework 6 and Spring Boot 3 GA. cc @jhoeller "
+648,81307010,62mkv,5255127,761.0,spring-tx/src/main/java/org/springframework/transaction/reactive/AbstractReactiveTransactionManager.java,"Hi @jhoeller sorry for bringing this up, but how is this code supposed to work? `Mono.empty()` can not possibly emit an error, can it? I am currently deep in the debugging around this place and even though I can confirm that lines 445 and 479 (as of `5.3.10` release version) are both attended, I can't seem to make breakpoints trigger anywhere inside the `onErrorResume` lambda that starts on this line. I do not want to start an issue yet, but if you can confirm that it might be a valid point, then I will raise an issue. Thanks a lot! 
+
+also cc @mp911de "
+649,81743152,oneutf,46507751,,,Why should defaultlistablebeanfactory.registerbeandefinition remove thread safety at this time
+650,82524680,rishiraj88,13426986,,,Great contribution! Thanks 👍
+651,82579902,JoshuaDRose,101031214,,,"Loving these commit messages haha. But no seriously, it's great to see how far you've come."
+652,82869954,ben-manes,378614,139.0,spring-core/src/main/java/org/springframework/util/ConcurrentLruCache.java,Shouldn’t this be putIfAbsent?
+653,82878826,bclozel,103264,139.0,spring-core/src/main/java/org/springframework/util/ConcurrentLruCache.java,Thanks for taking a look! I've pushed a fix.
+654,84041048,marcingrzejszczak,3297437,100.0,spring-web/src/main/java/org/springframework/web/observation/reactive/HttpRequestsObservationWebFilter.java,Why are you not using an enum here from the `DocumentedObservation`?
+655,84054084,marcingrzejszczak,3297437,194.0,spring-web/src/main/java/org/springframework/web/client/RestTemplate.java,I don't think you need to put this in scope - have you checked if things are OK if you don't put it in scope?
+656,84358184,bclozel,103264,100.0,spring-web/src/main/java/org/springframework/web/observation/reactive/HttpRequestsObservationWebFilter.java,"Thanks Marcin, this should be done in 4c4538780592"
+657,84358213,bclozel,103264,194.0,spring-web/src/main/java/org/springframework/web/client/RestTemplate.java,"Thanks Marcin, I've removed that in 4c4538780592 - indeed this was useless."
+658,85277937,vpavic,1149230,4.0,spring-webmvc/src/main/java/org/springframework/web/servlet/i18n/CookieLocaleResolver.java,"@rstoyanchev, note that with #28779 being merged as well, this suppression is now redundant."
+659,87241223,poutsma,330665,,,The commit message should have linked to https://github.com/FasterXML/jackson-core/issues/824.
+660,90007099,ophiuhus,8861705,56.0,spring-web/src/main/java/org/springframework/web/DefaultErrorResponseBuilder.java,"Shouldn't it be
+**Assert.notNull(statusCode, ""HttpStatusCode is required"");**
+**Assert.notNull(detail, ""`detail` is required"");**
+instead?"
+661,90007537,bclozel,103264,56.0,spring-web/src/main/java/org/springframework/web/DefaultErrorResponseBuilder.java,@ophiuhus Good catch! Would you like to send a PR for that?
+662,90007789,ophiuhus,8861705,56.0,spring-web/src/main/java/org/springframework/web/DefaultErrorResponseBuilder.java,"Will do, thanks"
+663,90491406,Aminuibnadams26,117753455,,,Great! 
+664,90576312,bclozel,103264,,,"This should be applied already here: https://github.com/spring-projects/spring-framework/blob/main/build.gradle#L50
+Is this a bug with Eclipse?"
+665,90591703,sbrannen,104798,,,"There must have been a glitch the first time I imported it into Eclipse.
+
+It works now without that change, so I've reverted that commit."

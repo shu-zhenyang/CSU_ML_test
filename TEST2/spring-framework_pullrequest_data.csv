@@ -1,0 +1,1849 @@
+,id,title,user_login,user_id,body,labels_name,labels_description
+0,1144717764,[#29611] Optimized resource usage when invoke handleNoMatch,koo-taejin,10057874,related issue: #29611 ,status: waiting-for-triage,An issue we've not yet triaged or decided on
+1,1144352776,Fix supported type for PartHttpMessageWriter,CoderYellow,43698473,fix issue #29630 ,status: waiting-for-triage,An issue we've not yet triaged or decided on
+2,1143992311,remove useless for cycle,Encyclopedias,32696764,The interface author explains the only one interceptor for PointcutAdvisor. And there is an exception when the interceptor is empty. So we can get the 0 index directly after invoke the method. I think the for cycle is useless.,status: waiting-for-triage,An issue we've not yet triaged or decided on
+3,1143972913,get beans depends on whether circular reference enabled,Encyclopedias,32696764,"When the allowCircularReferences is false, the singletonFactories is not be used. And the earlySingletonObjects is based on the singletonFactories, so the earlySingletonObjects is not be used. 
+And the old code is always to get bean in the singletonFactories and earlySingletonObjects, even the allowCircularReferences is false.
+I think we should get beans by the circular reference flag. So i provide the method in the abstract class, it is only for the bean with the allowCircularReferences flag.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+4,1142965409,Fix Netty code sample to properly block,mdeinum,606761,"The previous code read 
+
+```
+HttpServer.create().host(host).port(port).handle(adapter).bind().block();
+```
+Which doesn't block and terminates after the `block` The proper way to block is to register on the dispose callback.  See https://projectreactor.io/docs/netty/release/reference/index.html#_starting_and_stopping
+
+```
+HttpServer.create().host(host).port(port).handle(adapter).bindNow().onDispose().block();
+```",status: waiting-for-triage,An issue we've not yet triaged or decided on
+5,1142720335,chore: Configure Dependabot for GitHub Actions,jongwooo,44025432,"Signed-off-by: jongwooo <jongwooo.han@gmail.com>
+
+## Description
+
+This PR configures Dependabot for GitHub Actions.
+
+See https://github.com/spring-projects/spring-boot/pull/31567",status: waiting-for-triage,An issue we've not yet triaged or decided on
+6,1139156034,Polish,divcon,7947445,"1. Use instanceof pattern matching.
+2. Use Mono.error() method instead of `throw` keyword inside of flatMap().
+3. Simplify Return statements.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+7,1136578091,Change default encoding in WebClientResponseException,ooeunz,45962578,"Occasionally, response body that are not in the ISO-8859-1 range cause encoding problems.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+8,1132940095,Restrict forwards in MockMvcWebConnection to 100,manthanb,11189212,"When a filter is configured to conditionally forward, and it is configured to handle FORWARD dispatches as well, and it prevents infinite forward loops by either extending OncePerRequestFilter or otherwise using request attributes, this can result in infinite forward loops in WebClient tests using MockMvcWebConnection. This change will restrict the maximum number of forwards in MockMvcWebConnection to 100.
+
+Closes gh-29483",status: waiting-for-triage,An issue we've not yet triaged or decided on
+9,1128800177,Support coroutine for HttpServiceProxyFactory,wplong11,5109223,Resolves: #29467,status: waiting-for-triage,An issue we've not yet triaged or decided on
+10,1127165796,Normalization and optimization of the ParallelSorter code,a364176773,19943636,,status: waiting-for-triage,An issue we've not yet triaged or decided on
+11,1125814926,Execute preflight check logic before all interceptors,tianshuang,10725601,"There is a similar problem here: [CorsInterceptor should add to the first interceptor in InterceptorChain? · Issue #22459](https://github.com/spring-projects/spring-framework/issues/22459). In this commit: [CorsInterceptor at the front of the chain](https://github.com/spring-projects/spring-framework/commit/a0826a20c3dd9dfd31dae5f056754092cb04383f), the order of `CorsInterceptor` was adjusted to before all interceptors, but the processing logic of PreFlight was not adjusted.
+
+When a PreFlight request is sent to the server, if one of the interceptors in the chain returns false in the `preHandle` method, then the related CORS headers will not be added, causing the browser to judge cross-domain, even if we explicitly configure allowedOrigins, but in fact there is no cross-domain, but the interceptor abort the chain in advance and the PreFlight logic is not executed.
+
+**Expected behavior:**
+CORS related headers are added in the response of the PreFlight request regardless of whether the interceptor abort the chain.
+
+**Actual behavior:**
+Browser block CORS request because PreFlight request not responding to 'Access-Control-Allow-Origin' header. Browser console print: Access to XMLHttpRequest at 'https://server.com/users' from origin 'https://www.another.com' has been blocked by CORS policy: Response to preflight request doesn't pass access control check: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+
+**Added unit test:**
+org.springframework.web.servlet.handler.HandlerMethodMappingTests#abortInterceptorInPreFlightRequestWithCorsConfig",status: waiting-for-triage,An issue we've not yet triaged or decided on
+12,1123732456,Improve performance of ProtobufHttpMessageConverter,koo-taejin,10057874,"Improved performance for `ProtobufHttpMessageConverter`
+
+Currently, when a binary message in the form of ProtoBuf is received, data is created using the Builder via `ProtobufHttpMessageConverter`.
+When Protobuf creating individual `com.google.protobuf.Message`. it creates a `PROTO_MESSAGE parseFrom(java.io.InputStream input, com.google.protobuf.ExtensionRegistryLite extensionRegistry)` method 
+If use this method, ProtobufHttpMessageConverter can reduce creating unnecessary Builder and executing merge method process.
+(And I have confirmed that `grpc-java` use this method when creating 'com.google.protobuf.Message'.)
+
+
+If change the object creation to the `parseFrom` method, I made a simple test and confirmed that the TPS increased by about 5% in several simple performance tests.
+(I have confirmed that the slope of increasing heap improved.)
+
+
+- as-is
+```
+h2load http://localhost:8080/user/proto -d ./proto.txt --header 'Content-Type: application/x-protobuf;charset=UTF-8'  -n 100000 -c 1 -m 1
+starting benchmark...
+spawning thread #0: 1 total client(s). 100000 total requests
+Application protocol: h2c
+progress: 10% done
+progress: 20% done
+progress: 30% done
+progress: 40% done
+progress: 50% done
+progress: 60% done
+progress: 70% done
+progress: 80% done
+progress: 90% done
+progress: 100% done
+
+finished in 24.07s, 4155.29 req/s, 146.15KB/s
+requests: 100000 total, 100000 started, 100000 done, 100000 succeeded, 0 failed, 0 errored, 0 timeout
+status codes: 100000 2xx, 0 3xx, 0 4xx, 0 5xx
+traffic: 3.43MB (3601612) total, 488.93KB (500660) headers (space savings 96.26%), 390.63KB (400000) data
+                     min         max         mean         sd        +/- sd
+time for request:      187us     13.12ms       234us       105us    94.49%
+time for connect:      301us       301us       301us         0us   100.00%
+time to 1st byte:     2.11ms      2.11ms      2.11ms         0us   100.00%
+req/s           :    4155.31     4155.31     4155.31        0.00   100.00%
+```
+![as-is](https://user-images.githubusercontent.com/10057874/202073049-43c4e704-936c-4f4c-b57b-e7ff880d6a92.JPG)
+
+- to-be
+```
+h2load http://localhost:8080/user/proto -d ./proto.txt --header 'Content-Type: application/x-protobuf;charset=UTF-8'  -n 100000 -c 1 -m 1
+starting benchmark...
+spawning thread #0: 1 total client(s). 100000 total requests
+Application protocol: h2c
+progress: 10% done
+progress: 20% done
+progress: 30% done
+progress: 40% done
+progress: 50% done
+progress: 60% done
+progress: 70% done
+progress: 80% done
+progress: 90% done
+progress: 100% done
+
+finished in 23.31s, 4289.18 req/s, 150.86KB/s
+requests: 100000 total, 100000 started, 100000 done, 100000 succeeded, 0 failed, 0 errored, 0 timeout
+status codes: 100000 2xx, 0 3xx, 0 4xx, 0 5xx
+traffic: 3.43MB (3601566) total, 488.88KB (500614) headers (space savings 96.26%), 390.63KB (400000) data
+                     min         max         mean         sd        +/- sd
+time for request:      177us    274.17ms       227us       876us    99.97%
+time for connect:      331us       331us       331us         0us   100.00%
+time to 1st byte:   254.55ms    254.55ms    254.55ms         0us   100.00%
+req/s           :    4289.20     4289.20     4289.20        0.00   100.00%
+```
+![to-be](https://user-images.githubusercontent.com/10057874/202073074-8aecc095-cc3c-47fe-9e46-050ff2a69886.JPG)
+
+Rather than using a builder, there is a risk for method presence, so I made a map for present method.
+
+Please feel free to let me know if I misjudged anything. :)
+",status: waiting-for-triage,An issue we've not yet triaged or decided on
+13,1122618889,GET query parameters containing comma are not properly URL decoded,dmytro-zhelieznyi,48699067,,status: waiting-for-triage,An issue we've not yet triaged or decided on
+14,1121927830,Use EnumMap for DateFormatter.ISO_PATTERNS again,izeye,1059363,"This PR changes to use `EnumMap` for `DateFormatter.ISO_PATTERNS` again by partially reverting ba136dcf40123445aa959786cdc006112d35774a as it seems to give better numbers as follows:
+
+```
+Benchmark                                          (iso)  Mode  Cnt   Score   Error   Units
+EnumMapOfBenchmark.getNew                           DATE  avgt        2.643           ns/op
+EnumMapOfBenchmark.getNew:·gc.alloc.rate            DATE  avgt       ≈ 10⁻⁴          MB/sec
+EnumMapOfBenchmark.getNew:·gc.alloc.rate.norm       DATE  avgt       ≈ 10⁻⁷            B/op
+EnumMapOfBenchmark.getNew:·gc.count                 DATE  avgt          ≈ 0          counts
+EnumMapOfBenchmark.getNew                           TIME  avgt        2.656           ns/op
+EnumMapOfBenchmark.getNew:·gc.alloc.rate            TIME  avgt       ≈ 10⁻⁴          MB/sec
+EnumMapOfBenchmark.getNew:·gc.alloc.rate.norm       TIME  avgt       ≈ 10⁻⁷            B/op
+EnumMapOfBenchmark.getNew:·gc.count                 TIME  avgt          ≈ 0          counts
+EnumMapOfBenchmark.getNew                      DATE_TIME  avgt        4.507           ns/op
+EnumMapOfBenchmark.getNew:·gc.alloc.rate       DATE_TIME  avgt       ≈ 10⁻⁴          MB/sec
+EnumMapOfBenchmark.getNew:·gc.alloc.rate.norm  DATE_TIME  avgt       ≈ 10⁻⁷            B/op
+EnumMapOfBenchmark.getNew:·gc.count            DATE_TIME  avgt          ≈ 0          counts
+EnumMapOfBenchmark.getOld                           DATE  avgt        1.320           ns/op
+EnumMapOfBenchmark.getOld:·gc.alloc.rate            DATE  avgt       ≈ 10⁻⁴          MB/sec
+EnumMapOfBenchmark.getOld:·gc.alloc.rate.norm       DATE  avgt       ≈ 10⁻⁷            B/op
+EnumMapOfBenchmark.getOld:·gc.count                 DATE  avgt          ≈ 0          counts
+EnumMapOfBenchmark.getOld                           TIME  avgt        1.530           ns/op
+EnumMapOfBenchmark.getOld:·gc.alloc.rate            TIME  avgt       ≈ 10⁻⁴          MB/sec
+EnumMapOfBenchmark.getOld:·gc.alloc.rate.norm       TIME  avgt       ≈ 10⁻⁷            B/op
+EnumMapOfBenchmark.getOld:·gc.count                 TIME  avgt          ≈ 0          counts
+EnumMapOfBenchmark.getOld                      DATE_TIME  avgt        1.527           ns/op
+EnumMapOfBenchmark.getOld:·gc.alloc.rate       DATE_TIME  avgt       ≈ 10⁻⁴          MB/sec
+EnumMapOfBenchmark.getOld:·gc.alloc.rate.norm  DATE_TIME  avgt       ≈ 10⁻⁷            B/op
+EnumMapOfBenchmark.getOld:·gc.count            DATE_TIME  avgt          ≈ 0          counts
+```
+
+See gh-29321
+See also https://github.com/izeye/samples-jmh-gradle/blob/master/src/jmh/java/com/izeye/samples/jmh/EnumMapOfBenchmark.java",status: waiting-for-triage,An issue we've not yet triaged or decided on
+15,1119113405,Removed unnecessary function call in Mono.switchIfEmpty(),divcon,7947445,"In this code, the 'switchIfEmpty()' method always calls createWebSession().
+If this is unintentional, it needs to be fix.
+ 
+``` java
+return Mono.defer(() -> retrieveSession(exchange)
+		.switchIfEmpty(createWebSession())
+		.doOnNext(session -> exchange.getResponse().beforeCommit(() -> save(exchange, session))));
+```
+
+Please review and let me know if I misunderstood.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+16,1110860265,EMFU#doGetTransactionalEntityManager to check for actual transaction,ettavolt,1511983,"… rather than just a synchronization. Otherwise, at least SharedEntityManagerCreator will create a 'lingering' EM inside NEVER/NOT_SUPPORTED propagation, which is closed only after exiting from inside that boundary.
+
+I did look at some other usage of `isSynchronizationActive`, and I'm not sure if it is more proper to use `isActualTransactionActive` there. I suspect this might be true for a couple of places.
+
+`isActualTransactionActive` and `doGetTransactionalEntityManager` seem to be [around](https://github.com/spring-projects/spring-framework/blame/a3d7dc09ef7af361705704ca9f457b4901815663/spring-orm/src/main/java/org/springframework/orm/jpa/EntityManagerFactoryUtils.java) [here](https://github.com/spring-projects/spring-framework/blame/main/spring-tx/src/main/java/org/springframework/transaction/support/TransactionSynchronizationManager.java) since before the recorded history, so we can't say if `isActualTransactionActive` was added after or before `doGetTransactionalEntityManager`.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+17,1108530807,Allow TransactionAwareDataSourceProxy to eagerly fetch the connection,reda-alaoui,2890843,"Fix #29418 
+
+Adds an `obtainTransactionalConnectionEagerly` flag allowing to retrieve the underlying connection during `getConnection` call. I think this flag should be always true to make sure the effective connection is fetched during the transaction covering `getConnection`. But I thought you would want to avoid breaking the current behaviour, so the flag is false by default.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+18,1103853946,Always logging stack trace on bean dispose/close failed.,kazuki-ma,1370068,"Motivation
+====
+
+I noticed that warn log on bean close faield is not enough for identify root cause in some case.
+
+The actual log I received is as follows,
+
+```
+[WARN] (DisposableBeanAdapter.java:248) Invocation of close method failed on bean with name 'webHookEventDecatonClient': java.lang.NoSuchMethodError: 'void org.apache.kafka.clients.producer.Producer.close(long, java.util.concurrent.TimeUnit)'
+```
+
+Without stack trace, I can't identify what is wrong. I think printing stack trace is always good idea when logging warn based on exception.
+
+Also, it is not clear why the contents of the Warn Log change depending on whether the Debug Flag is enabled or not.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+19,1102097194,BeanNameViewResolver optionally configured with application context,mdeinum,606761,"With the XmlViewResolver you could have 2 instances of it and provide and XML application context to configure the views. This comes in handy when allowing 1 controller to render 2 different things like an Excel or a PDF depending on the requested Content-Type. Those are now deprecated and there is no real replacement for this.
+
+Prior to this commit the BeanNameViewResolver would always resolve the views from the configuration it was defined in. Passing in a pre-configured application context would result in an error at runtime. Now it is possible to pass in an application context through the constructor which will be used to resolve the views from. Making it possible to have multiple instances and have the functionality as with multiple XmlViewResolver with a ContentNegotiatingViewResolver.
+
+Closes: #29383",status: waiting-for-triage,An issue we've not yet triaged or decided on
+20,1097749335,SharedEntityManagerCreator is oblivious to the presence of multiple TransactionManager,reda-alaoui,2890843,Fix #29365,status: waiting-for-triage,An issue we've not yet triaged or decided on
+21,1073172025,Refactor AcceptHeaderLocaleResolver to implement LocaleContextResolver,vpavic,1149230,"This PR wraps up efforts to improve `org.springframework.web.servlet.LocaleResolver` hierarchy started in:
+
+- https://github.com/spring-projects/spring-framework/pull/27609
+- https://github.com/spring-projects/spring-framework/pull/28779
+
+The core change proposed here (first commit) is to refactor `AcceptHeaderLocaleResolver` to implement `LocaleContextResolver`, which makes the all locale resolvers provided by Spring MVC `LocaleContextResolver` based. It also aligns Spring MVC with Spring WebFlux, where all resolvers work with `LocaleContext` rather than plain `Locale`.
+
+The two subsequent commits are optional, but could be helpful as they prepare ground to simplifying `LocaleResolver` hierarchy in the future:
+
+- second commit deprecates `AbstractLocaleResolver` in favor of `AbstractLocaleContextResolver`, as nothing is using `AbstractLocaleResolver` after the first commit
+- third commit is a bit more substantial as it deprecates `org.springframework.web.servlet.LocaleResolver` and reworks all the references to operate against `LocaleContextResolver` - while technically a breaking change, this only impacts those with custom `LocaleResolver` that don't implement `LocaleContextResolver`",status: waiting-for-triage,An issue we've not yet triaged or decided on
+22,1072872493,Add support for array/Map/List wrapped with Optional when using Bean validation,baso53,8758580,"This PR addresses #21461.
+
+~~I'm not sure about the implementation. I wrote the tests that I think would be needed. Three of them are failing:~~
+
+~~org.springframework.beans.BeanWrapperGenericsTests#testGenericOptionalOfListsWithElementConversion~~
+~~org.springframework.beans.BeanWrapperGenericsTests#testGenericOptionalOfMaps~~
+~~org.springframework.beans.BeanWrapperGenericsTests#testGenericOptionalOfMapsWithElementConversion~~
+
+~~Some help here is appreciated.~~
+
+Thanks!",status: waiting-for-triage,An issue we've not yet triaged or decided on
+23,1071518148,Instanceof pattern matching + small code refactoring,Drezir,11374081,,status: waiting-for-feedback,We need additional information before we can continue
+24,1071494799,Remove unnecessary synchronization blocks on maps and refactor,Drezir,11374081,,status: waiting-for-triage,An issue we've not yet triaged or decided on
+25,1071150930,Set reason for WebSocket `CloseStatus.SESSION_NOT_RELIABLE`,zhmaeff,7104481,Providing a reason in `CloseStatus` gives a better understanding of the root cause on the WebSocket client side.,status: waiting-for-triage,An issue we've not yet triaged or decided on
+26,1066282198,Closes #24498,skoarkid,37837480,,status: waiting-for-triage,An issue we've not yet triaged or decided on
+27,1056203734,Shutdown tasks annotated with @Scheduled when waitForTasksToCompleteOnShutdown is true,savinov,711887,"Shutdown tasks annotated with @Scheduled when waitForTasksToCompleteOnShutdown is true
+
+1. ScheduledTaskRegistrar: shutdown taskScheduler of ExecutorConfigurationSupport type in destroy()
+2. ScheduledAnnotationBeanPostProcessor: do not cancel tasks in destroy(), taskRegistrar cancel them
+
+Closes gh-26482",status: waiting-for-triage,An issue we've not yet triaged or decided on
+28,1051270829,Fix creation of new JMS connection,lenoch7,6397085,"The creation of new JMS connection (after reset) is done in local method field (instead of instance field directly) to prevent situation, when connection is not correctly configured/prepared in case when JMSException from prepare() method is thrown.
+
+See gh-29115",status: waiting-for-triage,An issue we've not yet triaged or decided on
+29,1045201223,Fix Transaction already completed issue,Vladislav-Zolotaryov,8714016,"I have encountered an issue when using **Reactive Transactions** with **PostgreSQL** in **Serialized Isolation** mode, that when commit fails with **ConcurrencyFailureException**, **TransactionalOperator** actually tries to call rollback on the transaction.
+
+The issue is that in **ReactiveTransactionManager#rollback** method, it is stated in case if commit threw an exception - you should not call the rollback method.
+
+Currently when **ReactiveTransactionManager#commit** fails, the **TransactionalOperator** actually calls the **rollbackOnException** and it causes the rollback method to throw **IllegalTransactionStateException** with message about the transaction already being complete.
+
+My proposal to fix this, is to wrap and exceptions that rise from commit phase in **Flux/Mono.whenUsing** into a special **TransactionCommitException** that allows us the decide weather to rollback or no, and also propagate it upstream so that client could decide to retry on such an occasion.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+30,1037821199,Refactor CodeFlow class. Replace if else with switch expression.,r331,34960570,"On the way to Spring 6 and java 17 - refactoring the class CodeFlow. Instead of if-else, I added more readable switch expressions.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+31,1032118117,Introduce andPerformRequest() method in ResponseActions,edyda99,76707194,"Prior to this commit it wasn't possible to achieve real
+client-side Rest using a restTemplate that was bound by MockRestServiceServer
+
+This commit introduces andPerformRequest() method in
+which it supplies responseCreator with a real Rest call provided by copying the clientHttpRequest and performing a http call using the default ClientHttpRequest used by restTemplate: SimpleClientHttpRequestFactory",status: waiting-for-triage,An issue we've not yet triaged or decided on
+32,1032069020,Small polish of code of spring-aop,Drezir,11374081,,status: waiting-for-triage,An issue we've not yet triaged or decided on
+33,1025285039,URL and HTTP method in rest client exception message,jerzykrlk,4005877,"Good evening team,
+
+This is a followup of a previous PR from January 2021: https://github.com/spring-projects/spring-framework/pull/26480 .
+Previously it was closed with a conclusion that the change bypasses a protected method:
+
+> Given the change of protected methods I'd rather avoid this change at this stage of the 5.3.x branch. 
+
+Now that Spring 6 is coming, do you think there's a chance to add this change?
+
+Below is the original description of the PR:
+
+======
+
+The REST Client exception contains a preview of the body, which is great, and it helps a lot to quickly diagnose errors.
+
+Now, the stacktrace looks like this:
+```
+Caused by: org.springframework.web.client.HttpServerErrorException$InternalServerError: 500 Server Error: [no body]
+	at org.springframework.web.client.HttpServerErrorException.create(HttpServerErrorException.java:101)
+	at org.springframework.web.client.DefaultResponseErrorHandler.handleError(DefaultResponseErrorHandler.java:238)
+	at org.springframework.web.client.DefaultResponseErrorHandler.handleError(DefaultResponseErrorHandler.java:147)
+```
+
+I'd like to add the HTTP method and URL to the error, so that the stacktrace looks like this:
+```
+Caused by: org.springframework.web.client.HttpServerErrorException$InternalServerError: 500 Server Error after GET http://localhost:49709/status/server : [no body]
+	at org.springframework.web.client.HttpServerErrorException.create(HttpServerErrorException.java:101)
+	at org.springframework.web.client.DefaultResponseErrorHandler.handleError(DefaultResponseErrorHandler.java:238)
+	at org.springframework.web.client.DefaultResponseErrorHandler.handleError(DefaultResponseErrorHandler.java:147)
+```
+
+======
+
+Thank you! ",status: waiting-for-triage,An issue we've not yet triaged or decided on
+34,1013012800,Make AnnotationsUtils::findAnnotation recognize annotations on anonymous classes again,janeisklar,1239732,Closes gh-28895,status: waiting-for-triage,An issue we've not yet triaged or decided on
+35,1012155245,Fix memory leak with CglibAopProxy$ProxyCallbackFilter,vikeychen,3364975,"## Bug report
+Bug report and reason is explained very well here #26266.
+
+In the cglib side, this issue [#80](https://github.com/cglib/cglib/issues/80#issue-160623315) is the consequence of trying to solve `CallbackFilter` leak.
+As vlsi said
+> ""weakly reachable CallbackFilters"" and ""classloader reuse"" do not play together well.
+
+## Solution
+* This solution is to try to reduce the leak by make `advisors` and `advisorChainFactory` WeakReference , so that there should have no chance to leak 'big object'. Think about class created by cglib is also 'leaked', I think that should be acceptable.
+
+* Another quick solution is to make `AbstractAutoProxyCreator` implements `DisposableBean`, clear `CallbackFilter` field in generated class.
+",status: waiting-for-triage,An issue we've not yet triaged or decided on
+36,1006827042,Remove clear() call to release method of WeakEntryReference and SoftEntryReference,bcc829,17703627,"Remove `clear()` call to release method of `WeakEntryReference` and `SoftEntryReference`.
+
+The code of the same behavior as the `clear` method is included inside the `enqueue` method.
+
+java.lang.ref.Reference
+
+```java
+    /**
+     * Clears this reference object.  Invoking this method will not cause this
+     * object to be enqueued.
+     *
+     * <p> This method is invoked only by Java code; when the garbage collector
+     * clears references it does so directly, without invoking this method.
+     */
+    public void clear() {
+        this.referent = null;
+    }
+
+    /**
+     * Clears this reference object and adds it to the queue with which
+     * it is registered, if any.
+     *
+     * <p> This method is invoked only by Java code; when the garbage collector
+     * enqueues references it does so directly, without invoking this method.
+     *
+     * @return   <code>true</code> if this reference object was successfully
+     *           enqueued; <code>false</code> if it was already enqueued or if
+     *           it was not registered with a queue when it was created
+     */
+    public boolean enqueue() {
+        this.referent = null;
+        return this.queue.enqueue(this);
+    }
+```
+",status: waiting-for-triage,An issue we've not yet triaged or decided on
+37,991129972,add support for record value injection,1004789224,32547368,"add support for record value inject,just disable populateBean for reord,because recod is immutable，and no setter methods",status: waiting-for-triage,An issue we've not yet triaged or decided on
+38,984637199,Spring WebFlux - Provide LocaleContext for validation message interpolator,borisfox73,30916026,"Temporarily set LocaleContextHolder to provide validation message interpolator with locale context (SPR-17231).
+Fixes #21764.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+39,977226475,Support Connection.getMetadata() on LazyConnectionDataSourceProxy,laststem,53392481,reduce unnecessary connect request when get database metadata.,status: waiting-for-triage,An issue we've not yet triaged or decided on
+40,968234188,Add `MockMvc.multipart()` Kotlin extensions with `HttpMethod`,izeye,1059363,This PR adds `MockMvc.multipart()` Kotlin extensions with `HttpMethod` for methods added in #28545 and #28631.,status: waiting-for-triage,An issue we've not yet triaged or decided on
+41,965870109,EOFException in HttpMessageConverterExtractor while extracting data of a empty GZiped response,davidvieiratrustly,80408183,"**Problem**: When calling RestTemplate#exchange with response type != Void.class, if
+
+- The server responds with
+  - an _empty body_ and
+  - _Content-Encoding: gzip_
+
+we get a EOFException in the RestTemplate client.
+
+**Solution**: IntrospectingClientHttpResponse#hasEmptyMessageBody should not throw an exception when the response body is an empty lazy gzip stream.
+
+After reading the first byte, if it receives an EOFException, it should understand it as a signal of the end of the stream, thus returning true to the question ""Has an empty message body?"", not EOFException to the RestTemplate client.
+
+Related issue:
+https://github.com/spring-projects/spring-framework/issues/12671",status: waiting-for-triage,An issue we've not yet triaged or decided on
+42,945363590,Support Kotlin suspending functions with @Scheduled,1004789224,32547368,"This commit provides a scheduled task to support coroutines, but I'm not sure how to do a full unit test",status: waiting-for-triage,An issue we've not yet triaged or decided on
+43,943911376,Support coroutines suspending in @HttpExchange interface,wonwoo,747472,"
+Usage example:
+
+```kotlin
+interface SuspendService {
+
+	@GetExchange
+	suspend fun execute()
+
+}
+```
+
+",status: waiting-for-triage,An issue we've not yet triaged or decided on
+44,934419817,jdbc related new features and test cases,yinpeng0528,22645321,"The original issue can be refer as: https://github.com/spring-projects/spring-framework/issues/28371
+Since there is no way to keep any of the path variable values passing through As-Is without decoding at all, just create a new function to return the original path variable values.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+45,931741296,Simplify Base64Utils,j3graham,8454305,"The `java.util.Base64` Encoder and Decoder classes have methods that accept strings as well as return strings. These can be used directly instead of converting between bytes and strings in the Spring classes. 
+
+This might also create a tiny performance improvement due to the java.util use of a deprecated, but useful String constructor, as well as its use of ISO_8859_1 encoding when converting strings to bytes. Given the allowable character range, ISO_8859_1 will result in the same conversions.
+
+It appears that `Base64Utils` is only used within Spring Framework in `GsonBuilderUtils`, so a possibility would be to have that class use `java.util.Base64` directly, and deprecate`Base64Utils`. 
+
+A final observation - `Base64Utils` has explicit checks for empty strings and byte array parameters. The outputs are the same without , just potentially doing a bit more work before reaching the same answer. if these checks were intended as a safety-check as opposed to a performance optimization, these checks could also be removed.
+",status: waiting-for-triage,An issue we've not yet triaged or decided on
+46,917486196,Fix find RootBeanDefinition strategy in class FactoryAwareOrderSourceProvider,tommas1988,3488114,"Consider ancestor bean factories for finding `RootBeanDefinition` in class `FactoryAwareOrderSourceProvider`.
+
+Currently the code will only find `RootBeanDefinition` for a bean name in current bean factory, and `null` if no bean definition is found for the searching bean name. Not consider any ancestor bean factories. This is the cause of the bug of [issues 2466 spring-cloud-gateway](https://github.com/spring-cloud/spring-cloud-gateway/issues/2466)",status: waiting-for-triage,An issue we've not yet triaged or decided on
+47,914638585,Add interoperability with InputStream/OutputStream with WebClient,raphw,4489328,"I wanted to suggest better interoperability of the Spring `WebClient` and `InputStream` and `OutputStream` APIs. While I understand the asynchronous nature of the client, it is also suggested as a replacement for the synchronous`RestTemplate` and still many uses of the client will be synchronous to a blocked `Mono`. In this context, it can make sense to use the Java IO API for streams which is compatible to many existing libraries for IO. In my case, this would also offer a simple starting point for migrating from `RestTemplate` and other HTTP APIs.
+
+The idea would be to use the client as follows:
+
+```java
+WebClient webClient = WebClient.builder().build();
+String result;
+try (InputStream input = webClient.post().uri(""http://localhost:8080/hello/world"")
+    .body(BodyInserters.fromOutputStream(out -> out.write(""Hello!"".getBytes(StandardCharsets.UTF_8))))
+    .retrieve()
+    .bodyToMono(InputStream.class)
+    .block()) {
+  result = new String(input.readAllBytes());
+}
+```
+
+This is still work in progress, I am not overly familiar with the Reactor API, but the idea was that the streams would be read or written asynchronously while consuming them. This might also become a much more relevant approach once project Loom makes blocking a thread a more feasible approach where this simple approach might become preferable in some cases.
+
+Would you consider such an addition?",status: waiting-for-triage,An issue we've not yet triaged or decided on
+48,911271618,"Make `BeanThatListens`, `TestApplicationListener`, `ResourceUrlProvider` threadsafe",dugenkui03,18216266,"The listener could be invoked concurrently by multiple thread, we should make them threadsafe.
+
+https://github.com/spring-projects/spring-framework/blob/f40a391916ed6c1f9e1130638a0bf19479e514dd/spring-context/src/main/java/org/springframework/context/event/SimpleApplicationEventMulticaster.java#L40
+>By default, all listeners are invoked in the calling thread.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+49,911063639,Switch to Yaml 1.2 with snakeyaml-engine,michaldo,4304236,"This PR replace snakeyaml with snakeyaml-engine in order to support YAML 1.2
+Version 1.2 solves among others Norway problem https://hitchdev.com/strictyaml/why/implicit-typing-removed, mentioned in https://github.com/spring-projects/spring-boot/issues/17113
+
+Please note that to mitigate the Norway problem, Spring Boot team decided to use apostrophe in every documentation snippet: https://github.com/spring-projects/spring-boot/issues/28709/. That decreases documenation readability.
+
+The following page compares versions 1.1 and 1.2: https://yaml.readthedocs.io/en/latest/pyyaml.html
+
+I drop off 'supportedTypes' support. The feature was added in https://github.com/spring-projects/spring-framework/issues/25152. I asked question for purpose, but I didn't get answer.
+
+I decide to drop because:
+1. Supported types are not directly provided by snakeyaml-engine
+2. Clients - for example Spring Boot OriginTrackedYamlLoader - still may modify yaml setup and implement supported types
+3. Supported types are not documented
+4. I think that supported types is wrong idea. Parsing YAML should be simple, conversion should be implemented in application code.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+50,905647772,Avoid duplicate application listeners (proxy vs. proxy target),kriegaex,1537384,"In `AbstractApplicationEventMulticaster.retrieveApplicationListeners`, despite best efforts to avoid it, unwrapped proxies (singleton targets) can end up in the list of programmatically registered listeners. In order to avoid duplicates, we need to find and replace them by their proxy counterparts, because if both a proxy and its target end up in `allListeners`, listeners will fire twice.
+
+Fixes #28283.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+51,887603486,Fix property binding issue for spring beans when default value is null,dillonm79,84386923,"This PR introduced a bug an does not allow us to upgrade passed 5.3.0: https://github.com/spring-projects/spring-framework/issues/25986 . Before, `AbstractNestablePropertyAccessor#processLocalProperty` threw `createNotWritablePropertyException`  when our class being deserialized did not have a setter on a property. This was then swallowed by `AbstractPropertyAccessor#setPropertyValues(org.springframework.beans.PropertyValues, boolean, boolean, boolean)` and binding of the next property was attempted. This is the wanted outcome. Now if this exception is not thrown (caught by the guard clause), we don't have default values on these fields so AbstractNestablePropertyAccessor#setDefaultValue throws an assertion which is not swallowed. Setting `ignoreInvalid` to false does cause `createNotWritablePropertyException` to be thrown, but it does not swallow the exception as before. This PR keeps the exact same functionality as now, but allows not having a default value for a property to be swallowed, in the same way it is in the other cases if desired. It also is a better way to handle the error and then throwing an assertion.",status: waiting-for-feedback,We need additional information before we can continue
+52,884044315,@Async aspect fix change bean factory,cdalexndr,22418250,"When using AspectJ and multi-context (ex: testing), the bean factory needs to be changed on the singleton aspect.
+This fix clears cached method executors when changing bean factory.
+If the first context was previously closed with the executors, then an error will be thrown when trying to reuse the closed executor.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+53,879995252,Fix ReloadableResourceBundleMessageSource stale cache,ahmadshahwan,9466737,"When `ReloadableResourceBundleMessageSource.getMessage()` is called, cache is initiated with basenames values present  at the moment of invocation (in method `getMergedProperties()`).
+When new basenames are added (method `addBasenames()`) or changed (method `setBasenames()`), cache is not invalidated, although it is stale given the new basenames.
+The proposed fix addresses this problem by invalidating cache at those two points.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+54,877623640,Fix a performance problem in CachedIntrospectionResults,luozhenyu,16633830,"# Description
+This commit fixes a performance problem in CachedIntrospectionResults. If multiple threads call `CachedIntrospectionResults::forClass` at the same time, more than one CachedIntrospectionResults will be created redundantly and consume a lot of CPU time.
+
+# Reproduce
+I have a server with only one CPU. Assume that 100 requests come simultaneously and each request will call `BeanUtils::getPropertyDescriptor` directly and `CachedIntrospectionResults::forClass` indirectly. When loading the same keys by different threads, keys are not locked.
+In my test, each `CachedIntrospectionResults::forClass` call consumes more than 100ms CPU time, so 100 requests consume 10000ms CPU time in total.
+
+",status: waiting-for-triage,An issue we've not yet triaged or decided on
+55,876589745,"Initial version with TX, Context Propagation and Observation",marcingrzejszczak,3297437,@mp911de ,status: waiting-for-triage,An issue we've not yet triaged or decided on
+56,872930810,Create XML NamespaceHandler as singleton,y987425112,23693824,"In some cases, the existing mechanism for creating a `NamespaceHandler` may result in repeated creation of the handler.
+
+This PR changes the mechanism so that each `NamespaceHandler` is created as a singleton.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+57,871085134,Batch update return generated keys,ctailor2,3526141,"Add `NamedParameterJdbcTemplate#batchUpdate` methods taking `KeyHolder` and `String[] keyColumnNames` as counterparts to the `NamedParameterJdbcTemplate#update` methods of the same form.
+
+This is in service of an enhancement to [`spring-data-jdbc`](https://github.com/spring-projects/spring-data-relational/pull/1191) to perform batch inserts to persist collections of entities referenced by an aggregate, when adequately supported by the database. The proposed changes to `spring-data-jdbc` currently include a [copy of the changes](https://github.com/spring-projects/spring-data-relational/pull/1191/files#diff-2526db37d52bc8ab9d5cb280c184ac07d28c0f1bfea856ea228653584374c04b) being proposed here, and could be refactored to use the respective `NamedParameterJdbcTemplate#batchUpdate` once accepted and merged.
+
+Related to spring-projects/spring-framework#6530.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+58,860904424,Support dollar quoting and round brackes to splitSqlScript,wickedev,5603687,"- spring-r2dbc `ScriptUtils.splitSqlScript`: Change not to use ; character between $$ ... $$ or ( ... ) as statement separator
+- [Existing Issue](https://github.com/spring-projects/spring-framework/issues/28090)
+- Reopen PR with branch issue. sorry. [Existing PR](https://github.com/spring-projects/spring-framework/pull/28091)",status: waiting-for-triage,An issue we've not yet triaged or decided on
+59,858903267,Introduce DurationEditor for java.time.Duration support,dfa1,5798698,"Recently, in a project that is using spring-framework (no spring-boot), I saw a `@Configuration` class with 
+a lot of configuration about timeouts injected as plain `long` (most likely milliseconds but it is not explicitly documented, as often it happens):
+
+```
+@Value(""${connect.timeout}"")
+long connectTimeout;
+```
+
+With this small patch, it would be possible to directly inject a `Duration`:
+
+```
+@Value(""${connect.timeout}"")
+Duration connectTimeout;
+```
+
+In my opinion, this is less error prone, as usually these configuration values must be adjusted with some calculations (i.e. seconds to milliseconds).
+
+This patch allows two formats:
+- ISO 8601 format with PT prefix, e.g. `PT10s`, `PT1m30s` (as `Duration.parse`);
+- simplified format without PT prefix, e.g. `10s`, `1m`, `2h` (IMHO this format is very readable for properties files).
+
+Comments and feedback is welcome. I'm not sure about using a property editor, perhaps a `Converter` is a better choice?
+And I'm not sure if this should be mentioned somewhere in the spring-reference... please advice :-)
+
+
+
+",status: waiting-for-triage,An issue we've not yet triaged or decided on
+60,847907987,Support parse placeholder in beanName,a364176773,19943636,"I'm not sure if there is a more elegant way to deal with it. If this proposal can be adopted, I hope you can give me more advice
+I can confirm that the following problems exist
+`     <bean name=""${bean.name:product}"" class=""icu.funkye.entity.Product""></bean>`
+bean name=${bean.name:product} Instead of product or bean.name=xxxx
+
+I would like to be able to support placeholder resolution beanname
+
+fixes #27224 ",status: waiting-for-triage,An issue we've not yet triaged or decided on
+61,847903170,Support * is equivalent to /*,a364176773,19943636,"I believe most business developers think * is equivalent to /*
+
+fixes #28017 ",in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+62,847609274,Adds observation support for R2DBC,marcingrzejszczak,3297437,"# What is it about?
+
+Adds observation support for R2DBC.
+
+- adds micrometer BOM
+- adds micrometer tracing BOM
+- adds micrometer & micrometer tracing optional deps to R2DBC module
+- adds tracing support for R2DBC (metrics come out of the box)
+
+# To discuss
+
+- I have left a commented out section in the listener where in Sleuth we needed to check if the context is ready. The listener might be called early in the lifecycle of Spring and certain beans might not have been initialized (micrometer or tracing related ones)
+- I would like to add the automated asciidoctor documentation generation from sources (check [this project out](https://github.com/micrometer-metrics/micrometer-docs))
+- I've a test annotated as `@Disabled` that is typically used for manual assertion of spans in Zipkin or Wavefront. Do we want to leave it there in the code or are there some dedicated samples that we can reuse for that?
+
+cc @mp911de ",in: data,"Issues in data modules (jdbc, orm, oxm, tx)"
+63,837703156,Improve SimpleJdbcCall for Oracle database,loiclefevre,21245376,"Improves SimpleJdbcCall when targeting the Oracle database:
+
+- Improve support of Oracle PL/SQL packages for Spring JDBC: Oracle
+database stored procedures or functions can be overloaded. Hence,
+the possibility to find several matching signatures by just using
+the schema name, catalog name and procedure/function name is real.
+This PR adds columns data type checking to properly find the desired
+stored procedure or function.
+
+- Ease debugging for DBMS_ packages if SYS not specified: explicitly
+checks the catalog name being used and if starting with DBMS_% and no
+matching signature was found then report in the log it could be
+useful to use SYS as the schema name",status: waiting-for-triage,An issue we've not yet triaged or decided on
+64,834835916,Ignore identical BeanDefinition registration when allowBeanDefinitionOverriding is false,rilmay,45715209,Fixes #27978,status: waiting-for-triage,An issue we've not yet triaged or decided on
+65,827311076,"Modify status code 103 to (""Early Hints"")",waisink,97505512,"According to rfc8297(https://tools.ietf.org/html/rfc8297), the reason
+phase of status code 103 should be ""Early Hints"", not ""Checkpoint"".
+
+This commit modifies the status code 103 reason phase from (""Checkpoint"")
+to (""Early Hints"").",in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+66,826527576,Adds customization option for Executors coming from AsyncConfigurers,marcingrzejszczak,3297437,"Related to https://github.com/spring-projects/spring-boot/issues/29151
+Required by https://github.com/spring-cloud/spring-cloud-sleuth/issues/2100
+
+cc @snicoll @wilkinsona ",status: waiting-for-triage,An issue we've not yet triaged or decided on
+67,810259821,Make task executors implement ExecutorService or ScheduledExecutorService,qian0817,45898769,Make `ThreadPoolTaskExecutor` implements `ExecutorService` and make `ThreadPoolTaskScheduler` implement `ScheduledExecutorService` in order to make these classes more convenient to use.,status: waiting-for-triage,An issue we've not yet triaged or decided on
+68,789180657,DataAccessUtils result accessors with Optional return value,KaidosGH,95002361,"Closes #27728
+(https://github.com/spring-projects/spring-framework/issues/27728)
+
+Hi everyone, this is my first PR in any project here on github with the goal of improving my understanding of java. Hope i understood the enhancement request correctly.",in: data,"Issues in data modules (jdbc, orm, oxm, tx)"
+69,785371958,Add support for bytes literal in SpEL expressions,BrucessKING,39517489,"Google's common expression language supports **bytes literal**, which I think is a good function. I hope spring expression can also expand this capability
+
+`b""\\x61\\x62\\x63""` will be resolved to `abc`
+`b""abc\\x61\\x62\\x63""` will be resolved to `abcabc`
+`b""\\x61\\x62\\x63"" + b""\\x64\\x65\\x66""` will be resolved to `abcdef`
+prefix:`b'` or `b""`
+suffix: `'` or `""`
+
+Reference: https://github.com/google/cel-spec/blob/master/doc/langdef.md#string-and-bytes-values",in: core,"Issues in core modules (aop, beans, core, context, expression)"
+70,779067638,"fix :  the same method was cached twice in the ""attributeCache"", changed to once",androiderLee,13343630," **in  AbstractFallbackTransactionAttributeSource**
+```
+public TransactionAttribute getTransactionAttribute(Method method, @Nullable Class<?> targetClass) {
+	// ...
+	Object cacheKey = getCacheKey(method, targetClass);
+	TransactionAttribute cached = this.attributeCache.get(cacheKey);
+	if (cached != null) {
+		//...
+	}
+	else {
+		// We need to work it out.
+		TransactionAttribute txAttr = computeTransactionAttribute(method, targetClass);
+		//...
+	}
+}
+
+```
+**When using JDK dynamic proxy：**
+```
+@Configuration
+@EnableTransactionManagement(mode = AdviceMode.PROXY )
+public class EnableTransactionManagementBean {
+   //...
+}
+```
+**For example：**
+```
+public interface YqleeService {
+    void  testMethod();
+}
+```
+
+```
+@Service
+public class YqleeServiceImpl implements YqleeService {
+
+    @Transactional
+    @Override
+    public void testMethod() {
+        //TODO do something
+    }
+}
+```
+
+when calling before generating the JDK dynamic proxy, the parameter ""method"" belongs to the implementation class(YqleeServiceImpl )：
+
+![before](https://user-images.githubusercontent.com/13343630/142340627-2ba44b3a-3339-4ff3-ab26-7cb2f4285064.png)
+
+but, when calling after generating the JDK dynamic proxy, the parameter ""method"" belongs to the interface(YqleeService)：
+
+![after](https://user-images.githubusercontent.com/13343630/142340759-614084b2-10d0-4f0c-8c28-3e81b5081302.png)
+
+**The method ""getTransactionAttribute""  is called twice, but the ""attributeCache"" does not work very well because the ""cacheKey"" is different.because the parameter ""method"" belongs to a different class.**
+
+```
+// First, see if we have a cached value.
+Object cacheKey = getCacheKey(method, targetClass);
+```
+It might be better to change to this：
+
+`Object cacheKey = getCacheKey(AopUtils.getMostSpecificMethod(method,targetClass), targetClass);`
+
+**as same as AbstractFallbackCacheOperationSource**",status: waiting-for-triage,An issue we've not yet triaged or decided on
+71,778551886,fix: the basePackage do not have META-INF/spring.component then switc…,qxo,1813709,"
+If the basePackage not defined in META-INF/spring.component,
+then using old `scanCandidateComponents(basePackage)`;
+
+Otherwise the basePackage not in META-INF/spring.component will not load
+if the env classpath has any META-INF/spring.component file.
+
+
+the issue poc code: https://github.com/qxo/spring-components-index-bug-poc",status: waiting-for-triage,An issue we've not yet triaged or decided on
+72,778146335,use Arrays.deepToString for toString in SimpleKey,asgh,924473,"Arrays.deep* is being used in all the other functions, use it in toString as well - this avoids debugging output that just looks like [Ljava.lang.Object;@123456",status: waiting-for-triage,An issue we've not yet triaged or decided on
+73,773869344,fix ColumnMapRowMapper.java #apply Method Result KeyValue Not corresponding,016K,55786929,"add getColumnValue(Row row, String columnName)  Method
+change apply(Row row, RowMetadata rowMetadata) code # 60 # 63 # 64 
+
+Reason for submission:
+# code 57 (Collection<String> columns = rowMetadata.getColumnNames();)
+# method apply(Row row, RowMetadata rowMetadata) 
+
+The order of the key is not the same as the order of the value, causing the result to be an error.
+I sent you an email if you can see it. From admin@maxmc.cn",status: waiting-for-triage,An issue we've not yet triaged or decided on
+74,764989109,Update AbstractAdvisingBeanPostProcessor.java,baker-yuan,40530122,resolve @async circular dependencies problem,status: waiting-for-triage,An issue we've not yet triaged or decided on
+75,760317839,Avoid rollback after a commit failure in `TransactionalOperator`,EnricSala,6584351,"A failure to commit a reactive transaction will complete the transaction and clean up resources. Executing a rollback at that point is invalid, which causes an `IllegalTransactionStateException` that masks the cause of the commit failure.
+
+This change restructures `TransactionalOperatorImpl` and `ReactiveTransactionSupport` to avoid executing a rollback after a failed commit. While there, the `Mono` transaction handling in `TransactionalOperator` is simplified by moving it to a default method on the interface.
+
+See gh-27523",in: data,"Issues in data modules (jdbc, orm, oxm, tx)"
+76,748169378,"add ParameterNamesModule to ""well known"" jackson modules",Sam-Kruglov,23556336,"Also, I'm surprised to see that `org.springframework.http.converter.json.Jackson2ObjectMapperBuilder#findModulesViaServiceLoader` is not `true` by default. Why not always just let it scan the classpath, seems like `findWellKnownModules` does the same but manually.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+77,734895129,JpaTransactionManager datasource is not thread safe,bwilsonPaychex,6786862,"If JpaTransactionManager is used in a multitenant setup then the dataSource is not thread safe. This is in contrast to the TransactionSynchronizationMangager which uses ThreadLocals to manage its fields. 
+",status: waiting-for-triage,An issue we've not yet triaged or decided on
+78,728272568,Add method AbstractMessageSource.setSearchingParentFirst(boolean),quaff,143040,Fix gh-27366,status: waiting-for-triage,An issue we've not yet triaged or decided on
+79,724183128,Merge AopTestUtils into AopUtils,quaff,143040,Fix gh-27348,status: waiting-for-triage,An issue we've not yet triaged or decided on
+80,722390118,Optimize for single TransactionSynchronization,marschall,471021,"Optimize TransactionSynchronizationManager.getSynchronizations() to
+avoid sorting and ArrayList creation in case of a single
+TransactionSynchronization.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+81,721695741,chore: add map params variants to update method,hantsy,854520,,status: waiting-for-triage,An issue we've not yet triaged or decided on
+82,717140615,Propagate `CoroutineContext` in reactive transaction,ks-yim,35995647,"#### Motivation:
+* Fixes #27307 
+
+#### Modifications:
+* Propagate caller's `CoroutineContext` when converting coroutines into `Mono`.
+  - In `CoroutinesUtils#invokeSuspendingFunction`
+  - In `TransactionalOperatorExtensions`
+    + `Flow<T>.transactional(...)`
+    + `TransactionalOperator.executeAndAwait(...)`
+* Change `TransactionalOperator.executeAndAwait(...)`'s type parameter upper bound from `Any` to `Any?`
+  - For better usability.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+83,713192929,Add class-level execution phases for @Sql,aahlenst,198908,"This PR is a proposal to address #18929.
+
+So far, scripts or inline statements declared with `@Sql` run before or after every test method. It is not possible to declare a script or inline statement to be run once before any test method has been run or after all test methods have been run.
+
+This PR makes it possible by adding two additional execution phases, `BEFORE_TEST_CLASS` and `AFTER_TEST_CLASS`. Scripts or inline statements with `BEFORE_TEST_CLASS` will be run once before any test method has been started. Anything marked with `AFTER_TEST_CLASS` will be run after all test methods have been completed.
+
+#1835 added `MergeMode`. `MergeMode` allows method-level `@Sql` annotations to override or extend class-level `@Sql` annotations. In my proposal, `MergeMode` has no effect on `@Sql` annotations with an execution phase of `BEFORE_TEST_CLASS` or `AFTER_TEST_CLASS`. The reason is that any method-level processing would come too late to influence a script or inline statement that runs when the test context is being set up. Furthermore, it would pose the question how to resolve conflicting annotations. If one test method wished to override a class-level `BEFORE_TEST_CLASS` annotation while others would not, honoring that wish would effectively turn `BEFORE_TEST_CLASS` into `BEFORE_TEST_METHOD`. `AFTER_TEST_CLASS` has roughly the same problem, just backwards.
+",status: waiting-for-triage,An issue we've not yet triaged or decided on
+84,712784174,Implement a MockReactiveRestServiceServer for WebClient testing,ascopes,73482956,"I noticed that Spring does not currently provide the same tools for
+testing WebClient-based reactive remote calls that the non-reactive
+RestTemplate API has, which from experience recently has lead to
+a little bit of frustration due to having to use more 
+heavyweight/complicated non-Spring APIs to mock WebClient calls.
+
+Since this felt relatively simple to implement, I went ahead and
+attempted to draft a reactive counterpart to the existing non-reactive
+MockRestServiceServer API.
+
+This implementation is a shim that internally converts all requests
+and responses to the non-reactive counterparts. This enables the
+reactive API to use all the existing non-reactive request and
+response verification components without having to duplicate the
+entire API.
+
+WebClientUtils in WebFlux has had to be updated to exclude Error
+types from the filter, otherwise AssertionErrors always end up
+being filtered out by the ExchangeFunctions conduit. I don't believe
+this should be an issue though, as the JavaDoc for Error types
+states that ""no reasonable application should try to catch these
+types"", which means that the ExchangeFunctions probably shouldn't
+have been allowing this through in the first place. Applied de-Morgans
+law to reduce the complexity of the expression a little.
+
+The API itself attempts to be as similar to MockRestServiceServer as
+possible. For example:
+
+```kotlin
+val server = MockReactiveRestServiceServer.createServer()
+val client = server.createWebClient()
+val responseHeaders = HttpHeaders()
+
+responseHeaders.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+
+server
+    .expect(requestTo(""/actuator/health""))
+    .andExpect(method(HttpMethod.GET))
+    .andExpect(header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE))
+    .andRespond(withSuccess()
+        .headers(responseHeaders)
+        .body(""""""{""status"": ""UP""}""""""))
+
+StepVerifier
+    .create(client.get().uri(""/actuator/health"").retrieve().bodyToMono(String.class))
+    .assertNext { assertThat(it).isEqualTo(""""""{""status"": ""UP""}"""""") }
+    .verify()
+```
+
+Hope that contributions such as this are not considered out of place,
+or anything. If this is in the wrong place, please let me know!
+
+Likewise if there are any other suggestions or feedback, I'd be happy
+to take those into account!",status: waiting-for-triage,An issue we've not yet triaged or decided on
+85,712536667,Using lazy ConfigurableEnvironment to reduce unnecessary object creation,qxo,1813709,"
+StandardEnvironment will create systemProperties/systemEnvironment PropertySource.
+
+AnnotationConfigApplicationContext default create the StandardEnvironment, but actually didn't use it(replaced by setEnvironment)
+
+Maybe we should change and SpringApplication.createApplicationContext and AnnotationConfigApplicationContext (pass existed Environment) ?
+
+ref：
+
+```
+AnnotationConfigApplicationContext(AbstractApplicationContext).getEnvironment() line: 319
+AnnotationConfigApplicationContext(AbstractApplicationContext).getEnvironment() line: 1
+AnnotatedBeanDefinitionReader.getOrCreateEnvironment(BeanDefinitionRegistry) line: 296
+AnnotatedBeanDefinitionReader.<init>(BeanDefinitionRegistry) line: 71
+AnnotationConfigApplicationContext.<init>() line: 66
+NativeConstructorAccessorImpl.newInstance0(Constructor<?>, Object[]) line: not available [native method]
+NativeConstructorAccessorImpl.newInstance(Object[]) line: 62
+DelegatingConstructorAccessorImpl.newInstance(Object[]) line: 45
+Constructor<T>.newInstance(Object...) line: 423
+BeanUtils.instantiateClass(Constructor<T>, Object...) line: 204
+BeanUtils.instantiateClass(Class<T>) line: 139
+SpringApplication.createApplicationContext() line: 585
+SpringApplication.run(String...) line: 310
+```
+
+```
+AnnotationConfigApplicationContext(AbstractApplicationContext).setEnvironment(ConfigurableEnvironment) line: 307
+AnnotationConfigApplicationContext.setEnvironment(ConfigurableEnvironment) line: 111
+SpringApplication.prepareContext(ConfigurableApplicationContext, ConfigurableEnvironment, SpringApplicationRunListeners, ApplicationArguments, Banner) line: 365
+SpringApplication.run(String...) line: 311
+SpringApplication.run(Class<?>[], String[]) line: 1247
+SpringApplication.run(Class<?>, String...) line: 1236
+
+```",status: waiting-for-triage,An issue we've not yet triaged or decided on
+86,701100698,Improve performance of CompositePropertySource#getPropertyNames,Shawyeok,5058708,"Create LinkedHashSet with a initialCapacity, prevent underhood table resize cost in continuous add operations.
+Reduce bootstrap time in the situation with large properties.
+
+Micro-Benchmark `CompositePropertySourceBenchmark` result (unit: ns/op):
+
+numberOfPropertySource: 5
+numberOfPropertyNamesPerSource: 1000
+  | Baseline | New
+-- | -- | --
+  | 369339 | 265699
+  | 372184 | 266577
+  | 375854 | 267332
+  | 375830 | 266348
+  | 376366 | 265801
+Avg | 373915 | 266352
+Cost | 1 | 0.71
+
+
+numberOfPropertySource: 10
+numberOfPropertyNamesPerSource: 1000
+  | Baseline | New
+-- | -- | --
+  | 794450 | 556300
+  | 793987 | 611713
+  | 799981 | 577572
+  | 803261 | 554797
+  | 807606 | 565953
+Avg | 799857 | 573267
+Cost | 1 | 0.72
+
+",status: waiting-for-triage,An issue we've not yet triaged or decided on
+87,700139549,Add support for batch operations (R2DBC),MarkMarkyMarkus,26203645,"Add support for batch operations to the [DefaultDatabaseClient](https://github.com/spring-projects/spring-framework/blob/main/spring-r2dbc/src/main/java/org/springframework/r2dbc/core/DefaultDatabaseClient.java):
+
+```java
+databaseClient.sql(""INSERT INTO legoset (id, name, manual) VALUES(:id, :name, :manual)"")
+				.bind(""id"", 42055)
+				.bind(""name"", ""SCHAUFELRADBAGGER"")
+				.bindNull(""manual"", Integer.class)
+				.add()
+				.bind(""id"", 2021)
+				.bind(""name"", ""TOM"")
+				.bindNull(""manual"", Integer.class)
+				.fetch().rowsUpdated()
+```
+Closes [#259](https://github.com/spring-projects/spring-data-r2dbc/issues/259)
+
+Demo app: [springR2dbcBatchExample.tar.gz](https://github.com/spring-projects/spring-framework/files/6906384/springR2dbcBatchExample.tar.gz)
+",status: waiting-for-triage,An issue we've not yet triaged or decided on
+88,692421009,Expand relative URI for RestTemplate if possible,quaff,143040,"```java
+RestTemplate template = new RestTemplate();
+template.setUriTemplateHandler(new DefaultUriBuilderFactory(""http://localhost:8080""));
+template.getForObject(""/users/{id}"", String.class, 1);
+template.getForObject(""/users/1"", String.class);
+// following will works as above after this commit
+template.getForObject(URI.create(""/users/1""), String.class);
+
+template.exchange(RequestEntity.method(HttpMethod.GET, ""/users/{id}"", 1).build(), String.class);
+template.exchange(RequestEntity.method(HttpMethod.GET, ""/users/1"").build(), String.class);
+// following will works as above after this commit
+template.exchange(RequestEntity.method(HttpMethod.GET, URI.create(""/users/1"")).build(), String.class);
+```
+It will make Spring Boot `TestRestTemplate` much more cleaner, save it from ubiquitous `applyRootUriIfNecessary`
+https://github.com/spring-projects/spring-boot/blob/05a64ecb2ca237d963866665d3a0e7fd1920fee6/spring-boot-project/spring-boot-test/src/main/java/org/springframework/boot/test/web/client/TestRestTemplate.java#L942-L948",status: waiting-for-triage,An issue we've not yet triaged or decided on
+89,687341261,Avoid calling executeBatch() with 0 batch size,Li0n13,12965346,"Now usign  `org.springframework.jdbc.core.JdbcTemplate#batchUpdate(java.lang.String, org.springframework.jdbc.core.BatchPreparedStatementSetter)` with empty data array may produce exception with some DBs. E. g. with HSQLDB it produce `java.sql.SQLException: statement is not in batch mode`. Suggest avoid it by batchSize checking.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+90,681675803,Allow null for attributeValue in Model.set() Kotlin extension method,gnagy,688375,This parameter is `@Nullable` in the underlying addAttribute method,status: waiting-for-triage,An issue we've not yet triaged or decided on
+91,674009777,Clear Statement warnings in ScriptUtils.executeSqlScript(),lfz757077613,16242100,"executeSqlScript use only one Statement to execute sql, so the getWarnings of Statement will contains pre warning
+
+Ps: Maybe creating new Statement for every sql is better",status: waiting-for-triage,An issue we've not yet triaged or decided on
+92,671704353,Add maxAttempts to ExponentialBackOff,garyrussell,483832,"If you wish to stop after a certain number of attempts with an
+`ExponentialBackOff` you have to calculate the `maxElapsedTime`
+corresponding to the number of attempts.
+
+See https://github.com/spring-projects/spring-kafka/blob/0ee2d49ea525de038d315bc243b62f1004a26dc6/spring-kafka/src/main/java/org/springframework/kafka/support/ExponentialBackOffWithMaxRetries.java#L74-L84
+
+Add a new property to make it more convenient to stop after a
+certain number of attempts.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+93,667082693,Support $$ quotes in JDBC ScriptUtils,tyc31316,68846038,"This is an attempt to support $$ quote as mentioned in this issue: https://github.com/spring-projects/spring-framework/issues/27018
+I tried to add the $$ logic into the method of static void splitSqlScript in spring-jdbc/src/main/java/org/springframework/jdbc/datasource/init/ScriptUtils.java",status: waiting-for-triage,An issue we've not yet triaged or decided on
+94,639483105,Optimize some scenes which need not proxy,caoxuhao,12960189,"If using @target in the pointcut expression, spring will create proxy for the classed which are in maybe case and will check the aop when user call the functions of proxy class.
+If there's a final class in these proxy functions. the project will start failed. 
+So I return the target object, for these final class without proxy.
+",status: waiting-for-triage,An issue we've not yet triaged or decided on
+95,635734704,Resolve Values from Mapping Path for Mvc Uri Builder,lower-case,8265616,Fixes #26795 ,status: waiting-for-feedback,We need additional information before we can continue
+96,635161619,Provide option to switch threads for WebFlux controller methods,fugui,975471,"…e running in Elastic thread pool.
+
+In WebFlux, we should support asynchronous and synchronous both.  if the controller method's return type is Mono/Flux/Future/CompleteableFuture, we should runnint this controller in synchronous(IO) thread, but if they just not want running in Asychronous Mode, they may invoke database or something else (IO operation), they just not return Mono/Flux type, and we throw them into elastic thread pool.
+
+It's very helpful to many projects, to gain asynchronous and synchronous advances. ",in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+97,613069739,Fix lazy inject for prototype,lsq27,22345692,"Everytime a method of a lazy injected prototype bean is invoked, Spring will instantiate the bean once again.
+No need to invoke `doResolveDependency()` repeatedly since target is already created.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+98,609120544,Handle removal of query param when a single (null) value is sent to `replaceQueryParam`,gdagitrep,4613234,"The earlier definition of `replaceQueryParam(String name, Object... values)` didn't  remove the query param if the passed value is null. So, `replaceQueryParam(""param1"" , null)` would still lead to presence of queryparam `param1` in the URI. 
+
+So if value is null, one would need to write this piece of code:
+`
+if(value== null) {
+replaceQueryParam(""param1"");
+} else {
+replaceQueryParam(""param1"", value);
+}
+`
+
+Hence added a new definition of the function which takes in a single argument `Object value`.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+99,608982416,Added synchronization control on shared resources,gvma,40870111,"Problem:
+The use of shared resources, like the system properties, may result in flaky test outcomes in the case of more than one execution thread or parallel execution.
+
+Solution:
+The synchronization control allows the test planner to organize executions, assuring that a test that writes to a shared resource will be executed isolated.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+100,608826976,Make the property resolver configurable,1zg12,52658745,"## Background
+
+Prior to Spring 5.2, when we need to customize the PropertiesLoader, we can subclass `PropertyPlaceholderConfigurer`, and override the `resolvePlaceholder` method.
+
+Now with `PropertySourcesPlaceholderConfigurer` deprecated `PropertyPlaceholderConfigurer`, the `resolvePlaceholder` method has been moved out of the `PlaceHolderConfigurer` and into a separate `PropertyResolver`.
+
+Somehow the `PropertyResolver` is hardcoded [*]: https://github.com/spring-projects/spring-framework/blob/01bea34569cd3dd00e8691a08ab1a2fc53d6c13e/spring-context/src/main/java/org/springframework/context/support/PropertySourcesPlaceholderConfigurer.java#L157
+
+Due to the hardcode, the only way left for developers to override the `resolvePlaceholder` now becomes to duplicate the whole `postProcessBeanFactory` method and then provide custom `PropertyResolver`.
+
+## Changes
+
+Instead of hardcoding a `PropertyResolver` as existing and make it very difficult to customize, this PR will point to a factory method to provide the `PropertyResolver` as needed.
+
+I believe there is no side effect on this. It only adds the flexibility for customization which has been lost.
+
+#### Note [*]
+
+Even though `PropertyPlaceholderConfigurer` was also using a hardcoded class, https://github.com/spring-projects/spring-framework/blob/01bea34569cd3dd00e8691a08ab1a2fc53d6c13e/spring-beans/src/main/java/org/springframework/beans/factory/config/PropertyPlaceholderConfigurer.java#L210
+
+It's a private inner class, which even doesn't allow override. However, after several redirects, it eventually points to the `resolvePlaceholder` of the current class implementation
+https://github.com/spring-projects/spring-framework/blob/01bea34569cd3dd00e8691a08ab1a2fc53d6c13e/spring-beans/src/main/java/org/springframework/beans/factory/config/PropertyPlaceholderConfigurer.java#L250
+",status: waiting-for-triage,An issue we've not yet triaged or decided on
+101,607768364,Ensure that the ExposeInvocationInterceptor is first in the interceptor chain,wisty,16452404,"check the ExposeInvocationInterceptor is front in the interceptor chain
+issue #26743",status: waiting-for-feedback,We need additional information before we can continue
+102,601493697,Avoid other threads to get early objects directly,coderlaoliu,15169123,,status: waiting-for-triage,An issue we've not yet triaged or decided on
+103,600491433,Add reverse methed in MethodMatchers and ClassFilters,Jinhui-Z,34084399,"Add reverse methed in MethodMatchers and ClassFilters.
+
+Add support for MethodMatchers and ClassFilters to reverse the given MethodMatcher and ClassFilter.
+It is convenient in some complex conditions,Or is there another way to do it?Thanks.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+104,586081207,Fix test context bootstrapper inheritance override,antoinemeyer,7733114,"`BootstrapWith` as a meta override should be considered on the test class and all ancestors, not just the direct test class.
+
+----
+
+It is common to use a base test class such as:
+```
+@SpringBootTest
+public abstract class BaseTest {
+}
+```
+Annotating this `BaseTest` with `@BootstrapWith(XXX)` should not make tests extending this class fail with a `java.lang.IllegalStateException: Configuration error: found multiple declarations of @BootstrapWith` but instead properly use the `@BootstrapWith` as an override of the bootstrap provided as meta by `@SpringBootTest`.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+105,581526504,Message and stream level data  and accept  mime,rudy2steiner,11767784,"At present there can be only one data MIME for the every request/stream on the connection, 
+Supporting content-type and accept header like http in this pr.
+Implementation of  issue #26379
+
+
+Class MimeTypeMetadataCodec will be delete once  rsocket-java v1.1.1 release
+",status: waiting-for-triage,An issue we've not yet triaged or decided on
+106,580695524,Throw Exception when two primary beans are present in one factory,nullzl,46745671,"Prior to this commit, the implementation of `DefaultListableBeanFactory.determinePrimaryCandidate()` did not throws `NoUniqueBeanDefinitionException` in the flowing two situations:
+* more than one primary bean in one ancestor factory.(test unit in `DefaultListableBeanFactoryTests.autowireBeanByTypeWithTwoPrimaryCandidatesInOneAncestor()`)
+* more than one local primary bean which implements `FactoryBean`.(test unit in `DefaultListableBeanFactoryTests.autowireBeanByTypeWithTwoPrimaryFactoryBeans()`)
+
+This commit fix these issues by prefer primary bean in the youngest factory, and if the youngest factory has more than one primary bean thorws `NoUniqueBeanDefinitionException`.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+107,564390601,add indexAccessor for SpEL.,jackmiking,7358173,closes gh-26409.,status: waiting-for-triage,An issue we've not yet triaged or decided on
+108,556172782,Add support for java.util.Optional to GenericHttpMessageConverter #24498,encircled,1517220,"Fixes #24498
+
+Added unboxing of  `java.util.Optional`  to `AbstractHttpMessageConverter` and `AbstractGenericHttpMessageConverter`. If the object is not unboxed, the underlying message converter receives an instance of `java.util.Optional`, which was causing an issue described in the #24498 in case of Jackson converter. It will also allow to use `Optional<*>` in other message converters without explicitly registering a type converter. ",status: waiting-for-triage,An issue we've not yet triaged or decided on
+109,553476462,Avoid getting objects that have not completed initialization,lijinxiong,15667390,"in org.springframework.beans.factory.support.DefaultSingletonBeanRegistry
+
+```java
+@Nullable
+protected Object getSingleton(String beanName, boolean allowEarlyReference) {
+// Quick check for existing instance without full singleton lock
+Object singletonObject = this.singletonObjects.get(beanName);
+if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
+	singletonObject = this.earlySingletonObjects.get(beanName);
+	if (singletonObject == null && allowEarlyReference) {
+		synchronized (this.singletonObjects) {
+			// Consistent creation of early reference within full singleton lock
+			singletonObject = this.singletonObjects.get(beanName);
+			if (singletonObject == null) {
+				singletonObject = this.earlySingletonObjects.get(beanName);
+				if (singletonObject == null) {
+					ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
+					if (singletonFactory != null) {
+						singletonObject = singletonFactory.getObject();
+						this.earlySingletonObjects.put(beanName, singletonObject);
+						this.singletonFactories.remove(beanName);
+					}
+				}
+			}
+		}
+	}
+}
+return singletonObject;
+}
+```
+
+Unit test
+
+
+```java
+public class Father {
+
+	private Son son;
+
+	public Son getSon() {
+		return son;
+	}
+
+	public void setSon(Son son) {
+		this.son = son;
+	}
+}
+```
+
+```java
+public class Son {
+
+	private Father father;
+
+	private Mother mother;
+
+	public Father getFather() {
+		return father;
+	}
+
+	public void setFather(Father father) {
+		this.father = father;
+	}
+
+	public Mother getMother() {
+		return mother;
+	}
+
+	public void setMother(Mother mother) {
+		this.mother = mother;
+	}
+}
+```
+
+```java
+public class Mother {
+
+	public Mother() {
+
+		// Simulation takes a long time、just for testing
+		try {
+			Thread.sleep(4 * 1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+	}
+}
+
+```
+
+
+
+```java
+	@Test
+	public void testGetLazySingleton() throws InterruptedException {
+		testGetSingleton(""father"");
+	}
+
+	@Test
+	public void testGetNonLazySingleton() throws InterruptedException {
+		testGetSingleton(""father-non-lazy"");
+	}
+
+	private void testGetSingleton(String fatherBeanName) throws InterruptedException {
+
+		CountDownLatch countDownLatch = new CountDownLatch(2);
+		AtomicInteger occurExceptionCount = new AtomicInteger(0);
+		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
+		reader.loadBeanDefinitions(new ClassPathResource(""DefaultSingletonBeanRegistryTests.xml"", getClass()));
+
+		// Just for testing, you should use a thread pool
+		new Thread(() -> {
+			Father father = beanFactory.getBean(fatherBeanName, Father.class);
+			try {
+				Assert.notNull(father, ""father Shouldn't be null"");
+				Assert.notNull(father.getSon(), ""son Shouldn't be null"");
+			} catch (Exception e) {
+				occurExceptionCount.incrementAndGet();
+				System.out.println(Thread.currentThread().getName());
+				e.printStackTrace();
+			}
+			countDownLatch.countDown();
+		}, ""first-thread"").start();
+
+		Thread.sleep(1000);
+
+		// Just for testing, you should use a thread pool
+		new Thread(() -> {
+			Father father = beanFactory.getBean(fatherBeanName, Father.class);
+			try {
+				Assert.notNull(father, ""father Shouldn't be null"");
+				Assert.notNull(father.getSon(), ""son Shouldn't be null"");
+			} catch (Exception e) {
+				occurExceptionCount.incrementAndGet();
+				System.out.println(Thread.currentThread().getName());
+				e.printStackTrace();
+			}
+			countDownLatch.countDown();
+		}, ""second-thread"").start();
+
+		while (countDownLatch.getCount() != 0) {
+
+		}
+		Assert.isTrue(occurExceptionCount.get() == 0, ""Throwing an exception in the sub-thread that gets the bean"");
+	}
+```
+
+
+
+```xml
+<?xml version=""1.0"" encoding=""UTF-8""?>
+<beans xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance""
+	   xmlns=""http://www.springframework.org/schema/beans""
+	   xsi:schemaLocation=""http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-4.1.xsd"">
+	<bean id=""mother"" class=""org.springframework.beans.testfixture.beans.Mother"" lazy-init=""true"">
+	</bean>
+	<bean id=""father"" class=""org.springframework.beans.testfixture.beans.Father"" lazy-init=""true"">
+		<property name=""son"" ref=""son""/>
+	</bean>
+	<bean id=""son"" class=""org.springframework.beans.testfixture.beans.Son"" lazy-init=""true"">
+		<property name=""father"" ref=""father""/>
+		<property name=""mother"" ref=""mother""/>
+	</bean>
+  
+	<bean id=""mother-non-lazy"" class=""org.springframework.beans.testfixture.beans.Mother"" lazy-init=""false"">
+	</bean>
+	<bean id=""father-non-lazy"" class=""org.springframework.beans.testfixture.beans.Father"" lazy-init=""false"">
+		<property name=""son"" ref=""son-non-lazy""/>
+	</bean>
+	<bean id=""son-non-lazy"" class=""org.springframework.beans.testfixture.beans.Son"" lazy-init=""false"">
+		<property name=""father"" ref=""father-non-lazy""/>
+		<property name=""mother"" ref=""mother-non-lazy""/>
+	</bean>
+</beans>
+```
+
+
+
+console log
+
+```log
+second-thread
+java.lang.IllegalArgumentException: son Shouldn't be null
+...........
+...........
+```
+
+The code after my changes
+
+```java
+@Nullable
+protected Object getSingleton(String beanName, boolean allowEarlyReference) {
+  // Quick check for existing instance without full singleton lock
+  Object singletonObject = this.singletonObjects.get(beanName);
+  if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
+	  synchronized (this.singletonObjects) {
+		  singletonObject = this.singletonObjects.get(beanName);
+		  if (singletonObject != null || !isSingletonCurrentlyInCreation(beanName)) {
+			  return singletonObject;
+		  }
+		  singletonObject = this.earlySingletonObjects.get(beanName);
+		  if (singletonObject == null && allowEarlyReference) {
+			  ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
+			  if (singletonFactory != null) {
+				  singletonObject = singletonFactory.getObject();
+				  this.earlySingletonObjects.put(beanName, singletonObject);
+				  this.singletonFactories.remove(beanName);
+			  }
+		  }
+	  }
+  }
+  return singletonObject;
+}
+```
+
+",status: waiting-for-triage,An issue we've not yet triaged or decided on
+110,540275073,Stop the started LifeCycle when start any LifeCycle failed,wangkaish,15884565,,status: waiting-for-triage,An issue we've not yet triaged or decided on
+111,515184036,Use computeIfAbsent to simplify some code,hzmpay,29431714,"Use computeIfAbsent to simplify some code, in addition, the content of some Javadoc has been adjusted.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+112,513817861,Optimize AbstractBeanFactory.afterPrototypeCreation(),hzmpay,29431714,"When curVal is of type Set, The instanceof judgment only needs to be performed once, And when the length of the Set is 1, Call method prototypesCurrentlyInCreation.remove() directly.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+113,505766482,Spring-Aspects: @Configurable declare parents have non reproducible builds,ls-urs-keller,29224062,"In an attempt to make our builds reproducible, I noticed that this declare parents seem to apply in different orders, resulting in different bytecode.
+There are 3 declare parents (including the parent class) involved around @Configurable and seem to be applied in different orders.
+It seems to me since Interfaces can have static state with initialisers aspectJ cannot reorder them. Therefore the declare parents must be written in a way that the order is defined.
+The exact root cause is not quite clear to me, if someone could enlighten me, thank you.
+
+Sample project here:
+https://github.com/ls-urs-keller/spring-aspects-reproducible-build
+Run `./test.sh` add the root of the project, it will repeat building the project until the resulting bytecode differs.
+
+You should see something like:
+
+```
+run 11
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ----------------------< org.example:aspectj-test >----------------------
+[INFO] Building aspectj-test 1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO]
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ aspectj-test ---
+[INFO] Deleting /project/target
+[INFO]
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ aspectj-test ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /project/src/main/resources
+[INFO]
+[INFO] --- aspectj-maven-plugin:1.12.1:compile (ajc-compile) @ aspectj-test ---
+[INFO] Showing AJC message detail for messages of types: [error, warning, fail]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  10.303 s
+[INFO] Finished at: 2020-10-19T07:36:43Z
+[INFO] ------------------------------------------------------------------------
+Binary files target/classes/com/example/Operation.class and classes/com/example/Operation.class differ
+diff -r target/classes/com/example/Operation.javap classes/com/example/Operation.javap
+2c2
+< public abstract class com.example.Operation implements java.io.Serializable,org.springframework.beans.factory.aspectj.AbstractInterfaceDrivenDependencyInjectionAspect$ConfigurableDeserializationSupport,org.springframework.beans.factory.aspectj.ConfigurableObject {
+---
+> public abstract class com.example.Operation implements java.io.Serializable,org.springframework.beans.factory.aspectj.ConfigurableObject,org.springframework.beans.factory.aspectj.AbstractInterfaceDrivenDependencyInjectionAspect$ConfigurableDeserializationSupport {
+
+```",status: waiting-for-triage,An issue we've not yet triaged or decided on
+114,504729535,SPR-17614 Fix SpEL inline collections with negative keys or values are not cached,SammyVimes,4058545,This is a fix for https://github.com/spring-projects/spring-framework/issues/22146,status: waiting-for-triage,An issue we've not yet triaged or decided on
+115,499373867,Add limit for init SQL by InitSqlFilter,qxo,1813709,"so we can skip some sql statements by regex pattern,
+such as: we do not want run delete/update/drop statements on production environment.
+just call ResourceDatabasePopulator.ignoreDeleteUpdateDrop to lock sqlIgnorePattern=^\\s*(delete|drop|update).+
+
+sorry for my poor english...and someone please help me fix  the english javadocs!",status: waiting-for-triage,An issue we've not yet triaged or decided on
+116,496386079,UserCredentialsConnectionFactoryAdapter createContext changes.,dotbg,367403,"UserCredentialsConnectionFactoryAdapter holds the username/password and uses them for the createConnection mehod. 
+This PR makes use of the same technic for  the `createContext` methods",status: waiting-for-triage,An issue we've not yet triaged or decided on
+117,492663614,Support custom TimeUnits in StopWatch,ak98neon,16827462,"Add `TimeUnit` support in `StopWatch` util class.
+
+- Provide `StopWatch#getLastTime` and `StopWatch#getTotalTime`
+- Modify the print format for tasks  / include default `TimeUnit` in nanoseconds
+
+See #25803",in: core,"Issues in core modules (aop, beans, core, context, expression)"
+118,471721127,fix issue 25623,justmehyp,20594467,see https://github.com/spring-projects/spring-framework/issues/25623,status: waiting-for-triage,An issue we've not yet triaged or decided on
+119,469073450,Expose readOnly information on transaction,eitan613,25355457,,status: waiting-for-triage,An issue we've not yet triaged or decided on
+120,468355507,Optimize ObjectUtils.nullSafeHashCode() implementations,wind57,932639,,status: waiting-for-triage,An issue we've not yet triaged or decided on
+121,468250135,Optimize ObjectUtils.nullSafeToString() implementations,wind57,932639,,status: waiting-for-triage,An issue we've not yet triaged or decided on
+122,461970046,Optimize AggregatesSpliterator to avoid repetitive work,yilianhuaixiao,19902772,"change 
+
+```java
+if (mergedAnnotation == null) {
+    return tryAdvance(aggregate, action);
+}
+```
+
+to
+
+```java
+if (mergedAnnotation == null) {
+    return tryAdvance(aggregate, action, lowestDistance, annotationResult);
+}
+```
+
+to avoid repetitive visiting to the former code.
+
+Testcase passed.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+123,460672653,Modify DefaultMessageListenerContainer javadoc,michaldo,4304236,"Issue #15210 reports a problem with `maxMessagePerTask` and `CachingConnectionFactory`. The result of the issue is javadoc section which discourages `CachingConnectionFactory` with dynamic scaling.
+But dynamic scaling described in the javadoc is achieved by method `setMaxConcurrentConsumers`, not `setMaxMessagePerTask`. 
+
+I can't find issue 15210 details, but `CachingConnectionFactory` is typical setup in Spring world. For example, the guide https://github.com/spring-guides/gs-messaging-jms creates a context with `DefaultMessageListenerContainer` + `CachingConnectionFactory`.
+
+For that reason I assume that `DefaultMessageListenerContainer` + `CachingConnectionFactory` + dynamic scaling with `setMaxConcurrentConsumers` is correct. I deleted misleading Javadoc section and added relevant discouraging section to Javadoc of method `setMaxMessagePerTask`.
+
+If I am wrong please reject my PR.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+124,457273271,BooleanComparator cleanup,wind57,932639,,status: waiting-for-triage,An issue we've not yet triaged or decided on
+125,453836496,Add convert method to ConversionService,dPechman42,63016785,This is a fix for issue #25394 ,status: waiting-for-triage,An issue we've not yet triaged or decided on
+126,439965011,#23369,MrCoffee77,10925627,"Hello, I build a fix for my Problem with SpEL and Proxy-Objects, described in #23369. Now I want to contribute my changes.
+Regards
+
+Florian ",status: waiting-for-triage,An issue we've not yet triaged or decided on
+127,424779592,Introduce tests for MultiValueMap,midumitrescu,8896068,"imho improved tests for gh-25140, as solicited by @jhoeller 
+
+As promised in gh-25159, I am submitting a second suggestion for Testing the exiting code of 
+
+```
+CollectionUtils.toMultiValueMap
+```
+
+The suggestion was to create for this MultiValueMap same tests as for 
+
+
+```
+LinkedMultiValueMap
+```
+
+present in
+```
+LinkedMultiValueMapTests
+```
+
+This, however, produced a very high code duplication, which I did not find very elegant. 
+
+I think the better way is to use Jupiter properly, to instantiate various types of MultiValueMap and test the contract for each of them. 
+
+Like this test code is not duplicated and the contracts are consistent with each other. 
+
+This is just a suggestion. 
+
+I am open for suggestions  in case this does not fit your expectations.
+
+Kind regards
+
+
+",type: task,A general task
+128,419656872,BeanDefinitionDsl composition,krzykrucz,18364177,"Added new `beans` method to BeanDefinitionDsl, to allow nesting beans definitions. Currently it's not possible.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+129,412065519,Supplement Test Cases In XmlBeanFactoryTests : Resolve Circle Reference When Use Aop,lixiaolong11000,18397771,"Many people implementate `BeanPostProcessor` to realize Aop, but it has a problem with cicle reference. Implementation `SmartInstantiationAwareBeanPostProcessor.getEarlyBeanReference` is a good practice, for example `AbstractAutoProxyCreator`.
+I think the case could make learners understand better.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+130,409553310,Modified the code to format the nested exception stack trace,kamath-prasad,28445395,"This PR fixes https://github.com/spring-projects/spring-framework/issues/23227 .
+
+As part of this fix , added a new function in `NestedExceptionUtils.java` which formats the nested exception stack trace based on **semi-colon** `;` and **colon** `:` .
+
+P.S : As this is my first PR , please help with the eclipse code formatting file as my current commit has some changes to the lines that were not intended to change for this fix ( just formatting based on eclipse settings). It will help if I can get hold of a .preferences file that I can import locally in my eclipse , re-apply formatting and push the change.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+131,407811188,Make imported config always override the one found by package scan,encircled,1517220,"Fixes #24643
+
+**Current state**
+
+Whether imported user config class will override a scanned one depends on its names.
+Unit test which is reproducing it: 
+`ImportTests#importedConfigOverridesScannedOne`
+
+During nested configs processing (`ConfigurationClassParser#processMemberClasses`), all nested configs are being overridden by its scanned version loosing `importedBy` information. This is not intended behavior according to the documentation of import feature. But this accidentally made it work, because otherwise the config would have been registered twice: first by package scan, then by `ConfigurationClassBeanDefinitionReader#loadBeanDefinitionsForConfigurationClass`. 
+
+Unit test which is reproducing it: `ComponentScanAnnotationIntegrationTests#viaContextRegistration_WithComposedAnnotation`
+
+**Fixed version**
+
+Change in `ConfigurationClassParser` is needed to make imported configs always override the scanned ones, preserving `importedBy` info. Due to preserving `importedBy` I had to change `ConfigurationClassBeanDefinitionReader` as well, which registers imported configs, but it did not expect that it could have been already registered (during package scanning). I used `AnnotationBeanNameGenerator` for naming to make it 100% backward compatible by preserving configs bean names.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+132,393354449,Improve method injection when @Autowired(require=false) on mixed nullability args method,chenqimiao,15151483,"When `@Autowired(require=false)` on mixed nullability args method, I think IOC container shoud call this method to inject partially non-null parameters, but in fact the current code logic will ignore this method injection, for example `:`
+
+```java
+	static class MixedNullableInjectionBean{
+		public NonNullBean nonNullBean;
+		public NullableBean nullableBean;
+
+		@Autowired(required = false)
+		public void nullabilityInjection(@Nullable NullableBean nullableBean, NonNullBean nonNullBean){
+			if(nullableBean != null){
+				this.nullableBean = nullableBean;
+			}
+			this.nonNullBean = nonNullBean;
+		}
+	}
+```
+
+```java
+	@Test
+	public void testMethodInjectionWithMultiMixedNullableArgs(){
+		bf.registerBeanDefinition(""nonNullBean"", new RootBeanDefinition(
+				NonNullBean.class));
+		bf.registerBeanDefinition(""mixedNullableInjectionBean"", new RootBeanDefinition(MixedNullableInjectionBean.class));
+		MixedNullableInjectionBean mixedNullableInjectionBean = bf.getBean(MixedNullableInjectionBean.class);
+		assertThat(mixedNullableInjectionBean.nonNullBean).isNotNull();
+		assertThat(mixedNullableInjectionBean.nullableBean).isNull();
+	}
+```
+I liberated the `@Autowired(require=false)` annotation on the `nullabilityInjection` method of `MixedNullableInjectionBean`, this method has two parameters, `nullableBean` and `nonNullBean`, as the name of the parameter means, I only register `nonNullBean` to `DefaultListableBeanFactory`, and then register `MixedNullableInjectionBean` .
+I think the IOC container should invoke `nullabilityInjection` method to inject `nonNullBean`,
+but in fact the current code logic will ignore this method injection, I have expressed the nullability of the parameter `nullableBean`, so, I think this parameter is null should not affect the overall method injection. I slightly adjusted the logic of method injection in this pr, what do you think? Thank you for your reading and looking forward to your reply.
+
+
+
+
+
+
+",status: waiting-for-triage,An issue we've not yet triaged or decided on
+133,390179681,Use io.spring.javadoc-aggregate,rwinch,362503,Closes gh-24653,type: documentation,A documentation task
+134,390153799,SPR-8389 condense BeanCreationException exception message,NathanQingyangXu,8211458,"#8389
+
+The root cause is the message for `NestedException` included the cause (by concatenating by `; nested exception is ...`), which is `NestedException` as well, so its message will include its own nested exception again, thus the horrible long exception messages. We don't need to include the cause message for stack trace will output its enclosed content at the `Caused by: ` section.
+My approach is to only return the basic message excluding cause message in getMessage overridden method, via runtime stack trace inspection.
+Testing case created to demonstrate that cause information is only output once in stack trace result.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+135,389009275,Introduce static factory method with initial supplier in NamedThreadLocal,chenqimiao,15151483,"If we need a `NamedThreadLocal` with an initialization value, it will be very convenient to use the `withInitial` method of this PR, like this:
+
+```java
+NamedThreadLocal.withInitial(""SimpleThreadScope"", HashMap::new);
+```
+
+It's just a suggestion. If you think it's okay, I hope it can be absorbed into this project.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+136,384645178,Introduce getContentAsString() in Resource to retrieve resource content as a String,derrick-pericipio,26554105,"Projects that use java heavily rely on a clunky, verbose, and error prone method to access Resources for tests. 
+
+Adding the ability to request a file's contents as a string for testing REST or WEBMVC allows for cleaner test classes and more readable code.",status: waiting-for-feedback,We need additional information before we can continue
+137,384353028,CglibAopProxy: Skip non-overridden methods of Object.class as those which for sure have no advice,stsypanov,10835776,"Currently in case of frozen AOP chain `CglibAopProxy` creates fixed callbacks for all methods of the target class, while in many cases only a couple of them actually need to have advices. Other methods like native ones of `java.lang.Object` and others non-overridden can be skipped saving some time and memory without breaking functionality.
+
+I've used a [benchmark](https://github.com/stsypanov/spring-benchmark/blob/master/src/main/java/org/tsypanov/sb/aspect/benchmark/AspectPrototypeBenchmark.java) measuring costs of creating a prototype bean with one aspected method and got those results:
+```
+before
+
+Benchmark                                                             Mode  Cnt      Score     Error   Units
+AspectPrototypeBenchmark.getAdvisedBean                               avgt  100     14.024 ±   0.164   us/op
+AspectPrototypeBenchmark.getAdvisedBean:·gc.alloc.rate                avgt  100    498.209 ±   4.753  MB/sec
+AspectPrototypeBenchmark.getAdvisedBean:·gc.alloc.rate.norm           avgt  100  10983.307 ±  14.193    B/op
+AspectPrototypeBenchmark.getAdvisedBean:·gc.churn.G1_Eden_Space       avgt  100    498.314 ±  22.655  MB/sec
+AspectPrototypeBenchmark.getAdvisedBean:·gc.churn.G1_Eden_Space.norm  avgt  100  10992.978 ± 505.995    B/op
+AspectPrototypeBenchmark.getAdvisedBean:·gc.churn.G1_Old_Gen          avgt  100      0.001 ±   0.001  MB/sec
+AspectPrototypeBenchmark.getAdvisedBean:·gc.churn.G1_Old_Gen.norm     avgt  100      0.025 ±   0.010    B/op
+AspectPrototypeBenchmark.getAdvisedBean:·gc.count                     avgt  100    327.000            counts
+AspectPrototypeBenchmark.getAdvisedBean:·gc.time                      avgt  100    357.000                ms
+
+after
+
+Benchmark                                                             Mode  Cnt     Score     Error   Units
+AspectPrototypeBenchmark.getAdvisedBean                               avgt  100     8.150 ±   0.202   us/op
+AspectPrototypeBenchmark.getAdvisedBean:·gc.alloc.rate                avgt  100   558.719 ±  11.480  MB/sec
+AspectPrototypeBenchmark.getAdvisedBean:·gc.alloc.rate.norm           avgt  100  7133.664 ±   5.594    B/op
+AspectPrototypeBenchmark.getAdvisedBean:·gc.churn.G1_Eden_Space       avgt  100   560.401 ±  26.718  MB/sec
+AspectPrototypeBenchmark.getAdvisedBean:·gc.churn.G1_Eden_Space.norm  avgt  100  7159.093 ± 316.966    B/op
+AspectPrototypeBenchmark.getAdvisedBean:·gc.churn.G1_Old_Gen          avgt  100     0.001 ±   0.001  MB/sec
+AspectPrototypeBenchmark.getAdvisedBean:·gc.churn.G1_Old_Gen.norm     avgt  100     0.012 ±   0.005    B/op
+AspectPrototypeBenchmark.getAdvisedBean:·gc.count                     avgt  100   330.000            counts
+AspectPrototypeBenchmark.getAdvisedBean:·gc.time                      avgt  100   412.000                ms
+
+```",status: waiting-for-triage,An issue we've not yet triaged or decided on
+138,382832645,Add a unit test for getMostSpecificMethod of ClassUtils,chenqimiao,15151483,"The method `getMostSpecificMethod` of `ClassUtils` does not seem to be covered by unit test.
+Consider adding a unit test method for this method.
+Test this method from multiple latitudes of inheritance, method modifiers, implementation, etc.
+Looking forward to your reply.
+",status: waiting-for-triage,An issue we've not yet triaged or decided on
+139,381880715,Add missing field to MethodParameter copy constructor,dreis2211,6304496,"Hi,
+
+I just noticed that the `MethodParameter` copy constructor misses to copy its `nestedMethodParameter` field.
+
+Cheers,
+Christoph",status: waiting-for-triage,An issue we've not yet triaged or decided on
+140,378638879,Issue #24291 - Merge transactional attributes,elab,483727,Changes to spring-tx as discribed in #24291,status: waiting-for-triage,An issue we've not yet triaged or decided on
+141,375387555,MapSqlParameterSource.getValue Handling of null values,rengy-github,15609118,Does the reading of multithreaded HashMap need to be synchronized? This problem has been bothering me. I don't think it's necessary,status: waiting-for-triage,An issue we've not yet triaged or decided on
+142,362649790,continue for loop if the bean definition cannot be enhanced,chenqimiao,15151483,"As the log says,
+`Cannot enhance @Configuration bean definition since its singleton instance has been created too early. The typical cause is a non-static @Bean method with a BeanDefinitionRegistryPostProcessor`.
+So, I think this `if` block should `continue` for loop.
+",status: waiting-for-triage,An issue we've not yet triaged or decided on
+143,360007405,Add StringToPatternConverter,valfirst,5081226,,status: waiting-for-triage,An issue we've not yet triaged or decided on
+144,355399239,Consider order on DeferredImportSelector when processing DeferredImportSelector.Group,ttddyy,459116,"Hi,
+
+When I was writing custom `DeferredImportSelector` (https://github.com/spring-projects/spring-boot/pull/19400), I found an issue for handling `DeferredImportSelector.Group` with `@Order` on `DeferredImportSelector`.
+
+Here is an example to describe the issue:
+
+Let's say I have 3 `DeferredImportSelectors` with ordering specified 10, 20, 30.
+The one with order 10 and 30 returns same import-selector-group(`GroupA`), and the one with order 20 returns different import-selector-group(`GroupB`).
+
+
+```java
+@Order(10)
+static class DeferredImportSelectorA implements DeferredImportSelector {
+  @Override
+  public String[] selectImports(AnnotationMetadata importingClassMetadata) {
+    return new String[]{MyConfigA.class.getName()};
+  }
+
+  @Override
+  public Class<? extends Group> getImportGroup() {
+    return GroupA.class;
+  }
+}
+
+@Order(20)
+static class DeferredImportSelectorB implements DeferredImportSelector {
+  @Override
+  public String[] selectImports(AnnotationMetadata importingClassMetadata) {
+    return new String[]{MyConfigB.class.getName()};
+  }
+
+  @Override
+  public Class<? extends Group> getImportGroup() {
+    return GroupB.class;
+  }
+}
+
+@Order(30)
+static class DeferredImportSelectorC implements DeferredImportSelector {
+  @Override
+  public String[] selectImports(AnnotationMetadata importingClassMetadata) {
+    return new String[]{MyConfigC.class.getName()};
+  }
+
+  @Override
+  public Class<? extends Group> getImportGroup() {
+    return GroupA.class;  // <== same group with selector-A
+  }
+}
+```
+
+It might be arguable to use same import-selector-group in differently ordered deferred import selector, but it is possible to write that way currently.
+
+
+```java
+@Configuration(proxyBeanMethods = false)
+@Import({DeferredImportSelectorA.class, DeferredImportSelectorB.class, DeferredImportSelectorC.class})
+static class ImportConfig {
+}
+```
+
+When `ConfigurationClassParser` parses this `ImportConfig`, I think expected order of returned `ConfigurationClass` are ordered by `@Order`:
+- `ImportConfig`
+- `MyConfigA` (from import-selector-A with order-10)
+- `MyConfigB` (from import-selector-B with order-20)
+- `MyConfigC` (from import-selector-C with order-30)
+
+However, currently it returns this order:
+- `ImportConfig`
+- `MyConfigA` (from import-selector-A with order-10)
+- `MyConfigC` (from import-selector-C with order-30)  <===
+- `MyConfigB` (from import-selector-B with order-20)
+
+
+This is because, when deferred-import-selectors are [sorted](https://github.com/spring-projects/spring-framework/blob/v5.2.2.RELEASE/spring-context/src/main/java/org/springframework/context/annotation/ConfigurationClassParser.java#L769), it orders selectors to `selector-A`, `selector-B`, `selector-C` based on the `@Order` which is correct.
+However, when `Group` is processed, since `selector-A` and `selector-C` uses same `GroupA`, when `selector-A`'s group is processed, it also processes `selector-C`'s imports as well. ([here](https://github.com/spring-projects/spring-framework/blob/v5.2.2.RELEASE/spring-context/src/main/java/org/springframework/context/annotation/ConfigurationClassParser.java#L791-L793) uses group as key)
+
+This would be a problem, for example, selector-B is spring-boot's auto-configuration and selector-A and selector-C are to be applied before/after auto-configurations.
+
+
+To fix this issue, in my patch, I have added `DeferredImportSelectorGroupingKey` for the `LinkedHashMap` that handles `groupings`. The key object also takes into account the order specified on import-selector.
+This way, even same import-selector-group is specified in import-selector with different order, they are considered to be in different group and the one has higher order priority is processed first. Of course, same order with same group will be treated in same category.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+145,344919905,@Async doesn't work well with AopContext,lixiaolong11000,18397771,"### @Async doesn't work well with AopContext
+
+#### First, let's see a example below:
+the demo's link:[https://github.com/lixiaolong11000/async](url)
+
+```
+class AsynApplicationTests {
+
+    @Test
+    void contextLoads() {
+    }
+
+
+    @Test
+    public void asynExposeProxy() throws InterruptedException {
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfigure.class);
+        AsyncTransactionalTestBean asyncTransactionalTestBean = ctx.getBean(AsyncTransactionalTestBean.class);
+        AsyncTestBean asyncTestBean = ctx.getBean(AsyncTestBean.class);
+
+        assertThat(AopUtils.isAopProxy(asyncTransactionalTestBean)).as(""asyncTransactionalTestBean is not a proxy"").isTrue();
+        assertThat(AopUtils.isAopProxy(asyncTestBean)).as(""asyncTestBean is not a proxy"").isTrue();
+
+        asyncTransactionalTestBean.testTransToAsync();
+
+        asyncTransactionalTestBean.testAsyncToAsync();
+
+        asyncTestBean.testAsyncToAsyncTOAsync();
+
+        ctx.close();
+    }
+
+
+    @Service
+    public static class AsyncTransactionalTestBean {
+
+        @Transactional
+        public Collection<?> testTransToAsync() {
+            System.out.println(""testTransToAsync "" + Thread.currentThread().getName());
+            ((AsyncTransactionalTestBean) AopContext.currentProxy()).testAsyncToAsync();
+            return null;
+        }
+
+
+        @Async
+        public void testAsyncToAsync() {
+            System.out.println(""testAsyncToAsync "" + Thread.currentThread().getName());
+            ((AsyncTransactionalTestBean) AopContext.currentProxy()).testAsync();
+        }
+
+        @Async
+        public void testAsync() {
+            System.out.println(""testAsync "" + Thread.currentThread().getName());
+        }
+    }
+
+
+    @Service
+    public static class AsyncTestBean {
+
+        @Async
+        public Collection<?> testAsyncToAsyncTOAsync() {
+            System.out.println(""testAsyncToAsyncTOAsync "" + Thread.currentThread().getName());
+            ((AsyncTransactionalTestBean) AopContext.currentProxy()).testAsyncToAsync();
+            return null;
+        }
+
+        @Async
+        public void testAsyncToAsync() {
+            System.out.println(""testAsyncToAsync "" + Thread.currentThread().getName());
+            ((AsyncTransactionalTestBean) AopContext.currentProxy()).testAsync();
+        }
+
+        @Async
+        public void testAsync() {
+            System.out.println(""testAsync "" + Thread.currentThread().getName());
+        }
+    }
+
+
+    @EnableAsync
+    @EnableAspectJAutoProxy(exposeProxy = true)
+    @Configuration
+    @EnableTransactionManagement
+    static class AppConfigure  {
+
+        @Bean
+        public AsyncTransactionalTestBean asyncTransactionalTestBean() {
+            return new AsyncTransactionalTestBean();
+        }
+
+        @Bean
+        public AsyncTestBean asyncTestBean() {
+            return new AsyncTestBean();
+        }
+
+        @Bean
+        public PlatformTransactionManager txManager() {
+            return new MockTransactionManager();
+        }
+    }
+}
+```
+
+run AsynApplicationTests.asynExposeProxy() we can find the exception:
+
+```
+java.lang.IllegalStateException: Cannot find current proxy: Set 'exposeProxy' property on Advised to 'true' to make it available.
+	at org.springframework.aop.framework.AopContext.currentProxy(AopContext.java:69) ~[spring-aop-5.2.1.RELEASE.jar:5.2.1.RELEASE]
+	at com.example.asyn.AsynApplicationTests$AsyncTransactionalTestBean.testAsyncToAsync(AsynApplicationTests.java:64) ~[test/:na]
+	at com.example.asyn.AsynApplicationTests$AsyncTransactionalTestBean$$FastClassBySpringCGLIB$$adeba3a5.invoke(<generated>) ~[test/:na]
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218) ~[spring-core-5.2.1.RELEASE.jar:5.2.1.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:769) ~[spring-aop-5.2.1.RELEASE.jar:5.2.1.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163) ~[spring-aop-5.2.1.RELEASE.jar:5.2.1.RELEASE]
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:747) ~[spring-aop-5.2.1.RELEASE.jar:5.2.1.RELEASE]
+	at org.springframework.aop.interceptor.AsyncExecutionInterceptor.lambda$invoke$0(AsyncExecutionInterceptor.java:115) ~[spring-aop-5.2.1.RELEASE.jar:5.2.1.RELEASE]
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266) ~[na:1.8.0_181]
+	at java.lang.Thread.run(Thread.java:748) ~[na:1.8.0_181]
+```
+
+#### Second, I find the reason is : @Async doesn't work well with AopContext. because:
+- @EnableAspectJAutoProxy(exposeProxy = true) can make AopContext **work in current Thread**,not work in another Thread. so the test above **asyncTransactionalTestBean.testTransToAsync()** result in Exception
+- the test above **asyncTransactionalTestBean.testAsyncToAsync()** result in Excepton because AsyncAnnotationBeanPostProcessor、AsyncExecutionInterceptor、AsyncAnnotationAdvisor not surport AopContext.
+
+#### Third, summary
+- When Aop(cglib,jdkproxy) use AopContext,@Async doesn't work well
+- @Aysnc is also a Aop, but it not suport AopContext 
+
+#### Final, I want contribute to spring to enhance it, thanks",status: waiting-for-triage,An issue we've not yet triaged or decided on
+146,343753555,Already failed contexts should not be started again for each test,michaldo,4304236,"Before this commit, Spring Test Framework caches contexts shared among different test methods. However, context failures are not cached and failing context is started again and again for each test method the context match.
+
+Starting a context is often a time and space consuming operation. It should be avoided when not necessary. If context fails once, there rather not possible it run second time.
+
+This commit remembers failed context and save resources by not starting them again",in: test,Issues in the test module
+147,342791093,Support the feature that combine multiple SqlParamterSource,kazuki43zoo,5616270,Fixes gh-23962,status: waiting-for-triage,An issue we've not yet triaged or decided on
+148,342005094,Support escaping in SimpleJdbcInsert #13874,kitaisreal,22458333,"Motivation https://github.com/spring-projects/spring-framework/issues/13874
+
+**Current implementation steps**
+1.  Getting identifierQuoteString to use for escaping from dataBaseMetadata in `GenericTableMetadataProvider` http://docs.oracle.com/javase/6/docs/api/java/sql/DatabaseMetaData.html#getIdentifierQuoteString%28%29.
+2. Added property usingEscaping in `SimpleJdbcInsert` and logic related to handling it in `TableMetadataContext`.
+3. Updated tests.
+<!-- end list -->
+",status: waiting-for-triage,An issue we've not yet triaged or decided on
+149,341198077,Simplify AbstractAsyncConfiguration,michaldo,4304236,"1. There is simpler way to express that 0 or 1 bean only is allowed
+2. This commit allows flexible AsyncConfigurer substitution with `@Primary`",status: waiting-for-triage,An issue we've not yet triaged or decided on
+150,336041577,Modify the name of map earlyProxyReferences to earlyTargetReferences,chenqimiao,15151483,"The original map named earlyProxyReferences seems to stores the target object, not the proxy object.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+151,335187074,kotlin message converter extensions,sokomishalov,21218309,Added kotlin message converter extension functions ,status: waiting-for-triage,An issue we've not yet triaged or decided on
+152,330906058,Introduce NestedBeanPropertyRowMapper to map nested objects from arbitrary SQL query,cziberpv,6408338,"The idea of this implementation for RowMapper is to have convenient tool for mapping ResultSet into nested object. Current implementation of BeanPropertyRowMapper doesn't support nor designed for nested properties.
+
+        class Employee {
+                public long id;
+                public long companyId;
+                public String lastName;
+
+                public Company company;
+        }
+
+        class Company {
+                public long id;
+                public String name;
+        }
+
+        NestedBeanPropertyRowMapper<Employee> rowMapper = NestedBeanPropertyRowMapper.newInstance(Employee.class);
+        rowMapper.setEntityDelimiter(""__"");
+        List<Employee> employees = jdbcTemplate.query(""SELECT "" +
+                        ""   EMPLOYEE.*, "" +
+                        ""   COMPANY.ID as COMPANY__ID, "" + // option1 without escaping column name
+                        ""   COMPANY.NAME as `COMPANY.NAME` "" + // option2 with escaping
+                        "" FROM EMPLOYEE JOIN COMPANY "" +
+                        ""   ON EMPLOYEE.COMPANY_ID = COMPANY.ID "",
+                new HashMap<>(), rowMapper);
+",status: waiting-for-triage,An issue we've not yet triaged or decided on
+153,327170740,Fixing 22325 issue application listeners logic,platonovr,2162263,"There was an issue #22325 and @jhoeller has fixed it, but now I have the following problem: on the application startup there is a call of prepareRefresh(), so it works like that
+`this.earlyApplicationListeners = new LinkedHashSet<>(this.applicationListeners);`
+`this.applicationListeners` is an empty collection.
+Then it's needed to refresh the Application Context, app provokes the refresh() at AbstractApplicationContext, then Spring calls prepareRefresh and then checks
+`this.earlyApplicationListeners == null,`
+but it's an empty LinkedHashSet, not null, it's zero size set, so then it comes to
+`this.applicationListeners.clear();`
+and all the listeners are removed, but they were created, so I'm loosing all of applicationListeners there.
+Application listeners collection was filled by CXF Servlet [code](https://github.com/apache/cxf/blob/ec4423437bd7d6b63e3464761394cfafb50cacfa/rt/transports/http/src/main/java/org/apache/cxf/transport/servlet/CXFServlet.java#L90)",status: waiting-for-triage,An issue we've not yet triaged or decided on
+154,321551515,Add custom TriggerContext to ReschedulingRunnable,MaciejGorczyca,26925976,"Changes based on:
+
+Allow ReschedulingRunnable to receive a TriggerContext on creation #19475
+
+I needed a way to resume work after a downtime - lets say I need to do daily reports based on what happened during that day. It doesn't matter if the report is delayed as long as it will be there when the system goes back online. With changes, you can easily handle this situation by finding last report date and creating triggerContext based on that time AND passing CronTrigger with argument fixedRate set to true.
+
+It takes away burden of having to manually sync up on startup with custom logic (apart from finding last date), it prevents cases where you have rows with date 10.05, 11.05 and then 14.05, because new Cron fired task for day 14.05 but your catchup logic didn't finish yet the days between 11.05 and 14.05 (unless you write logic to handle ""holes"" between dates).
+
+Example:
+
+```
+final String cron = ""0/10 * * ? * *"";
+final CronTrigger cronTrigger = new CronTrigger(cron, true);
+
+// quickly revert time by 1 minute for demonstration purposes
+Calendar calendar = Calendar.getInstance();
+calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) - 1);
+SimpleTriggerContext simpleTriggerContext = new SimpleTriggerContext(calendar.getTime(), calendar.getTime(), calendar.getTime());
+
+// quickly prepare task for demonstration purposes
+Thread task = new Thread(() -> {
+    logger.debug(""executed scheduled for {} with scheduled time {}"", cron, cronTrigger.nextExecutionTime(simpleTriggerContext));
+});
+taskScheduler.schedule(task, cronTrigger, simpleTriggerContext));
+```
+
+The output for printing execution times will be:
+
+```
+2019-09-25 14:06:52.903 DEBUG 15336 --- [           main] project.scheduler.SchedulerService         : Scheduling test cron 0/10 * * ? * *
+2019-09-25 14:06:52.905 DEBUG 15336 --- [taskScheduler-1] project.scheduler.SchedulerService         : executed scheduled for 0/10 * * ? * * with scheduled time Wed Sep 25 12:06:00 UTC 2019
+2019-09-25 14:06:52.906 DEBUG 15336 --- [taskScheduler-1] project.scheduler.SchedulerService         : executed scheduled for 0/10 * * ? * * with scheduled time Wed Sep 25 12:06:10 UTC 2019
+2019-09-25 14:06:52.906 DEBUG 15336 --- [taskScheduler-1] project.scheduler.SchedulerService         : executed scheduled for 0/10 * * ? * * with scheduled time Wed Sep 25 12:06:20 UTC 2019
+2019-09-25 14:06:52.906 DEBUG 15336 --- [taskScheduler-1] project.scheduler.SchedulerService         : executed scheduled for 0/10 * * ? * * with scheduled time Wed Sep 25 12:06:30 UTC 2019
+2019-09-25 14:06:52.906 DEBUG 15336 --- [taskScheduler-1] project.scheduler.SchedulerService         : executed scheduled for 0/10 * * ? * * with scheduled time Wed Sep 25 12:06:40 UTC 2019
+2019-09-25 14:06:52.906 DEBUG 15336 --- [taskScheduler-1] project.scheduler.SchedulerService         : executed scheduled for 0/10 * * ? * * with scheduled time Wed Sep 25 12:06:50 UTC 2019
+2019-09-25 14:07:00.001 DEBUG 15336 --- [taskScheduler-1] project.scheduler.SchedulerService         : executed scheduled for 0/10 * * ? * * with scheduled time Wed Sep 25 12:07:00 UTC 2019
+2019-09-25 14:07:10.002 DEBUG 15336 --- [taskScheduler-1] project.scheduler.SchedulerService         : executed scheduled for 0/10 * * ? * * with scheduled time Wed Sep 25 12:07:10 UTC 2019
+```
+
+Our cron fired 6 times on startup - TriggerContext set to 60 seconds before ""now"" and CronTrigger set to fire every 10 seconds. After ""catching up"" scheduler will work and do it's job like a normal scheduled would do, apart from taking scheduled time when calculating next execution time instead of completion time, which is especially important in cases where you hit huge load and can't keep up with generating lets say these reports but once the load goes down, the reports will be processed and generated.
+
+### As for code:
+
+I didn't write any tests. I'm not sure if changes didn't break some tests due to small edits in one or two interfaces (I tried to find all usages but I could miss some). I couldn't properly build project from source without excluding some tasks (-x test -x javadoc -x asciidoctor -x docsZip -x schemaZip -x distZip -x publishMavenJavaPublicationToMavenLocal). I tried to match the original code and style as closely as possible, I also provided some basic documentation for new things based on similar parts in classes. I needed this functionality and thought that making changes directly in Spring was the best way instead of writing custom logic, when most of it is already a part of framework. Adjust the code and add tests based on your preferences or needs.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+155,320888378,Add CompositeTaskDecorator,ttddyy,459116,"Add `CompositeTaskDecorator` class.
+
+For #23686 ",status: waiting-for-triage,An issue we've not yet triaged or decided on
+156,320106661,Reinitialize SQLErrorCodeSQLExceptionTranslator when initial JDBC connection retrieval failed,samratdhillon,52469006,closes gh-23675,status: waiting-for-triage,An issue we've not yet triaged or decided on
+157,318556970,"Proposition: a restructuring of MailSender and JavaMailSender, with additional decorator",runeflobakk,174823,"The mail sending API is structured around the two interfaces `MailSender` and `JavaMailSender`, together with the class `JavaMailSenderImpl` which implements the two aforementioned interfaces. The numerous overloads of `send(..)`-methods in the interfaces makes it a bit cumbersome and errorprone to extend these interfaces directly.
+
+Default methods introduced with Java 8 can to a large degree resolve this issue by moving from JavaMailSenderImpl to default methods in the interfaces. For methods which is ""piping"" to another method of the public API, this is a trivial refactoring (a820753). But `JavaMailSenderImpl.send(SimpleMailMessage...)` can not be refactored in such a trivial manner, as this method delegates to the internal `doSend`-method of `JavaMailSenderImpl`. To rectify, this pull-request also contains a suggested change to allow passing SimpleMailMessages contained in SmartMimeMessages further down the method stack, and allow the `doSend` to resolve the original message instances in case of errors, so existing behaviour is preserved. (f95659b168d479db3711d64ff02f533f437d0418)
+
+The interfaces are now simpler to extend directly, and this also allows for more clean composable decorators, as demonstrated with the new `JavaMailSenderDecorator` class in 39724cdb0150b3894b23276bb1f287bdccc35af8. It ""seals"" the default methods as `final`, allowing decorating an arbitrary JavaMailSender with only overriding _one_ method, which is part of the public API. It is simple to wrap several layers of JavaMailSenderDecorators, if one should need to, and eventually end in a JavaMailSenderImpl.
+
+I have used this structure for a client to separately implement a whitelisting `JavaMailSenderDecorator`, and a performance monitoring ""aspect"" `JavaMailSenderDecorator`, which are composed together, and ultimately wrapping an instance of `JavaMailSenderImpl`.
+
+This also may yield some advantages when testing, as one would only have to intercept the _one_ `send(..)`-method which is not provided by the interfaces, and tests does not need to know which overload is used by the main code. `JavaMailSenderImpl` instances can be separated strictly away from testing. For instance, if using mock libraries as Mockito, mocking a `JavaMailSenderDecorator`, it will ensure that all real `final` methods are invoked, and one may verify invocations of only one method regardless of which overloaded method is invoked by the main code.
+
+I hope this can be a relevant contribution, and I am very open for any feedback and discussion on this design! 
+
+Thank you :)",status: waiting-for-triage,An issue we've not yet triaged or decided on
+158,318516010,Fix transaction aspect's incorrect state after creating new context,SammyVimes,4058545,"As aspects are singletons, `transactionManagerCache` and `transactionManager` in `TransactionAspectSupport` are persistent. It's ok if context is not changing, but if new contexts gets created (in tests, for example), new transaction manager should be used. 
+
+I faced it using Spring Data with repository's `@Transactional` set to `MANDATORY`:
+1. Service's `Transactional` method is called
+2. Transaction is created in aspect
+3. Transaction manager is put to cache
+4. Transaction is used in `TransactionInterceptor` of SpringData repository
+5. New context got created for another test
+6. Service's `Transactional` method is called
+7. Transaction is created in old transaction manager, that is cached inside aspect
+8. `TransactionInterceptor` in SpringData repository fails to find transaction, because it uses different (new) transaction manager
+
+I fixed it with clearing cache every time aspect's bean is created (and also remove a null check for `txManager parameter`, because if it's null, it should clear `txManager field` and also setter's parameter marked `Nullable`) and created tests for that.
+
+I also had to change gradle settings for integration tests, because they were not processed by aspectj AND that fixed one strange test where aspects were not found in classpath.
+
+To demonstrate the issue, I also created [this repository](https://github.com/SammyVimes/SpringDataAspectjFail), where the test which is run second always fails.",in: test,Issues in the test module
+159,300286103,Support element arrays with MergedAnnotations.from,philwebb,519772,"Provide an overloaded version of `MergedAnnotations.from` that takes
+an array of elements. This shortcut is particularly useful in property
+situations where an annotation may be used on a getter, setter or field.
+
+Closes gh-23327",status: waiting-for-triage,An issue we've not yet triaged or decided on
+160,283804457,Allow alternative JdbcOperations implementations,marschall,471021,"Change various JDBC abstraction classes to allow them to work with
+JdbcOperations instead of JdbcTemplate. This allows the usage of
+custom JdbcOperations that for example perform additional logging.
+
+The following classes have been updated
+
+- AbstractJdbcCall
+- SimpleJdbcCall
+- AbstractJdbcInsert
+- SimpleJdbcInsert
+- JdbcBeanDefinitionReader
+- RdbmsOperation
+- StoredProcedure
+
+This is a backwards compatible change. All existing JdbcTemplate
+methods are kept.
+
+Closes gh-23065",in: data,"Issues in data modules (jdbc, orm, oxm, tx)"
+161,280106397,Cannot enhance @Configuration bean definition,lgxbslgx,13688759,"Cannot enhance @Configuration bean definition if its singleton instance has been created too early.
+Add the corresponding testcase.
+Fix #22990.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+162,269246829,Get all the aliases at getPropertyNames,lgxbslgx,13688759,"At present, the `JOptCommandLinePropertySource.getPropertyNames` get the last element in the result of `spec.options()`. But the comment says `Only the longest name is used for enumerating`. It is a contradiction and one of the two(code or comment) has to be changed.
+
+I change the code according the comment because I think the longest name is more useful. And if more than one name have the same longest length, the first one(alphabetically) will be used in my solution.
+
+Fix #22168.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+163,268478292,Evaluating key after cache condition,lgxbslgx,13688759,"At present, `@Cacheable`, `@CacheEvict` and `@CachePut` evaluate their keys after `condition` but before  `unless`. I think the keys should be evaluated after all the cache condition which contains the `condition` and `unless`.
+
+I change the code, add the corresponding test cases and fix the JavaDoc for @Cacheable, @CacheEvict and @CachePut.
+
+Fixes #22294.",in: core,"Issues in core modules (aop, beans, core, context, expression)"
+164,267939785,Add paging and sorting mechanism with the JdbcTemplate,davidmalis,27193365,"Based on the Spring Data Pageable API, this extension adds a
+queryForPage(...) method to the JdbcTemplate which through SQL
+subselect wrapping techniques enables the user to query for paged
+(and sorted) results.
+
+ Changes to be committed:
+	modified:   spring-jdbc/spring-jdbc.gradle
+	new file:   spring-jdbc/src/main/java/org/springframework/jdbc/core/PagingAndSortingJdbcTemplate.java",status: waiting-for-triage,An issue we've not yet triaged or decided on
+165,249839390,Add CompositeTaskDecorator,ttddyy,459116,"Hi,
+
+Currently, task executors only accept single `TaskDecorator` instance.
+When there are multiple `TaskDecorator` beans to apply, I need to write such composite decorator for now. It would be helpful if it comes from spring.
+
+Thanks,
+",in: core,"Issues in core modules (aop, beans, core, context, expression)"
+166,241607920,SPR-16886 Provide two mechanisms for SQL Server sequence incrementers.,tkvangorder,1878529,"This PR is to address a deadlocking issue with MS SQL Server and is related to https://jira.spring.io/browse/SPR-16886. Please see that issue for details.
+
+I tried to ensure that this fix does not break downstream projects that leverage the incrementer on SQL Server.
+
+This means that all versions of SQL Server are still going to use a sequence table with the difference being that the incrementer uses a reaper interval to delete records out of the sequence table.
+
+I have also included an incrementer that can leverage native database sequences in 2012 and higher. It will be at the discretion of each downstream project as to when/if they want to leverage the new incrementer.
+
+I am open to any feedback or changes you might want to make. I had toyed with requiring a platform transaction manager being injected into the incrementer (and creating a new transaction when the reaping interval was reached) as an alternative to using a thread, but I felt that was a more invasive change to downstream projects.
+
+I have also updated my little test harness to use ""copies"" of the incrementers I have submitted in this pull request: https://github.com/tkvangorder/jdbc-sqlserver-incrementer",status: waiting-for-triage,An issue we've not yet triaged or decided on
+167,227878301,SPR-17456 ApplicationListenerMethodAdapter can't be removed after targetBean destroy,Pramy,13444999,"[SPR-17456](https://jira.spring.io/projects/SPR/issues/SPR-17456?filter=allopenissues)
+[Demo](https://github.com/Pramy/spring-listener-bug)",status: waiting-for-triage,An issue we've not yet triaged or decided on
+168,203895956,Optimize throws advice interceptor,plx927,7418797,"
+1. I found `MethodAfterAdviceInterceptor` implements  `AfterAdvice`, so i think `MethodBeforeAdviceInterceptor ` also should implements `BeforeAdvice` to indicate that is a **BeforeAdvice**.
+
+2. Recently when i search spring source code, i found when `ThrowsAdviceInterceptor`is  constructed, it just found methods which name is `afterThrowing` and last param is ThrowableSubclass; but sometimes developer may be disorder the 4 param due to careless(eg:
+afterThrowing( Object[] args, Method method, Object target, ServletException ex)
+), now the error only can be found when exception occur, i think framework should be reminder developer in time, when `ThrowsAdviceInterceptor`  is constructed, if we find he/she write error, we should tell he/she that error occurs as soon as possible.",in: core,"Issues in core modules (aop, beans, core, context, expression)"
+169,199956210,"Background init tasks via @Scheduled(cron=""@start"")",panchenko,440271,"I would like to use `@Scheduled` to perform some initialization tasks in background.
+The syntax is inspired by `@reboot` in `crontab`.
+
+#21557
+
+WDYT?",status: waiting-for-triage,An issue we've not yet triaged or decided on
+170,192594235,Add JDBC SqlValue classes for arrays,marschall,471021,"Introduce two SqlValue classes for more convenient use of arrays from
+Spring JDBC.
+
+- AbstractSqlArrayValue abstract base class for array values
+- SqlArrayValue concrete implementation class that uses JDBC 4.0 to
+  create an array
+
+Issue: SPR-16904",in: data,"Issues in data modules (jdbc, orm, oxm, tx)"
+171,186613778,Added Basic Authorization for UrlResource,x-x-z,13693231,"This pull request adds Basic Authorization for UrlResource.
+This is fix for https://github.com/spring-projects/spring-boot/issues/6138",status: waiting-for-feedback,We need additional information before we can continue
+172,179682773,SPR-16642 - DefaultMessageListenerContainer JMS Pool leak with CACHE_CONSUMER and Bitronix in error path,drewtul,963775,"Add a boolean flag to control the use of a dedicated connection for caching.
+
+This enables using a dedicated connection per task which may be required
+for some XA Transaction managers to avoid connection closing issues
+in the error handling path resulting in a leak from a connection pool.
+
+This has been seen with CACHE_CONSUMER and btm at least.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+173,172160761,SPR-12756: Local visibility for writes to caches with transactional decorators,williamhoyle,104979,"This patch adds an alternative to the TransactionAwareCacheDecorator that addresses issues raised in SPR-12756 - it makes writes to decorated caches visible within the scope of the transaction.
+
+It is intended to be minimally obtrusive. The current interface is not changed beyond adding a `setCacheDecoratorFactory` method to the `TransactionAwareCacheManagerProxy` to allow the strategy to be selected. The behaviour defaults to use the existing `TransactionAwareCacheDecorator`. ",status: waiting-for-triage,An issue we've not yet triaged or decided on
+174,99860950,SPR-8190: Added support for Byte Buddy AOP proxies and bean subclassing instantiation strategy.,raphw,4489328,"The suggested proxy makers are working but this is still work in progress. I require input for any further steps:
+
+There is still no mechanism to specify a specific another byte code provider. Also, there is potential of sharing code for the cglib and Byte Buddy proxy classes unit tests but for this PR, i tried to not change any existing code. There are no explicit tests for the cglib bean proxy maker which could serve as a specimen which is why this call is untested.",status: waiting-for-triage,An issue we've not yet triaged or decided on
+175,49371459,Add support to any Iterable types on PropertyAccessor,ljtfreitas,1396096,"Sometimes, for better clarity of the application model, we create objects that encapsulate a Collection, and this object comes to represent a collection of a certain type in the application model. To simplify `for-each` operations, this object must implement `java.lang.Iterable`. Example:
+
+``` java
+public class MyType {
+    @NotNull
+    private String name;
+}
+
+public class MyTypesGroup implements Iterable<MyType> {
+    private Collection <MyType> myTypes = new ArrayList <MyType> ();
+
+    @Override
+    public Iterator<MyType> iterator() {
+         return myTypes.iterator();
+    }
+
+    // model methods
+}
+
+public class MyAggregateType {
+     @Valid
+     private MyTypesGroup myTypesGroup MyTypesGroup = new ();
+}
+```
+
+Databind, get and set properties operations, typically used with `BeanWrapper`, they are not supported for these objects (in the above example, something like ""myTypesGroup[0].name""). 
+
+In my use case, with Hibernate Validator, the path will be generated ""myTypesGroup[0].name"" (Hibernate Validator au), occurring an exception when the Spring tries to extract the property value (to generate the error message on the Spring MVC)
+
+This pull request adds `java.lang.Iterable` as a supported type for reading properties by `PropertyAccessors`.
+
+I have signed and agree to the terms of the Spring ICLA.
+
+Thanks (and sorry for any English errors :))
+",in: core,"Issues in core modules (aop, beans, core, context, expression)"
+176,38044205,Use method meta-data in getTypeForFactoryMethod,philwebb,519772,"Update AbstractAutowireCapableBeanFactory.getTypeForFactoryMethod to
+use already loaded method meta-data when deducing the type of a factory
+method.
+",in: core,"Issues in core modules (aop, beans, core, context, expression)"
+177,38043220,Reduce BeanDefinition cloning from isFactoryBean,philwebb,519772,"Update AbstractBeanFactory.isFactoryBean to only create the merged local
+bean definition when absolutely necessary.
+",in: core,"Issues in core modules (aop, beans, core, context, expression)"

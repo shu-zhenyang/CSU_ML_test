@@ -1,0 +1,502 @@
+,id,user_login,user_id,labels_name,labels_description
+0,1474512382,koo-taejin,10057874,status: waiting-for-triage,An issue we've not yet triaged or decided on
+1,1474177558,brucelwl,13413715,status: ideal-for-contribution,An issue that a contributor can help us with
+2,1474106367,CoderYellow,43698473,status: waiting-for-triage,An issue we've not yet triaged or decided on
+3,1474070831,CoderYellow,43698473,status: waiting-for-triage,An issue we've not yet triaged or decided on
+4,1473714341,Encyclopedias,32696764,status: waiting-for-triage,An issue we've not yet triaged or decided on
+5,1473693310,Encyclopedias,32696764,status: waiting-for-triage,An issue we've not yet triaged or decided on
+6,1473318433,osiegmar,1918869,status: waiting-for-triage,An issue we've not yet triaged or decided on
+7,1473084787,rstoyanchev,401908,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+8,1472564183,mdeinum,606761,status: waiting-for-triage,An issue we've not yet triaged or decided on
+9,1472289488,YuvarajCB,13853260,status: waiting-for-triage,An issue we've not yet triaged or decided on
+10,1472287027,jongwooo,44025432,status: waiting-for-triage,An issue we've not yet triaged or decided on
+11,1471320976,lathutkarsh,119601414,status: waiting-for-triage,An issue we've not yet triaged or decided on
+12,1469914226,li0180,5499005,status: waiting-for-triage,An issue we've not yet triaged or decided on
+13,1469673300,javamichi18,26071192,status: waiting-for-triage,An issue we've not yet triaged or decided on
+14,1469163834,koo-taejin,10057874,status: waiting-for-triage,An issue we've not yet triaged or decided on
+15,1468271327,divcon,7947445,status: waiting-for-triage,An issue we've not yet triaged or decided on
+16,1468102978,kuku20045,17181124,status: waiting-for-triage,An issue we've not yet triaged or decided on
+17,1467933842,dkwakkel,4352098,status: waiting-for-triage,An issue we've not yet triaged or decided on
+18,1467701449,Pashulity,38762595,type: bug,A general bug
+19,1467198176,Tienisto,38380847,status: waiting-for-triage,An issue we've not yet triaged or decided on
+20,1467699746,ahmedeewo,116060235,status: waiting-for-triage,An issue we've not yet triaged or decided on
+21,1466056216,svenm1982,119288660,status: waiting-for-triage,An issue we've not yet triaged or decided on
+22,1465770199,ShijunDeng,19890044,status: waiting-for-feedback,We need additional information before we can continue
+23,1465357769,osiegmar,1918869,status: waiting-for-triage,An issue we've not yet triaged or decided on
+24,1465296879,ooeunz,45962578,status: waiting-for-triage,An issue we've not yet triaged or decided on
+25,1464725751,operrin,1544023,status: waiting-for-triage,An issue we've not yet triaged or decided on
+26,1465990799,wilkinsona,914682,theme: aot,An issue related to Ahead-of-time processing
+27,1464370034,jhoeller,1263688,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+28,1464342223,mdeinum,606761,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+29,1464262159,jlous,239440,status: waiting-for-triage,An issue we've not yet triaged or decided on
+30,1464213856,sdeleuze,141109,type: enhancement,A general enhancement
+31,1464136190,sdeleuze,141109,type: enhancement,A general enhancement
+32,1462788934,prcjac,2217954,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+33,1461827145,odrotbohm,128577,in: data,"Issues in data modules (jdbc, orm, oxm, tx)"
+34,1461346725,jhoeller,1263688,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+35,1461131602,manthanb,11189212,status: waiting-for-triage,An issue we've not yet triaged or decided on
+36,1461051699,snicoll,490484,type: bug,A general bug
+37,1461047102,PedroAlvarado,1258134,for: team-attention,An issue we'd like other members of the team to review
+38,1459814267,poutsma,330665,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+39,1459776506,poutsma,330665,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+40,1459742867,oscarfh,3311764,status: waiting-for-triage,An issue we've not yet triaged or decided on
+41,1459617949,sdeleuze,141109,in: data,"Issues in data modules (jdbc, orm, oxm, tx)"
+42,1459596697,sdeleuze,141109,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+43,1459566604,sdeleuze,141109,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+44,1459505401,wilkinsona,914682,type: documentation,A documentation task
+45,1459395748,joshlong,54473,for: team-attention,An issue we'd like other members of the team to review
+46,1456618971,ManfredTremmel,8995260,status: waiting-for-triage,An issue we've not yet triaged or decided on
+47,1456487882,wplong11,5109223,status: waiting-for-triage,An issue we've not yet triaged or decided on
+48,1455165288,bclozel,103264,type: bug,A general bug
+49,1455093805,goafabric,5617159,status: waiting-for-triage,An issue we've not yet triaged or decided on
+50,1454651384,a364176773,19943636,status: waiting-for-triage,An issue we've not yet triaged or decided on
+51,1453139746,tianshuang,10725601,status: waiting-for-triage,An issue we've not yet triaged or decided on
+52,1453023681,akefirad,2142363,status: waiting-for-triage,An issue we've not yet triaged or decided on
+53,1451783435,johnplatts,28941113,status: waiting-for-feedback,We need additional information before we can continue
+54,1451656575,eiswind,1238044,status: waiting-for-triage,An issue we've not yet triaged or decided on
+55,1450755333,koo-taejin,10057874,status: waiting-for-triage,An issue we've not yet triaged or decided on
+56,1466747358,akefirad,2142363,type: bug,A general bug
+57,1449726733,rstoyanchev,401908,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+58,1449480073,dmytro-zhelieznyi,48699067,status: waiting-for-triage,An issue we've not yet triaged or decided on
+59,1448693625,izeye,1059363,status: waiting-for-triage,An issue we've not yet triaged or decided on
+60,1448660573,philwebb,519772,status: waiting-for-triage,An issue we've not yet triaged or decided on
+61,1448485477,svschouw-bb,6746989,status: waiting-for-triage,An issue we've not yet triaged or decided on
+62,1448071471,sbrannen,104798,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+63,1445490489,divcon,7947445,status: waiting-for-triage,An issue we've not yet triaged or decided on
+64,1444571593,renatomrcosta,1334354,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+65,1441801943,fvigotti,1241975,status: waiting-for-triage,An issue we've not yet triaged or decided on
+66,1440697658,Tattwa,9663577,status: waiting-for-triage,An issue we've not yet triaged or decided on
+67,1440439495,sbrannen,104798,type: task,A general task
+68,1436717662,StephenFlavin,14975957,status: waiting-for-triage,An issue we've not yet triaged or decided on
+69,1436110003,ettavolt,1511983,status: waiting-for-triage,An issue we've not yet triaged or decided on
+70,1433453930,reda-alaoui,2890843,status: waiting-for-triage,An issue we've not yet triaged or decided on
+71,1433024098,dreis2211,6304496,type: enhancement,A general enhancement
+72,1432896313,reda-alaoui,2890843,status: waiting-for-triage,An issue we've not yet triaged or decided on
+73,1431906248,ionel-sirbu-crunch,68114012,status: waiting-for-triage,An issue we've not yet triaged or decided on
+74,1428119034,kazuki-ma,1370068,status: waiting-for-triage,An issue we've not yet triaged or decided on
+75,1427740519,jonatan-ivanov,3044070,status: waiting-for-triage,An issue we've not yet triaged or decided on
+76,1426877056,wilkinsona,914682,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+77,1426751884,almirus,16898685,status: waiting-for-triage,An issue we've not yet triaged or decided on
+78,1426083915,mdeinum,606761,status: waiting-for-triage,An issue we've not yet triaged or decided on
+79,1425305592,lako12,58422683,status: waiting-for-triage,An issue we've not yet triaged or decided on
+80,1422842722,mdeinum,606761,status: waiting-for-triage,An issue we've not yet triaged or decided on
+81,1422701328,chrylis,2394512,status: waiting-for-triage,An issue we've not yet triaged or decided on
+82,1422256367,joshlong,54473,type: enhancement,A general enhancement
+83,1422123588,Butzlabben,29730180,status: waiting-for-triage,An issue we've not yet triaged or decided on
+84,1421143238,reda-alaoui,2890843,status: waiting-for-triage,An issue we've not yet triaged or decided on
+85,1419762646,EnricSala,6584351,status: waiting-for-triage,An issue we've not yet triaged or decided on
+86,1419749327,reda-alaoui,2890843,status: waiting-for-triage,An issue we've not yet triaged or decided on
+87,1417475394,chrylis,2394512,status: waiting-for-triage,An issue we've not yet triaged or decided on
+88,1416733666,harikrishnayadlapalli,64837600,status: waiting-for-triage,An issue we've not yet triaged or decided on
+89,1416271843,snicoll,490484,type: bug,A general bug
+90,1416086576,philwebb,519772,type: task,A general task
+91,1415444416,pmaslany,1612209,status: waiting-for-triage,An issue we've not yet triaged or decided on
+92,1415100507,totakura,6897954,status: waiting-for-triage,An issue we've not yet triaged or decided on
+93,1412888548,wilkinsona,914682,status: waiting-for-triage,An issue we've not yet triaged or decided on
+94,1411351086,sdeleuze,141109,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+95,1410949673,guysmart694,76242473,status: waiting-for-triage,An issue we've not yet triaged or decided on
+96,1421231157,levitin,3276278,status: waiting-for-triage,An issue we've not yet triaged or decided on
+97,1407657584,AhmadAbdelghany,5938830,status: waiting-for-triage,An issue we've not yet triaged or decided on
+98,1407093160,Linda-pan,18511489,status: waiting-for-triage,An issue we've not yet triaged or decided on
+99,1406163997,odrotbohm,128577,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+100,1404647059,membersound,5269630,status: waiting-for-triage,An issue we've not yet triaged or decided on
+101,1402332916,ullenboom,5071169,status: waiting-for-triage,An issue we've not yet triaged or decided on
+102,1401919339,sbrannen,104798,in: messaging,"Issues in messaging modules (jms, messaging)"
+103,1401872905,snicoll,490484,type: enhancement,A general enhancement
+104,1401792964,trydofor,189996,status: waiting-for-triage,An issue we've not yet triaged or decided on
+105,1401295901,snicoll,490484,type: bug,A general bug
+106,1401313024,snicoll,490484,status: waiting-for-triage,An issue we've not yet triaged or decided on
+107,1399611338,evser,11527468,status: waiting-for-triage,An issue we've not yet triaged or decided on
+108,1398977701,snicoll,490484,type: bug,A general bug
+109,1396576630,2is10,647851,status: waiting-for-triage,An issue we've not yet triaged or decided on
+110,1396480441,rwinch,362503,status: waiting-for-triage,An issue we've not yet triaged or decided on
+111,1395883015,bclozel,103264,type: task,A general task
+112,1394413520,bclozel,103264,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+113,1393684780,zzzhangyxi,67031287,status: waiting-for-triage,An issue we've not yet triaged or decided on
+114,1393355616,CoderYellow,43698473,status: waiting-for-triage,An issue we've not yet triaged or decided on
+115,1392955827,vpavic,1149230,status: waiting-for-triage,An issue we've not yet triaged or decided on
+116,1392625839,baso53,8758580,status: waiting-for-triage,An issue we've not yet triaged or decided on
+117,1391077246,Drezir,11374081,status: waiting-for-feedback,We need additional information before we can continue
+118,1391050218,Drezir,11374081,status: waiting-for-triage,An issue we've not yet triaged or decided on
+119,1390653280,zhmaeff,7104481,status: waiting-for-triage,An issue we've not yet triaged or decided on
+120,1388895468,gourav,37252657,status: waiting-for-triage,An issue we've not yet triaged or decided on
+121,1387300907,bclozel,103264,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+122,1385002177,skoarkid,37837480,status: waiting-for-triage,An issue we've not yet triaged or decided on
+123,1384681490,sbrannen,104798,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+124,1383915800,wilkinsona,914682,type: enhancement,A general enhancement
+125,1381599584,madorb,823868,status: waiting-for-triage,An issue we've not yet triaged or decided on
+126,1377601873,snicoll,490484,type: bug,A general bug
+127,1374753447,sbrannen,104798,type: documentation,A documentation task
+128,1374526247,Fndream,53517522,status: waiting-for-triage,An issue we've not yet triaged or decided on
+129,1373628426,dreis2211,6304496,status: waiting-for-triage,An issue we've not yet triaged or decided on
+130,1373164345,savinov,711887,status: waiting-for-triage,An issue we've not yet triaged or decided on
+131,1372772536,Polve,1634436,status: waiting-for-triage,An issue we've not yet triaged or decided on
+132,1371338584,sdeleuze,141109,in: data,"Issues in data modules (jdbc, orm, oxm, tx)"
+133,1368002502,sbrannen,104798,in: test,Issues in the test module
+134,1367494118,davefranken-ah,103425711,status: waiting-for-triage,An issue we've not yet triaged or decided on
+135,1367476290,lenoch7,6397085,status: waiting-for-triage,An issue we've not yet triaged or decided on
+136,1367457320,lenoch7,6397085,status: waiting-for-triage,An issue we've not yet triaged or decided on
+137,1361639302,sbrannen,104798,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+138,1361238047,sbrannen,104798,type: documentation,A documentation task
+139,1360520238,Vladislav-Zolotaryov,8714016,status: waiting-for-triage,An issue we've not yet triaged or decided on
+140,1360389509,jxblum,5247119,type: documentation,A documentation task
+141,1355057667,xak2000,1576014,status: waiting-for-triage,An issue we've not yet triaged or decided on
+142,1355055005,tangmingze7280,44865221,status: waiting-for-triage,An issue we've not yet triaged or decided on
+143,1352573968,aschaich,108736614,status: waiting-for-triage,An issue we've not yet triaged or decided on
+144,1352485529,skjelmo,6596033,status: waiting-for-triage,An issue we've not yet triaged or decided on
+145,1352410452,sbrannen,104798,in: test,Issues in the test module
+146,1352105244,r331,34960570,status: waiting-for-triage,An issue we've not yet triaged or decided on
+147,1351354373,scordio,26772046,status: waiting-for-triage,An issue we've not yet triaged or decided on
+148,1347578019,snicoll,490484,type: enhancement,A general enhancement
+149,1346955385,benneq,1627305,status: waiting-for-triage,An issue we've not yet triaged or decided on
+150,1345582165,edyda99,76707194,status: waiting-for-triage,An issue we've not yet triaged or decided on
+151,1345529714,lizongbo,1670666,status: waiting-for-triage,An issue we've not yet triaged or decided on
+152,1345518329,Drezir,11374081,status: waiting-for-triage,An issue we've not yet triaged or decided on
+153,1345133296,mpashka,11572917,status: waiting-for-triage,An issue we've not yet triaged or decided on
+154,1343199520,xak2000,1576014,status: waiting-for-triage,An issue we've not yet triaged or decided on
+155,1341601714,sbrannen,104798,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+156,1341321616,sasavilic,4925538,status: waiting-for-triage,An issue we've not yet triaged or decided on
+157,1340415332,ipavkovic,5860340,status: waiting-for-triage,An issue we've not yet triaged or decided on
+158,1340230289,62mkv,5255127,status: waiting-for-triage,An issue we've not yet triaged or decided on
+159,1337590885,jerzykrlk,4005877,status: waiting-for-triage,An issue we've not yet triaged or decided on
+160,1336989880,fightzhong,36877901,status: waiting-for-triage,An issue we've not yet triaged or decided on
+161,1336192838,geliotropv,105721421,status: waiting-for-triage,An issue we've not yet triaged or decided on
+162,1334513304,syrm-ll,40515646,status: waiting-for-triage,An issue we've not yet triaged or decided on
+163,1333709161,artembilan,1071590,status: waiting-for-triage,An issue we've not yet triaged or decided on
+164,1333052391,sunmaolin,55195813,status: waiting-for-triage,An issue we've not yet triaged or decided on
+165,1332526750,sdack-cloud,49465225,status: waiting-for-triage,An issue we've not yet triaged or decided on
+166,1329708128,Mr-YW,75660892,status: waiting-for-triage,An issue we've not yet triaged or decided on
+167,1328486593,geliotropv,105721421,status: waiting-for-triage,An issue we've not yet triaged or decided on
+168,1327314209,roookeee,1199562,status: waiting-for-triage,An issue we've not yet triaged or decided on
+169,1327290561,mhalbritter,98899556,status: waiting-for-triage,An issue we've not yet triaged or decided on
+170,1326929249,jhyot,8843969,status: waiting-for-triage,An issue we've not yet triaged or decided on
+171,1325493999,rstoyanchev,401908,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+172,1324559492,arneschweenbs,35922944,status: waiting-for-triage,An issue we've not yet triaged or decided on
+173,1324156838,vpavic,1149230,status: waiting-for-triage,An issue we've not yet triaged or decided on
+174,1323879515,Shikari0744,71756305,status: waiting-for-triage,An issue we've not yet triaged or decided on
+175,1323821902,tombyong,603898,status: waiting-for-triage,An issue we've not yet triaged or decided on
+176,1323444208,janeisklar,1239732,status: waiting-for-triage,An issue we've not yet triaged or decided on
+177,1322657685,vpavic,1149230,type: documentation,A documentation task
+178,1322451484,vikeychen,3364975,status: waiting-for-triage,An issue we've not yet triaged or decided on
+179,1321986067,djechelon,3042285,status: waiting-for-triage,An issue we've not yet triaged or decided on
+180,1320562077,zhujiuchao,108821901,status: waiting-for-triage,An issue we've not yet triaged or decided on
+181,1319743260,eallais,619079,status: waiting-for-triage,An issue we've not yet triaged or decided on
+182,1319494775,pfoermer,2022146,status: waiting-for-triage,An issue we've not yet triaged or decided on
+183,1317568950,mwisnicki,96032,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+184,1316288365,bcc829,17703627,status: waiting-for-triage,An issue we've not yet triaged or decided on
+185,1317781386,twobiers,22715034,status: waiting-for-triage,An issue we've not yet triaged or decided on
+186,1315379841,janeisklar,1239732,status: waiting-for-triage,An issue we've not yet triaged or decided on
+187,1315181095,snicoll,490484,type: enhancement,A general enhancement
+188,1312991927,riimeik,13738028,status: waiting-for-triage,An issue we've not yet triaged or decided on
+189,1310906622,aSemy,897017,status: waiting-for-triage,An issue we've not yet triaged or decided on
+190,1302009148,sbrannen,104798,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+191,1299979062,RomanPilyutik,10808452,status: waiting-for-triage,An issue we've not yet triaged or decided on
+192,1298421153,1004789224,32547368,status: waiting-for-triage,An issue we've not yet triaged or decided on
+193,1297110535,MiniDigger,2185527,status: waiting-for-triage,An issue we've not yet triaged or decided on
+194,1295819184,kawinprabhakaran,108467024,status: waiting-for-triage,An issue we've not yet triaged or decided on
+195,1294444272,scantor,8268662,status: waiting-for-triage,An issue we've not yet triaged or decided on
+196,1294333582,sbrannen,104798,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+197,1294179064,alexanderankin,8921892,status: waiting-for-triage,An issue we've not yet triaged or decided on
+198,1291038539,borisfox73,30916026,status: waiting-for-triage,An issue we've not yet triaged or decided on
+199,1287744456,hyukchan,6544332,status: waiting-for-triage,An issue we've not yet triaged or decided on
+200,1285828570,mhalbritter,98899556,type: enhancement,A general enhancement
+201,1283583017,SuperEdison,84554944,status: waiting-for-triage,An issue we've not yet triaged or decided on
+202,1283496853,KimSeongIl,10323016,status: waiting-for-triage,An issue we've not yet triaged or decided on
+203,1282482177,laststem,53392481,status: waiting-for-triage,An issue we've not yet triaged or decided on
+204,1282283142,eliasbalasis,1681838,status: waiting-for-triage,An issue we've not yet triaged or decided on
+205,1281953260,ugrave,252630,status: waiting-for-triage,An issue we've not yet triaged or decided on
+206,1280702598,kiranshm973,17679139,status: waiting-for-triage,An issue we've not yet triaged or decided on
+207,1279973835,wilkinsona,914682,status: waiting-for-triage,An issue we've not yet triaged or decided on
+208,1278808333,chulbert,9003435,status: waiting-for-triage,An issue we've not yet triaged or decided on
+209,1276513695,mspiess,30656914,in: test,Issues in the test module
+210,1275885937,simplyanything,19511300,status: waiting-for-triage,An issue we've not yet triaged or decided on
+211,1275744302,treilhes,4742433,status: waiting-for-triage,An issue we've not yet triaged or decided on
+212,1274692772,huifer,26766909,status: waiting-for-triage,An issue we've not yet triaged or decided on
+213,1273093760,italktothewind,38671741,status: waiting-for-triage,An issue we've not yet triaged or decided on
+214,1273402974,MrBuddyCasino,3044875,in: kotlin,An issue in or related to Kotlin support
+215,1272298102,izeye,1059363,status: waiting-for-triage,An issue we've not yet triaged or decided on
+216,1272120262,sbrannen,104798,in: test,Issues in the test module
+217,1271233470,NWuensche,15856197,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+218,1269592676,davidvieiratrustly,80408183,status: waiting-for-triage,An issue we've not yet triaged or decided on
+219,1267808549,odrotbohm,128577,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+220,1267352687,SchroedingersGitHub,59590288,type: documentation,A documentation task
+221,1266174928,mabako,125113,status: waiting-for-triage,An issue we've not yet triaged or decided on
+222,1265747902,brianflan,107175342,status: waiting-for-triage,An issue we've not yet triaged or decided on
+223,1262972161,snicoll,490484,type: enhancement,A general enhancement
+224,1262611077,quaff,143040,status: waiting-for-triage,An issue we've not yet triaged or decided on
+225,1262452442,rwinch,362503,status: waiting-for-triage,An issue we've not yet triaged or decided on
+226,1260141893,gkgeorgiev,7082716,status: waiting-for-triage,An issue we've not yet triaged or decided on
+227,1257762487,neiser,3863897,status: waiting-for-triage,An issue we've not yet triaged or decided on
+228,1254069676,sixcorners,585501,status: waiting-for-triage,An issue we've not yet triaged or decided on
+229,1252684627,danny-su,12178855,status: waiting-for-triage,An issue we've not yet triaged or decided on
+230,1251886627,HaimiZhou,18898924,status: waiting-for-triage,An issue we've not yet triaged or decided on
+231,1251512675,DInTheName,42485464,status: waiting-for-triage,An issue we've not yet triaged or decided on
+232,1251163143,orubel,274764,status: waiting-for-triage,An issue we've not yet triaged or decided on
+233,1250498376,JoshMcCullough,4859660,status: waiting-for-triage,An issue we've not yet triaged or decided on
+234,1250218513,JulianIsFree,43309818,status: waiting-for-triage,An issue we've not yet triaged or decided on
+235,1249425911,msangel,773163,status: waiting-for-triage,An issue we've not yet triaged or decided on
+236,1248209153,TheheiWorld,22994746,status: waiting-for-triage,An issue we've not yet triaged or decided on
+237,1247994729,shuodashen,11989488,status: waiting-for-triage,An issue we've not yet triaged or decided on
+238,1247882292,filiphr,6012094,status: waiting-for-triage,An issue we've not yet triaged or decided on
+239,1246618387,yelhouti,5471639,status: waiting-for-triage,An issue we've not yet triaged or decided on
+240,1246239915,1004789224,32547368,status: waiting-for-triage,An issue we've not yet triaged or decided on
+241,1245456274,sbrannen,104798,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+242,1244566308,wonwoo,747472,status: waiting-for-triage,An issue we've not yet triaged or decided on
+243,1243003876,sbrannen,104798,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+244,1242500865,jsonwan,53823124,status: waiting-for-triage,An issue we've not yet triaged or decided on
+245,1241392815,wrj15034011352,38170277,status: waiting-for-triage,An issue we've not yet triaged or decided on
+246,1236251831,kasra-haghpanah,53397941,status: waiting-for-triage,An issue we've not yet triaged or decided on
+247,1233932321,dbydzovsky,22772706,status: waiting-for-triage,An issue we've not yet triaged or decided on
+248,1233500991,yinpeng0528,22645321,status: waiting-for-triage,An issue we've not yet triaged or decided on
+249,1230745635,elnath,5011990,status: waiting-for-triage,An issue we've not yet triaged or decided on
+250,1230359509,j3graham,8454305,status: waiting-for-triage,An issue we've not yet triaged or decided on
+251,1230058646,pmuralidh,89322036,status: waiting-for-triage,An issue we've not yet triaged or decided on
+252,1225678685,influence160,3180939,status: waiting-for-triage,An issue we've not yet triaged or decided on
+253,1225235478,lbenedetto,4466272,status: waiting-for-triage,An issue we've not yet triaged or decided on
+254,1224076494,linghengqian,20187731,status: waiting-for-triage,An issue we've not yet triaged or decided on
+255,1222881796,ZhongGuoDragon,68063139,status: waiting-for-triage,An issue we've not yet triaged or decided on
+256,1220609955,jonathannaguin,265395,status: waiting-for-triage,An issue we've not yet triaged or decided on
+257,1217502696,brucelwl,13413715,status: waiting-for-triage,An issue we've not yet triaged or decided on
+258,1217021885,Nek-12,46318640,status: waiting-for-triage,An issue we've not yet triaged or decided on
+259,1216559141,mikereiche,48999328,status: waiting-for-triage,An issue we've not yet triaged or decided on
+260,1215816221,mgmeiner,3624321,status: waiting-for-triage,An issue we've not yet triaged or decided on
+261,1214918578,bondolo,250420,status: waiting-for-triage,An issue we've not yet triaged or decided on
+262,1214552865,aashishin,70325170,status: waiting-for-triage,An issue we've not yet triaged or decided on
+263,1214501248,brucelwl,13413715,status: waiting-for-triage,An issue we've not yet triaged or decided on
+264,1213717599,tommas1988,3488114,status: waiting-for-triage,An issue we've not yet triaged or decided on
+265,1213370415,taoj-action,25186652,status: waiting-for-triage,An issue we've not yet triaged or decided on
+266,1212460548,moreginger,1387874,status: waiting-for-triage,An issue we've not yet triaged or decided on
+267,1211233476,moudatsos,23639194,status: waiting-for-triage,An issue we've not yet triaged or decided on
+268,1211211773,HimanshuKumbhani-Calypso,93129484,status: waiting-for-triage,An issue we've not yet triaged or decided on
+269,1210186989,raphw,4489328,status: waiting-for-triage,An issue we've not yet triaged or decided on
+270,1209481868,rj-cam,92868401,status: waiting-for-triage,An issue we've not yet triaged or decided on
+271,1207970934,bastianschott,12230588,status: waiting-for-triage,An issue we've not yet triaged or decided on
+272,1207480334,acc15,4038899,type: bug,A general bug
+273,1206114778,dugenkui03,18216266,status: waiting-for-triage,An issue we've not yet triaged or decided on
+274,1205833396,michaldo,4304236,status: waiting-for-triage,An issue we've not yet triaged or decided on
+275,1205525487,alexandgit,103741062,status: waiting-for-triage,An issue we've not yet triaged or decided on
+276,1205259558,heowc,22594101,status: waiting-for-triage,An issue we've not yet triaged or decided on
+277,1204887547,JanStureNielsen,4248566,status: waiting-for-triage,An issue we've not yet triaged or decided on
+278,1204837684,rotilho,950510,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+279,1204064028,gallyamb,5419623,status: waiting-for-triage,An issue we've not yet triaged or decided on
+280,1204018201,ryoheinagao,15025317,status: waiting-for-triage,An issue we've not yet triaged or decided on
+281,1203638267,SpiReCZ,15370999,status: waiting-for-triage,An issue we've not yet triaged or decided on
+282,1202817590,wangkm1,39402615,status: waiting-for-triage,An issue we've not yet triaged or decided on
+283,1202084169,kwilsonO,7905659,status: waiting-for-triage,An issue we've not yet triaged or decided on
+284,1199538085,kriegaex,1537384,status: waiting-for-triage,An issue we've not yet triaged or decided on
+285,1199927849,asypost,1658213,status: waiting-for-triage,An issue we've not yet triaged or decided on
+286,1236750145,GeorgiPetkov,4419977,in: test,Issues in the test module
+287,1196500735,jmarchionatto,60409882,status: waiting-for-triage,An issue we've not yet triaged or decided on
+288,1196036093,jonenst,89208,status: waiting-for-triage,An issue we've not yet triaged or decided on
+289,1194897088,philwebb,519772,status: waiting-for-triage,An issue we've not yet triaged or decided on
+290,1193972711,huynguyentuong,2803633,status: waiting-for-triage,An issue we've not yet triaged or decided on
+291,1192728151,mpiela,2963111,status: waiting-for-triage,An issue we've not yet triaged or decided on
+292,1192105078,seabamirum,3449269,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+293,1191986376,ZiFeng-Wu,54225332,status: waiting-for-triage,An issue we've not yet triaged or decided on
+294,1190962185,copsafe,29396804,status: waiting-for-triage,An issue we've not yet triaged or decided on
+295,1190608310,mark7473247,8357288,status: waiting-for-triage,An issue we've not yet triaged or decided on
+296,1190549964,cnaj,15656144,status: waiting-for-triage,An issue we've not yet triaged or decided on
+297,1190462054,explorer-fullstack,62571748,status: waiting-for-triage,An issue we've not yet triaged or decided on
+298,1189525842,morenice,1031962,status: waiting-for-triage,An issue we've not yet triaged or decided on
+299,1186159867,phil-applegate,3941023,in: messaging,"Issues in messaging modules (jms, messaging)"
+300,1185942056,starriesWEB,73122677,type: documentation,A documentation task
+301,1182025485,SimoneGiusso,26305592,status: waiting-for-triage,An issue we've not yet triaged or decided on
+302,1179928578,fabianlem,4151213,status: waiting-for-triage,An issue we've not yet triaged or decided on
+303,1178563403,dillonm79,84386923,status: waiting-for-feedback,We need additional information before we can continue
+304,1175467534,AssumeJson,32285854,status: waiting-for-triage,An issue we've not yet triaged or decided on
+305,1174365096,cdalexndr,22418250,status: waiting-for-triage,An issue we've not yet triaged or decided on
+306,1169824841,estigma88,27821251,status: waiting-for-triage,An issue we've not yet triaged or decided on
+307,1169461271,ahmadshahwan,9466737,status: waiting-for-triage,An issue we've not yet triaged or decided on
+308,1169438587,nightswimmings,9316403,status: waiting-for-triage,An issue we've not yet triaged or decided on
+309,1167524597,brucelwl,13413715,status: waiting-for-triage,An issue we've not yet triaged or decided on
+310,1167222008,alexschwarzman,52101197,status: waiting-for-triage,An issue we've not yet triaged or decided on
+311,1166631108,luozhenyu,16633830,status: waiting-for-triage,An issue we've not yet triaged or decided on
+312,1166579156,snicoll,490484,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+313,1166482947,jakshay21,17300428,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+314,1165818303,anessi,16045045,status: waiting-for-triage,An issue we've not yet triaged or decided on
+315,1165430061,marcingrzejszczak,3297437,status: waiting-for-triage,An issue we've not yet triaged or decided on
+316,1161190285,y987425112,23693824,status: waiting-for-triage,An issue we've not yet triaged or decided on
+317,1160432803,Staticsubh,31039062,status: waiting-for-triage,An issue we've not yet triaged or decided on
+318,1160066416,mbach979,15051357,status: waiting-for-triage,An issue we've not yet triaged or decided on
+319,1159180742,lizongbo,1670666,status: waiting-for-triage,An issue we've not yet triaged or decided on
+320,1158991592,nakamura-to,404633,status: waiting-for-triage,An issue we've not yet triaged or decided on
+321,1158975725,ctailor2,3526141,status: waiting-for-triage,An issue we've not yet triaged or decided on
+322,1158018714,zhao190775705,43293476,status: waiting-for-triage,An issue we've not yet triaged or decided on
+323,1156830159,Bean900,12278604,status: waiting-for-triage,An issue we've not yet triaged or decided on
+324,1156293451,alaneuler,8054939,status: waiting-for-triage,An issue we've not yet triaged or decided on
+325,1154875275,Edsuns,59397432,status: waiting-for-triage,An issue we've not yet triaged or decided on
+326,1149449260,cquoss,17934067,status: waiting-for-triage,An issue we've not yet triaged or decided on
+327,1147462511,wickedev,5603687,status: waiting-for-triage,An issue we've not yet triaged or decided on
+328,1145127159,dfa1,5798698,status: waiting-for-triage,An issue we've not yet triaged or decided on
+329,1142703166,membersound,5269630,status: waiting-for-triage,An issue we've not yet triaged or decided on
+330,1140107738,dirweis,50779382,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+331,1138891448,sbrannen,104798,type: documentation,A documentation task
+332,1138114277,QuantumXiecao,99702568,status: waiting-for-triage,An issue we've not yet triaged or decided on
+333,1142703348,af6140,15639159,status: waiting-for-triage,An issue we've not yet triaged or decided on
+334,1137600881,odrotbohm,128577,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+335,1132907347,a364176773,19943636,status: waiting-for-triage,An issue we've not yet triaged or decided on
+336,1132901810,a364176773,19943636,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+337,1132570463,marcingrzejszczak,3297437,in: data,"Issues in data modules (jdbc, orm, oxm, tx)"
+338,1130001545,Richie94,7793923,status: waiting-for-triage,An issue we've not yet triaged or decided on
+339,1123863791,ZhongGuoDragon,68063139,type: bug,A general bug
+340,1121227853,loiclefevre,21245376,status: waiting-for-triage,An issue we've not yet triaged or decided on
+341,1117869141,rilmay,45715209,status: waiting-for-triage,An issue we've not yet triaged or decided on
+342,1114512236,bironran,6241597,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+343,1113683069,kp185128,76436857,status: waiting-for-triage,An issue we've not yet triaged or decided on
+344,1108123424,marcingrzejszczak,3297437,status: waiting-for-triage,An issue we've not yet triaged or decided on
+345,1107534440,pault-t-canva,38088595,status: waiting-for-triage,An issue we've not yet triaged or decided on
+346,1099161264,sbrannen,104798,type: documentation,A documentation task
+347,1098931056,mdeinum,606761,status: waiting-for-triage,An issue we've not yet triaged or decided on
+348,1098838069,snicoll,490484,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+349,1094447255,hannah23280,4410920,status: waiting-for-triage,An issue we've not yet triaged or decided on
+350,1092269908,BartRobeyns,6755488,type: documentation,A documentation task
+351,1091745397,hantsy,854520,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+352,1087200485,jamesward,65043,status: waiting-for-triage,An issue we've not yet triaged or decided on
+353,1075719241,gtg465x,734415,status: waiting-for-triage,An issue we've not yet triaged or decided on
+354,1072268980,sbrannen,104798,type: regression,A bug that is also a regression
+355,1071534346,beancracker,12196092,status: waiting-for-triage,An issue we've not yet triaged or decided on
+356,1070845946,gkgeorgiev,7082716,type: bug,A general bug
+357,1063999922,KaidosGH,95002361,in: data,"Issues in data modules (jdbc, orm, oxm, tx)"
+358,1059996800,wilkinsona,914682,in: test,Issues in the test module
+359,1059352742,BrucessKING,39517489,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+360,1055614636,kakahu2015,17962485,status: waiting-for-triage,An issue we've not yet triaged or decided on
+361,1049891602,sbchaud,90783867,status: waiting-for-triage,An issue we've not yet triaged or decided on
+362,1045018126,djechelon,3042285,status: waiting-for-triage,An issue we've not yet triaged or decided on
+363,1042067245,Polve,1634436,status: waiting-for-triage,An issue we've not yet triaged or decided on
+364,1032403560,libetl,1233790,for: team-attention,An issue we'd like other members of the team to review
+365,1029159687,vitali-kviatkouski,1344812,status: waiting-for-triage,An issue we've not yet triaged or decided on
+366,1028936292,EnricSala,6584351,in: data,"Issues in data modules (jdbc, orm, oxm, tx)"
+367,1022172872,ghillert,685363,status: waiting-for-triage,An issue we've not yet triaged or decided on
+368,1017692792,EnricSala,6584351,in: data,"Issues in data modules (jdbc, orm, oxm, tx)"
+369,1017512252,be-hase,903482,status: waiting-for-triage,An issue we've not yet triaged or decided on
+370,1016398826,trylimits,7002180,status: waiting-for-triage,An issue we've not yet triaged or decided on
+371,1011128768,sbrannen,104798,type: documentation,A documentation task
+372,1008748480,cdalexndr,22418250,status: waiting-for-triage,An issue we've not yet triaged or decided on
+373,1005083494,xiaoxiyao,12003562,status: waiting-for-triage,An issue we've not yet triaged or decided on
+374,1004038630,sbrannen,104798,type: task,A general task
+375,1002216616,penttin5,8793433,status: waiting-for-triage,An issue we've not yet triaged or decided on
+376,991878835,mostroverkhov,3397563,status: waiting-for-triage,An issue we've not yet triaged or decided on
+377,984785925,quaff,143040,status: waiting-for-triage,An issue we've not yet triaged or decided on
+378,976118837,ks-yim,35995647,status: waiting-for-triage,An issue we've not yet triaged or decided on
+379,971454895,aahlenst,198908,status: waiting-for-triage,An issue we've not yet triaged or decided on
+380,962338937,HashZhang,15627489,status: waiting-for-triage,An issue we've not yet triaged or decided on
+381,956565539,MarkMarkyMarkus,26203645,status: waiting-for-triage,An issue we've not yet triaged or decided on
+382,939353062,cdalexndr,22418250,status: waiting-for-triage,An issue we've not yet triaged or decided on
+383,936931302,asavov,2912057,type: enhancement,A general enhancement
+384,926754310,jgslima,199610,status: waiting-for-triage,An issue we've not yet triaged or decided on
+385,911189874,ian4hu,7564574,status: waiting-for-triage,An issue we've not yet triaged or decided on
+386,907941558,FrontierPsychiatrist,3382041,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+387,882181970,lower-case,8265616,status: waiting-for-feedback,We need additional information before we can continue
+388,872176828,brunoborges,129743,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+389,854646332,sandipchitale,3310939,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+390,850219749,1zg12,52658745,status: waiting-for-triage,An issue we've not yet triaged or decided on
+391,840632989,Jinhui-Z,34084399,status: waiting-for-triage,An issue we've not yet triaged or decided on
+392,835676920,1zg12,52658745,type: documentation,A documentation task
+393,834709293,marcingrzejszczak,3297437,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+394,814578847,membersound,5269630,in: data,"Issues in data modules (jdbc, orm, oxm, tx)"
+395,804325928,hjohn,995917,status: waiting-for-triage,An issue we've not yet triaged or decided on
+396,799473424,cdalexndr,22418250,status: waiting-for-triage,An issue we've not yet triaged or decided on
+397,797766407,stefanocke,7280950,status: waiting-for-triage,An issue we've not yet triaged or decided on
+398,794837373,MichalStehlikCz,38212200,status: waiting-for-triage,An issue we've not yet triaged or decided on
+399,789806158,jackmiking,7358173,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+400,787463092,encircled,1517220,status: waiting-for-triage,An issue we've not yet triaged or decided on
+401,785011680,nightswimmings,9316403,status: ideal-for-contribution,An issue that a contributor can help us with
+402,784208878,rubensa,1469340,status: waiting-for-triage,An issue we've not yet triaged or decided on
+403,766468495,Pancor,24636767,in: test,Issues in the test module
+404,761096858,jjpianta,6969522,status: waiting-for-triage,An issue we've not yet triaged or decided on
+405,761026029,wlizhi,39363556,status: waiting-for-triage,An issue we've not yet triaged or decided on
+406,759396242,raphw,4489328,status: waiting-for-triage,An issue we've not yet triaged or decided on
+407,757754409,Sam-Kruglov,23556336,status: waiting-for-triage,An issue we've not yet triaged or decided on
+408,756378705,NaveenGurram,477819,status: waiting-for-triage,An issue we've not yet triaged or decided on
+409,754582816,StefanPenndorf,990538,status: waiting-for-triage,An issue we've not yet triaged or decided on
+410,754362769,mischkes,12471760,status: waiting-for-triage,An issue we've not yet triaged or decided on
+411,753919720,vy,72137,status: waiting-for-triage,An issue we've not yet triaged or decided on
+412,749965922,stolsvik,3123344,in: test,Issues in the test module
+413,725106870,iherasymenko,2904801,type: documentation,A documentation task
+414,712994080,dotbg,367403,status: waiting-for-triage,An issue we've not yet triaged or decided on
+415,708430762,ak98neon,16827462,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+416,683948865,mahozad,29678011,status: waiting-for-triage,An issue we've not yet triaged or decided on
+417,679612141,FrancescoJo,4831238,status: waiting-for-triage,An issue we've not yet triaged or decided on
+418,663364474,anborg,56970398,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+419,663054350,JawinSoft,41267120,type: documentation,A documentation task
+420,627517477,rwinch,362503,for: team-attention,An issue we'd like other members of the team to review
+421,626589179,artmiar,2219169,status: waiting-for-triage,An issue we've not yet triaged or decided on
+422,619528975,averude,26667793,status: waiting-for-triage,An issue we've not yet triaged or decided on
+423,606417889,rsilamala,18733142,status: waiting-for-triage,An issue we've not yet triaged or decided on
+424,605439904,quaff,143040,status: waiting-for-triage,An issue we've not yet triaged or decided on
+425,604022110,HaloFour,10102290,status: waiting-for-triage,An issue we've not yet triaged or decided on
+426,600766454,hedgerocker,9397682,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+427,592428394,snicoll,490484,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+428,589805338,dalibegovic,6214786,status: waiting-for-triage,An issue we've not yet triaged or decided on
+429,585534506,akefirad,2142363,status: waiting-for-triage,An issue we've not yet triaged or decided on
+430,576712298,derrick-pericipio,26554105,status: waiting-for-feedback,We need additional information before we can continue
+431,576349567,stsypanov,10835776,status: waiting-for-triage,An issue we've not yet triaged or decided on
+432,568612458,bclozel,103264,status: waiting-for-triage,An issue we've not yet triaged or decided on
+433,564681998,odrotbohm,128577,in: test,Issues in the test module
+434,562391111,ttddyy,459116,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+435,546305113,valfirst,5081226,status: waiting-for-triage,An issue we've not yet triaged or decided on
+436,545148997,elab,483727,status: waiting-for-triage,An issue we've not yet triaged or decided on
+437,1013121530,rd-o,1220610,status: waiting-for-triage,An issue we've not yet triaged or decided on
+438,541840385,stela,313574,type: documentation,A documentation task
+439,539685431,jansvajcr,5638104,status: waiting-for-triage,An issue we've not yet triaged or decided on
+440,535668901,sbrannen,104798,type: documentation,A documentation task
+441,534522739,joshiste,8779225,status: waiting-for-triage,An issue we've not yet triaged or decided on
+442,529231760,wilkinsona,914682,status: waiting-for-triage,An issue we've not yet triaged or decided on
+443,525144359,kazuki43zoo,5616270,status: waiting-for-triage,An issue we've not yet triaged or decided on
+444,523131348,michaldo,4304236,status: waiting-for-triage,An issue we've not yet triaged or decided on
+445,520908542,Dragas,6078508,status: waiting-for-triage,An issue we've not yet triaged or decided on
+446,515786915,sokomishalov,21218309,status: waiting-for-triage,An issue we've not yet triaged or decided on
+447,503322981,yiding-he,900606,status: waiting-for-triage,An issue we've not yet triaged or decided on
+448,497511027,ttddyy,459116,status: waiting-for-triage,An issue we've not yet triaged or decided on
+449,490765497,Stiuil06,7704311,status: waiting-for-triage,An issue we've not yet triaged or decided on
+450,483894483,wilkinsona,914682,status: waiting-for-triage,An issue we've not yet triaged or decided on
+451,483773304,yuki-teraoka,1804412,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+452,479148172,jwedel,4849728,in: messaging,"Issues in messaging modules (jms, messaging)"
+453,471684172,philwebb,519772,status: waiting-for-triage,An issue we've not yet triaged or decided on
+454,466237953,membersound,5269630,type: documentation,A documentation task
+455,465747166,membersound,5269630,status: waiting-for-triage,An issue we've not yet triaged or decided on
+456,455620857,Cepr0,10778600,in: data,"Issues in data modules (jdbc, orm, oxm, tx)"
+457,444601919,csueiras,1381470,status: waiting-for-triage,An issue we've not yet triaged or decided on
+458,434062521,philwebb,519772,for: team-attention,An issue we'd like other members of the team to review
+459,432569301,andrei-ivanov,6377070,type: documentation,A documentation task
+460,430632983,lgxbslgx,13688759,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+461,414526296,mp911de,1035015,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+462,413803004,qiyuey,7856182,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+463,400383615,crazyk2,12140191,status: waiting-for-triage,An issue we've not yet triaged or decided on
+464,398238723,spring-projects-issues,16028288,for: team-attention,An issue we'd like other members of the team to review
+465,398234513,spring-projects-issues,16028288,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+466,398234253,spring-projects-issues,16028288,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+467,398233381,spring-projects-issues,16028288,status: waiting-for-triage,An issue we've not yet triaged or decided on
+468,339250243,panchenko,440271,status: waiting-for-triage,An issue we've not yet triaged or decided on
+469,398230460,spring-projects-issues,16028288,type: enhancement,A general enhancement
+470,1365130349,hannes-angst,2822902,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+471,398229200,spring-projects-issues,16028288,status: waiting-for-triage,An issue we've not yet triaged or decided on
+472,398229060,spring-projects-issues,16028288,status: waiting-for-triage,An issue we've not yet triaged or decided on
+473,398228443,spring-projects-issues,16028288,for: team-attention,An issue we'd like other members of the team to review
+474,398227448,spring-projects-issues,16028288,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+475,321159762,x-x-z,13693231,status: waiting-for-feedback,We need additional information before we can continue
+476,398224763,spring-projects-issues,16028288,in: data,"Issues in data modules (jdbc, orm, oxm, tx)"
+477,398219620,spring-projects-issues,16028288,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+478,398214456,spring-projects-issues,16028288,status: waiting-for-triage,An issue we've not yet triaged or decided on
+479,398211505,spring-projects-issues,16028288,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+480,398207036,spring-projects-issues,16028288,status: waiting-for-triage,An issue we've not yet triaged or decided on
+481,398197859,spring-projects-issues,16028288,in: messaging,"Issues in messaging modules (jms, messaging)"
+482,398194918,spring-projects-issues,16028288,for: team-attention,An issue we'd like other members of the team to review
+483,398194427,spring-projects-issues,16028288,in: test,Issues in the test module
+484,398193945,spring-projects-issues,16028288,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+485,398193648,spring-projects-issues,16028288,for: team-attention,An issue we'd like other members of the team to review
+486,398182804,spring-projects-issues,16028288,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+487,398184618,spring-projects-issues,16028288,type: enhancement,A general enhancement
+488,398183795,spring-projects-issues,16028288,in: web,"Issues in web modules (web, webmvc, webflux, websocket)"
+489,398182652,spring-projects-issues,16028288,in: test,Issues in the test module
+490,398180227,spring-projects-issues,16028288,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+491,398158351,spring-projects-issues,16028288,in: data,"Issues in data modules (jdbc, orm, oxm, tx)"
+492,398151500,spring-projects-issues,16028288,in: test,Issues in the test module
+493,398119017,spring-projects-issues,16028288,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+494,398116646,spring-projects-issues,16028288,type: bug,A general bug
+495,398116387,spring-projects-issues,16028288,in: test,Issues in the test module
+496,398114987,spring-projects-issues,16028288,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+497,398114609,spring-projects-issues,16028288,in: core,"Issues in core modules (aop, beans, core, context, expression)"
+498,398102213,spring-projects-issues,16028288,status: waiting-for-triage,An issue we've not yet triaged or decided on
+499,398099177,spring-projects-issues,16028288,in: test,Issues in the test module
+500,398089393,spring-projects-issues,16028288,in: core,"Issues in core modules (aop, beans, core, context, expression)"

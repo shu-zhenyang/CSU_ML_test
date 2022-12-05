@@ -1,0 +1,580 @@
+,sha,url,node_id,commit_message,comments_url,comment_count,commit_date,committer_name,committer_login
+0,65394b00ea421a75318daef6d60378875868249a,https://api.github.com/repos/spring-projects/spring-framework/commits/65394b00ea421a75318daef6d60378875868249a,C_kwDOABGHUdoAKDY1Mzk0YjAwZWE0MjFhNzUzMThkYWVmNmQ2MDM3ODg3NTg2ODI0OWE,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/65394b00ea421a75318daef6d60378875868249a/comments,0,2022-02-24T13:50:18Z,Arjen Poutsma,poutsma
+1,7e2106b850ea65866dc97d24d108c7fe1ea64c8c,https://api.github.com/repos/spring-projects/spring-framework/commits/7e2106b850ea65866dc97d24d108c7fe1ea64c8c,C_kwDOABGHUdoAKDdlMjEwNmI4NTBlYTY1ODY2ZGM5N2QyNGQxMDhjN2ZlMWVhNjRjOGM,"Refactor roll forward in CronField
+
+Before this commit, CronField.Type::rollForward added temporal units
+to reach the higher order field. This caused issues with DST, where
+the added amount of hours was either too small or too large.
+
+This commit refactors the implementation so that it now adds one to the
+higher order field, and reset the current field to the minimum value.
+
+Closes gh-28095",https://api.github.com/repos/spring-projects/spring-framework/commits/7e2106b850ea65866dc97d24d108c7fe1ea64c8c/comments,0,2022-02-24T13:47:02Z,Arjen Poutsma,poutsma
+2,5e75f6e009e3205ef86d7af4be8d79a563e6d23a,https://api.github.com/repos/spring-projects/spring-framework/commits/5e75f6e009e3205ef86d7af4be8d79a563e6d23a,C_kwDOABGHUdoAKDVlNzVmNmUwMDllMzIwNWVmODZkN2FmNGJlOGQ3OWE1NjNlNmQyM2E,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/5e75f6e009e3205ef86d7af4be8d79a563e6d23a/comments,0,2022-02-24T09:55:29Z,Stephane Nicoll,snicoll
+3,453c6d41f71acc54bb3928f9c7b9787d29e84a43,https://api.github.com/repos/spring-projects/spring-framework/commits/453c6d41f71acc54bb3928f9c7b9787d29e84a43,C_kwDOABGHUdoAKDQ1M2M2ZDQxZjcxYWNjNTRiYjM5MjhmOWM3Yjk3ODdkMjllODRhNDM,"Fix Objenesis version
+
+See gh-28100",https://api.github.com/repos/spring-projects/spring-framework/commits/453c6d41f71acc54bb3928f9c7b9787d29e84a43/comments,0,2022-02-24T09:54:52Z,Stephane Nicoll,snicoll
+4,33004a9efdb33ba578ff6f51581d17b47901a43e,https://api.github.com/repos/spring-projects/spring-framework/commits/33004a9efdb33ba578ff6f51581d17b47901a43e,C_kwDOABGHUdoAKDMzMDA0YTllZmRiMzNiYTU3OGZmNmY1MTU4MWQxN2I0NzkwMWE0M2U,"Merge pull request #28100 from izeye
+
+* pr/28100:
+  Fix library name for JavaPoet in src/docs/dist/license.txt
+
+Closes gh-28100",https://api.github.com/repos/spring-projects/spring-framework/commits/33004a9efdb33ba578ff6f51581d17b47901a43e/comments,0,2022-02-24T09:52:21Z,Stephane Nicoll,snicoll
+5,a28b49ac27738b8b9c62fa220d81485b3c840d16,https://api.github.com/repos/spring-projects/spring-framework/commits/a28b49ac27738b8b9c62fa220d81485b3c840d16,C_kwDOABGHUdoAKGEyOGI0OWFjMjc3MzhiOGI5YzYyZmEyMjBkODE0ODViM2M4NDBkMTY,"Fix library name for JavaPoet in src/docs/dist/license.txt
+
+This commit also updates Objenesis version in the file to align with the
+version that Spring Framework is using.
+
+See gh-28100",https://api.github.com/repos/spring-projects/spring-framework/commits/a28b49ac27738b8b9c62fa220d81485b3c840d16/comments,0,2022-02-24T09:51:54Z,Stephane Nicoll,snicoll
+6,b4eb895927e55ba92917cc7522dc93606d84f442,https://api.github.com/repos/spring-projects/spring-framework/commits/b4eb895927e55ba92917cc7522dc93606d84f442,C_kwDOABGHUdoAKGI0ZWI4OTU5MjdlNTViYTkyOTE3Y2M3NTIyZGM5MzYwNmQ4NGY0NDI,"Polish naming
+
+Co-authored-by: Andy Wilkinson <wilkinsona@vmware.com>",https://api.github.com/repos/spring-projects/spring-framework/commits/b4eb895927e55ba92917cc7522dc93606d84f442/comments,0,2022-02-22T15:07:52Z,Stephane Nicoll,snicoll
+7,e85001f332bc4627a094cd2b57973e8eea370c81,https://api.github.com/repos/spring-projects/spring-framework/commits/e85001f332bc4627a094cd2b57973e8eea370c81,C_kwDOABGHUdoAKGU4NTAwMWYzMzJiYzQ2MjdhMDk0Y2QyYjU3OTczZThlZWEzNzBjODE,Clean up warnings in test fixture,https://api.github.com/repos/spring-projects/spring-framework/commits/e85001f332bc4627a094cd2b57973e8eea370c81/comments,0,2022-02-19T16:32:15Z,Sam Brannen,sbrannen
+8,819d4256b7984fdec58840a56b82e411bc53c9c9,https://api.github.com/repos/spring-projects/spring-framework/commits/819d4256b7984fdec58840a56b82e411bc53c9c9,C_kwDOABGHUdoAKDgxOWQ0MjU2Yjc5ODRmZGVjNTg4NDBhNTZiODJlNDExYmM1M2M5Yzk,"Remove deprecated ""enclosing classes"" search strategy for MergedAnnotations
+
+Closes gh-28080",https://api.github.com/repos/spring-projects/spring-framework/commits/819d4256b7984fdec58840a56b82e411bc53c9c9/comments,0,2022-02-19T16:25:50Z,Sam Brannen,sbrannen
+9,ad3095f197f2c16e569322ca3fc0b7f0258f3e96,https://api.github.com/repos/spring-projects/spring-framework/commits/ad3095f197f2c16e569322ca3fc0b7f0258f3e96,C_kwDOABGHUdoAKGFkMzA5NWYxOTdmMmMxNmU1NjkzMjJjYTNmYzBiN2YwMjU4ZjNlOTY,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/ad3095f197f2c16e569322ca3fc0b7f0258f3e96/comments,0,2022-02-19T16:02:02Z,Sam Brannen,sbrannen
+10,84b4cebb3913ddd4a803939fdc8dde1b0401ff35,https://api.github.com/repos/spring-projects/spring-framework/commits/84b4cebb3913ddd4a803939fdc8dde1b0401ff35,C_kwDOABGHUdoAKDg0YjRjZWJiMzkxM2RkZDRhODAzOTM5ZmRjOGRkZTFiMDQwMWZmMzU,"Fix (@)since tag in SpelMessage
+
+See gh-28043",https://api.github.com/repos/spring-projects/spring-framework/commits/84b4cebb3913ddd4a803939fdc8dde1b0401ff35/comments,0,2022-02-19T15:54:16Z,Sam Brannen,sbrannen
+11,5689395678f57fe967a3b21ed7d9087cfec7b622,https://api.github.com/repos/spring-projects/spring-framework/commits/5689395678f57fe967a3b21ed7d9087cfec7b622,C_kwDOABGHUdoAKDU2ODkzOTU2NzhmNTdmZTk2N2EzYjIxZWQ3ZDkwODdjZmVjN2I2MjI,"Deprecate ""enclosing classes"" search strategy for MergedAnnotations
+
+The TYPE_HIERARCHY_AND_ENCLOSING_CLASSES search strategy for
+MergedAnnotations was originally introduced to support @Nested test
+classes in JUnit Jupiter (see #23378).
+
+However, while implementing #19930, we determined that the
+TYPE_HIERARCHY_AND_ENCLOSING_CLASSES search strategy unfortunately
+could not be used since it does not allow the user to control when to
+recurse up the enclosing class hierarchy. For example, this search
+strategy will automatically search on enclosing classes for static
+nested classes as well as for inner classes, when the user probably
+only wants one such category of ""enclosing class"" to be searched.
+Consequently, TestContextAnnotationUtils was introduced in the Spring
+TestContext Framework to address the shortcomings of the
+TYPE_HIERARCHY_AND_ENCLOSING_CLASSES search strategy.
+
+Since this search strategy is unlikely to be useful to general users,
+the team has decided to deprecate this search strategy in Spring
+Framework 5.3.x and remove it in 6.0.
+
+Closes gh-28079",https://api.github.com/repos/spring-projects/spring-framework/commits/5689395678f57fe967a3b21ed7d9087cfec7b622/comments,0,2022-02-19T15:51:00Z,Sam Brannen,sbrannen
+12,be8224a5909f140122a1f25bc02a769b42d11e8f,https://api.github.com/repos/spring-projects/spring-framework/commits/be8224a5909f140122a1f25bc02a769b42d11e8f,C_kwDOABGHUdoAKGJlODIyNGE1OTA5ZjE0MDEyMmExZjI1YmMwMmE3NjliNDJkMTFlOGY,"Polish contribution
+
+See gh-27818",https://api.github.com/repos/spring-projects/spring-framework/commits/be8224a5909f140122a1f25bc02a769b42d11e8f/comments,0,2022-02-19T15:04:55Z,Sam Brannen,sbrannen
+13,01214b3473c4a9e4db66b2036b3c44d6ed7f1678,https://api.github.com/repos/spring-projects/spring-framework/commits/01214b3473c4a9e4db66b2036b3c44d6ed7f1678,C_kwDOABGHUdoAKDAxMjE0YjM0NzNjNGE5ZTRkYjY2YjIwMzZiM2M0NGQ2ZWQ3ZjE2Nzg,"Allow @Async qualifier to be declared with a placeholder or SpEL expression
+
+Closes gh-27818",https://api.github.com/repos/spring-projects/spring-framework/commits/01214b3473c4a9e4db66b2036b3c44d6ed7f1678/comments,0,2022-02-19T14:09:40Z,Sam Brannen,sbrannen
+14,6a73d2655f15000214912765ce75059b714b5995,https://api.github.com/repos/spring-projects/spring-framework/commits/6a73d2655f15000214912765ce75059b714b5995,C_kwDOABGHUdoAKDZhNzNkMjY1NWYxNTAwMDIxNDkxMjc2NWNlNzUwNTliNzE0YjU5OTU,Polishing,https://api.github.com/repos/spring-projects/spring-framework/commits/6a73d2655f15000214912765ce75059b714b5995/comments,0,2022-02-19T13:59:54Z,Sam Brannen,sbrannen
+15,8c6d59aaaf8d0ff31e7d91c6d0ed7de7cd9f518e,https://api.github.com/repos/spring-projects/spring-framework/commits/8c6d59aaaf8d0ff31e7d91c6d0ed7de7cd9f518e,C_kwDOABGHUdoAKDhjNmQ1OWFhYWY4ZDBmZjMxZTdkOTFjNmQwZWQ3ZGU3Y2Q5ZjUxOGU,"Polish contribution
+
+See gh-28014",https://api.github.com/repos/spring-projects/spring-framework/commits/8c6d59aaaf8d0ff31e7d91c6d0ed7de7cd9f518e/comments,0,2022-02-19T13:43:26Z,Sam Brannen,sbrannen
+16,c5c926726dc46f5135645d79ddc12c4027e1d061,https://api.github.com/repos/spring-projects/spring-framework/commits/c5c926726dc46f5135645d79ddc12c4027e1d061,C_kwDOABGHUdoAKGM1YzkyNjcyNmRjNDZmNTEzNTY0NWQ3OWRkYzEyYzQwMjdlMWQwNjE,"Use enhanced switch expressions where feasible
+
+Closes gh-28014",https://api.github.com/repos/spring-projects/spring-framework/commits/c5c926726dc46f5135645d79ddc12c4027e1d061/comments,0,2022-02-19T13:34:05Z,Sam Brannen,sbrannen
+17,42d114534bfdb42c41c42d9e65f3148ccf1aff62,https://api.github.com/repos/spring-projects/spring-framework/commits/42d114534bfdb42c41c42d9e65f3148ccf1aff62,C_kwDOABGHUdoAKDQyZDExNDUzNGJmZGI0MmM0MWM0MmQ5ZTY1ZjMxNDhjY2YxYWZmNjI,Polish BeanDefinitionRegistrar,https://api.github.com/repos/spring-projects/spring-framework/commits/42d114534bfdb42c41c42d9e65f3148ccf1aff62/comments,0,2022-02-18T16:13:07Z,Stephane Nicoll,snicoll
+18,8c5a407a7d40c397a46110ed2c29c93cd4542331,https://api.github.com/repos/spring-projects/spring-framework/commits/8c5a407a7d40c397a46110ed2c29c93cd4542331,C_kwDOABGHUdoAKDhjNWE0MDdhN2Q0MGMzOTdhNDYxMTBlZDJjMjljOTNjZDQ1NDIzMzE,Suppress deprecation warnings in tests in build,https://api.github.com/repos/spring-projects/spring-framework/commits/8c5a407a7d40c397a46110ed2c29c93cd4542331/comments,0,2022-02-18T15:22:43Z,Sam Brannen,sbrannen
+19,968efb34f6ad306da11f5221ee6aa443ad139fa5,https://api.github.com/repos/spring-projects/spring-framework/commits/968efb34f6ad306da11f5221ee6aa443ad139fa5,C_kwDOABGHUdoAKDk2OGVmYjM0ZjZhZDMwNmRhMTFmNTIyMWVlNmFhNDQzYWQxMzlmYTU,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/968efb34f6ad306da11f5221ee6aa443ad139fa5/comments,0,2022-02-18T15:18:36Z,Sam Brannen,sbrannen
+20,071c2988d55b1ad823b79fd4be8908666fc466a8,https://api.github.com/repos/spring-projects/spring-framework/commits/071c2988d55b1ad823b79fd4be8908666fc466a8,C_kwDOABGHUdoAKDA3MWMyOTg4ZDU1YjFhZDgyM2I3OWZkNGJlODkwODY2NmZjNDY2YTg,Suppress deprecation warnings in tests in build,https://api.github.com/repos/spring-projects/spring-framework/commits/071c2988d55b1ad823b79fd4be8908666fc466a8/comments,0,2022-02-18T15:18:13Z,Sam Brannen,sbrannen
+21,6c832598c9887c0d9016b806d92d6f09692d3bd5,https://api.github.com/repos/spring-projects/spring-framework/commits/6c832598c9887c0d9016b806d92d6f09692d3bd5,C_kwDOABGHUdoAKDZjODMyNTk4Yzk4ODdjMGQ5MDE2YjgwNmQ5MmQ2ZjA5NjkyZDNiZDU,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/6c832598c9887c0d9016b806d92d6f09692d3bd5/comments,0,2022-02-18T14:32:58Z,Sam Brannen,sbrannen
+22,94af2ca06bf711de03286999b1c64a703d6de552,https://api.github.com/repos/spring-projects/spring-framework/commits/94af2ca06bf711de03286999b1c64a703d6de552,C_kwDOABGHUdoAKDk0YWYyY2EwNmJmNzExZGUwMzI4Njk5OWIxYzY0YTcwM2Q2ZGU1NTI,"Recover from error during SpEL MIXED mode compilation
+
+Prior to this commit, SpEL was able to recover from an error that
+occurred while running a CompiledExpression; however, SpEL was not able
+to recover from an error that occurred while compiling the expression
+(such as a java.lang.VerifyError). The latter can occur when multiple
+threads concurrently change types involved in the expression, such as
+the concrete type of a custom variable registered via
+EvaluationContext.setVariable(...), which can result in SpEL generating
+invalid bytecode.
+
+This commit addresses this issue by catching exceptions thrown while
+compiling an expression and updating the `failedAttempts` and
+`interpretedCount` counters accordingly. If an exception is caught
+while operating in SpelCompilerMode.IMMEDIATE mode, the exception will
+be propagated via a SpelEvaluationException with a new
+SpelMessage.EXCEPTION_COMPILING_EXPRESSION error category.
+
+Closes gh-28043",https://api.github.com/repos/spring-projects/spring-framework/commits/94af2ca06bf711de03286999b1c64a703d6de552/comments,0,2022-02-18T14:31:59Z,Sam Brannen,sbrannen
+23,4a470e0a37f44f084f79422fd3252cab3e86ff29,https://api.github.com/repos/spring-projects/spring-framework/commits/4a470e0a37f44f084f79422fd3252cab3e86ff29,C_kwDOABGHUdoAKDRhNDcwZTBhMzdmNDRmMDg0Zjc5NDIyZmQzMjUyY2FiM2U4NmZmMjk,"Prevent @Bean method overloading by default (with enforceUniqueMethods flag)
+
+Closes gh-22609",https://api.github.com/repos/spring-projects/spring-framework/commits/4a470e0a37f44f084f79422fd3252cab3e86ff29/comments,0,2022-02-17T21:37:34Z,Juergen Hoeller,jhoeller
+24,41ee23345d72623d18accb9484ce5119403c39d5,https://api.github.com/repos/spring-projects/spring-framework/commits/41ee23345d72623d18accb9484ce5119403c39d5,C_kwDOABGHUdoAKDQxZWUyMzM0NWQ3MjYyM2QxOGFjY2I5NDg0Y2U1MTE5NDAzYzM5ZDU,"Support for registering multiple init/destroy methods on AbstractBeanDefinition
+
+Closes gh-28013",https://api.github.com/repos/spring-projects/spring-framework/commits/41ee23345d72623d18accb9484ce5119403c39d5/comments,0,2022-02-17T17:14:09Z,Juergen Hoeller,jhoeller
+25,85067786088306452a762f74396f5c5937d0c7f0,https://api.github.com/repos/spring-projects/spring-framework/commits/85067786088306452a762f74396f5c5937d0c7f0,C_kwDOABGHUdoAKDg1MDY3Nzg2MDg4MzA2NDUyYTc2MmY3NDM5NmY1YzU5MzdkMGM3ZjA,"Use JDK 17 on main branch in .sdkmanrc
+
+This commit makes sure that JDK 17 is used on the main branch.",https://api.github.com/repos/spring-projects/spring-framework/commits/85067786088306452a762f74396f5c5937d0c7f0/comments,0,2022-02-17T10:55:25Z,Arjen Poutsma,poutsma
+26,0814c67913dc35700e1019b3408683e72bb5cba4,https://api.github.com/repos/spring-projects/spring-framework/commits/0814c67913dc35700e1019b3408683e72bb5cba4,C_kwDOABGHUdoAKDA4MTRjNjc5MTNkYzM1NzAwZTEwMTliMzQwODY4M2U3MmJiNWNiYTQ,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/0814c67913dc35700e1019b3408683e72bb5cba4/comments,0,2022-02-17T10:53:26Z,Arjen Poutsma,poutsma
+27,ff20a06876209e6dafd519e732801f292230f9d9,https://api.github.com/repos/spring-projects/spring-framework/commits/ff20a06876209e6dafd519e732801f292230f9d9,C_kwDOABGHUdoAKGZmMjBhMDY4NzYyMDllNmRhZmQ1MTllNzMyODAxZjI5MjIzMGY5ZDk,"Added .sdkmanrc file
+
+This commit adds a .sdkmanrc file, so that we can automatically switch
+to JDK 8 when building the 5.3. branch.",https://api.github.com/repos/spring-projects/spring-framework/commits/ff20a06876209e6dafd519e732801f292230f9d9/comments,0,2022-02-17T10:51:14Z,Arjen Poutsma,poutsma
+28,b96474707bd705a893eedb892463171c4ff8643d,https://api.github.com/repos/spring-projects/spring-framework/commits/b96474707bd705a893eedb892463171c4ff8643d,C_kwDOABGHUdoAKGI5NjQ3NDcwN2JkNzA1YTg5M2VlZGI4OTI0NjMxNzFjNGZmODY0M2Q,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/b96474707bd705a893eedb892463171c4ff8643d/comments,0,2022-02-17T09:07:31Z,Stephane Nicoll,snicoll
+29,2ffefbb21116dda66973b920218c79ffe13cbac8,https://api.github.com/repos/spring-projects/spring-framework/commits/2ffefbb21116dda66973b920218c79ffe13cbac8,C_kwDOABGHUdoAKDJmZmVmYmIyMTExNmRkYTY2OTczYjkyMDIxOGM3OWZmZTEzY2JhYzg,"Downgrade to concourse-release-scripts 0.3.2
+
+This commit reverts partially ""0ab054c7b943d65bb9034d1d7987f556e9d54d05""
+as 0.3.3 is breaking promition.",https://api.github.com/repos/spring-projects/spring-framework/commits/2ffefbb21116dda66973b920218c79ffe13cbac8/comments,0,2022-02-17T08:44:22Z,Stephane Nicoll,snicoll
+30,4571626839a00c924d7e38b8d0b02cb2518345b5,https://api.github.com/repos/spring-projects/spring-framework/commits/4571626839a00c924d7e38b8d0b02cb2518345b5,C_kwDOABGHUdoAKDQ1NzE2MjY4MzlhMDBjOTI0ZDdlMzhiOGQwYjAyY2IyNTE4MzQ1YjU,Next development version (v5.3.17-SNAPSHOT),https://api.github.com/repos/spring-projects/spring-framework/commits/4571626839a00c924d7e38b8d0b02cb2518345b5/comments,0,2022-02-17T07:45:38Z,Spring Builds,spring-builds
+31,3c0a5fd0630c1cf9edb1646aabc24d41e704010b,https://api.github.com/repos/spring-projects/spring-framework/commits/3c0a5fd0630c1cf9edb1646aabc24d41e704010b,C_kwDOABGHUdoAKDNjMGE1ZmQwNjMwYzFjZjllZGIxNjQ2YWFiYzI0ZDQxZTcwNDAxMGI,Upgrade to POI 5.2,https://api.github.com/repos/spring-projects/spring-framework/commits/3c0a5fd0630c1cf9edb1646aabc24d41e704010b/comments,0,2022-02-16T19:12:59Z,Juergen Hoeller,jhoeller
+32,69db0f7b456755ec79836b0e2134ae29da5104ec,https://api.github.com/repos/spring-projects/spring-framework/commits/69db0f7b456755ec79836b0e2134ae29da5104ec,C_kwDOABGHUdoAKDY5ZGIwZjdiNDU2NzU1ZWM3OTgzNmIwZTIxMzRhZTI5ZGE1MTA0ZWM,"Merge branch '5.3.x'
+
+# Conflicts:
+#	build.gradle",https://api.github.com/repos/spring-projects/spring-framework/commits/69db0f7b456755ec79836b0e2134ae29da5104ec/comments,0,2022-02-16T19:07:55Z,Juergen Hoeller,jhoeller
+33,f8a59c267f318e06522fdfa968c9b251cf1b07d9,https://api.github.com/repos/spring-projects/spring-framework/commits/f8a59c267f318e06522fdfa968c9b251cf1b07d9,C_kwDOABGHUdoAKGY4YTU5YzI2N2YzMThlMDY1MjJmZGZhOTY4YzliMjUxY2YxYjA3ZDk,Polishing,https://api.github.com/repos/spring-projects/spring-framework/commits/f8a59c267f318e06522fdfa968c9b251cf1b07d9/comments,0,2022-02-16T19:04:51Z,Juergen Hoeller,jhoeller
+34,1166577d2c7f1a2b2dba84ba3f1026f5b3ca9b2a,https://api.github.com/repos/spring-projects/spring-framework/commits/1166577d2c7f1a2b2dba84ba3f1026f5b3ca9b2a,C_kwDOABGHUdoAKDExNjY1NzdkMmM3ZjFhMmIyZGJhODRiYTNmMTAyNmY1YjNjYTliMmE,"Upgrade to Netty 4.1.74, Jetty 9.4.45, Undertow 2.2.16, Hibernate Validator 6.2.2, Apache Johnzon 1.2.16, EclipseLink 2.7.10",https://api.github.com/repos/spring-projects/spring-framework/commits/1166577d2c7f1a2b2dba84ba3f1026f5b3ca9b2a/comments,0,2022-02-16T19:04:27Z,Juergen Hoeller,jhoeller
+35,7f5110a549c9f39d8ec26db4b2e59b6f4b873f19,https://api.github.com/repos/spring-projects/spring-framework/commits/7f5110a549c9f39d8ec26db4b2e59b6f4b873f19,C_kwDOABGHUdoAKDdmNTExMGE1NDljOWYzOWQ4ZWMyNmRiNGIyZTU5YjZmNGI4NzNmMTk,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/7f5110a549c9f39d8ec26db4b2e59b6f4b873f19/comments,0,2022-02-16T13:36:50Z,Stephane Nicoll,snicoll
+36,36dc4e4c5f3827cf9f13a691c8007cc5f2a46f17,https://api.github.com/repos/spring-projects/spring-framework/commits/36dc4e4c5f3827cf9f13a691c8007cc5f2a46f17,C_kwDOABGHUdoAKDM2ZGM0ZTRjNWYzODI3Y2Y5ZjEzYTY5MWM4MDA3Y2M1ZjJhNDZmMTc,"Add mavenCentral() to pluginManagement repositories
+
+Update the pluginManagement repositories used by Grade to include
+`mavenCentral()` since `gradlePluginPortal()` has been suffering
+from timeouts recently.",https://api.github.com/repos/spring-projects/spring-framework/commits/36dc4e4c5f3827cf9f13a691c8007cc5f2a46f17/comments,0,2022-02-16T13:35:50Z,Stephane Nicoll,snicoll
+37,c1987e5b8c9c433da0a8d32aec185534c3a66dc8,https://api.github.com/repos/spring-projects/spring-framework/commits/c1987e5b8c9c433da0a8d32aec185534c3a66dc8,C_kwDOABGHUdoAKGMxOTg3ZTViOGM5YzQzM2RhMGE4ZDMyYWVjMTg1NTM0YzNhNjZkYzg,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/c1987e5b8c9c433da0a8d32aec185534c3a66dc8/comments,0,2022-02-16T11:12:37Z,Sam Brannen,sbrannen
+38,3ac60147f3b9a37f136f25fcd60d145c49110251,https://api.github.com/repos/spring-projects/spring-framework/commits/3ac60147f3b9a37f136f25fcd60d145c49110251,C_kwDOABGHUdoAKDNhYzYwMTQ3ZjNiOWEzN2YxMzZmMjVmY2Q2MGQxNDVjNDkxMTAyNTE,"Improve documentation for uri(URI) method in WebTestClient
+
+Prior to this commit, it was not clear that a configured base URI would
+not be applied when invoking uri(URI).
+
+This commit adds a note to the Javadoc to clarify that behavior.
+
+Closes gh-28058",https://api.github.com/repos/spring-projects/spring-framework/commits/3ac60147f3b9a37f136f25fcd60d145c49110251/comments,0,2022-02-16T11:11:33Z,Sam Brannen,sbrannen
+39,e3ceb9b23dacbed3db0811b7535cbe07ccda58cb,https://api.github.com/repos/spring-projects/spring-framework/commits/e3ceb9b23dacbed3db0811b7535cbe07ccda58cb,C_kwDOABGHUdoAKGUzY2ViOWIyM2RhY2JlZDNkYjA4MTFiNzUzNWNiZTA3Y2NkYTU4Y2I,Polish @Target declarations for stereotype annotations,https://api.github.com/repos/spring-projects/spring-framework/commits/e3ceb9b23dacbed3db0811b7535cbe07ccda58cb/comments,0,2022-02-16T11:01:14Z,Sam Brannen,sbrannen
+40,3463106532168d1c4fe31fe93b04b8791ece2bdb,https://api.github.com/repos/spring-projects/spring-framework/commits/3463106532168d1c4fe31fe93b04b8791ece2bdb,C_kwDOABGHUdoAKDM0NjMxMDY1MzIxNjhkMWM0ZmUzMWZlOTNiMDRiODc5MWVjZTJiZGI,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/3463106532168d1c4fe31fe93b04b8791ece2bdb/comments,0,2022-02-16T10:24:10Z,Arjen Poutsma,poutsma
+41,5ab966fbdefc33840ff2ac4c12b26a6c306b59cf,https://api.github.com/repos/spring-projects/spring-framework/commits/5ab966fbdefc33840ff2ac4c12b26a6c306b59cf,C_kwDOABGHUdoAKDVhYjk2NmZiZGVmYzMzODQwZmYyYWM0YzEyYjI2YTZjMzA2YjU5Y2Y,"Polish contribution
+
+See gh-28038",https://api.github.com/repos/spring-projects/spring-framework/commits/5ab966fbdefc33840ff2ac4c12b26a6c306b59cf/comments,0,2022-02-16T10:16:38Z,Arjen Poutsma,poutsma
+42,7276752e7cbc87aead678ae84ec8a83e7603a141,https://api.github.com/repos/spring-projects/spring-framework/commits/7276752e7cbc87aead678ae84ec8a83e7603a141,C_kwDOABGHUdoAKDcyNzY3NTJlN2NiYzg3YWVhZDY3OGFlODRlYzhhODNlNzYwM2ExNDE,"Fix CronExpression issue with DST
+
+This commit fixes an issue with CronExpression fails to calculate next
+execution on the day of daylight saving time.
+
+Closes gh-28038",https://api.github.com/repos/spring-projects/spring-framework/commits/7276752e7cbc87aead678ae84ec8a83e7603a141/comments,0,2022-02-16T10:16:38Z,Arjen Poutsma,poutsma
+43,b3306f4e3d9ea78c10a2620568707ed08f75b7b0,https://api.github.com/repos/spring-projects/spring-framework/commits/b3306f4e3d9ea78c10a2620568707ed08f75b7b0,C_kwDOABGHUdoAKGIzMzA2ZjRlM2Q5ZWE3OGMxMGEyNjIwNTY4NzA3ZWQwOGY3NWI3YjA,"Suppress deprecation warning in WebAsyncManagerTests
+
+See gh-27959",https://api.github.com/repos/spring-projects/spring-framework/commits/b3306f4e3d9ea78c10a2620568707ed08f75b7b0/comments,0,2022-02-15T23:11:31Z,Phillip Webb,philwebb
+44,18b8e4ec5c00c526cc03be70e8e3e283bf801f63,https://api.github.com/repos/spring-projects/spring-framework/commits/18b8e4ec5c00c526cc03be70e8e3e283bf801f63,C_kwDOABGHUdoAKDE4YjhlNGVjNWMwMGM1MjZjYzAzYmU3MGU4ZTNlMjgzYmY4MDFmNjM,"Add mavenCentral() to pluginManagement repositories
+
+Update the pluginManagement repositories used by Grade to include
+`mavenCentral()` since `gradlePluginPortal()` has been suffering
+from timeouts recently.",https://api.github.com/repos/spring-projects/spring-framework/commits/18b8e4ec5c00c526cc03be70e8e3e283bf801f63/comments,0,2022-02-15T23:11:31Z,Phillip Webb,philwebb
+45,2cee63491d1fbb6e21a9044715d98838fec9a51b,https://api.github.com/repos/spring-projects/spring-framework/commits/2cee63491d1fbb6e21a9044715d98838fec9a51b,C_kwDOABGHUdoAKDJjZWU2MzQ5MWQxZmJiNmUyMWE5MDQ0NzE1ZDk4ODM4ZmVjOWE1MWI,"Remove deprecated SocketUtils
+
+Closes gh-28052",https://api.github.com/repos/spring-projects/spring-framework/commits/2cee63491d1fbb6e21a9044715d98838fec9a51b/comments,0,2022-02-15T15:19:11Z,Sam Brannen,sbrannen
+46,bbd35ded9161f34c7f9a3d70f640a78d1258febc,https://api.github.com/repos/spring-projects/spring-framework/commits/bbd35ded9161f34c7f9a3d70f640a78d1258febc,C_kwDOABGHUdoAKGJiZDM1ZGVkOTE2MWYzNGM3ZjlhM2Q3MGY2NDBhNzhkMTI1OGZlYmM,"Stop using SocketUtils in ActiveMQ STOMP broker tests
+
+See gh-28052",https://api.github.com/repos/spring-projects/spring-framework/commits/bbd35ded9161f34c7f9a3d70f640a78d1258febc/comments,0,2022-02-15T14:53:43Z,Sam Brannen,sbrannen
+47,5fbd01f28f17965a0fa4661ee31dab3b929ec092,https://api.github.com/repos/spring-projects/spring-framework/commits/5fbd01f28f17965a0fa4661ee31dab3b929ec092,C_kwDOABGHUdoAKDVmYmQwMWYyOGYxNzk2NWEwZmE0NjYxZWUzMWRhYjNiOTI5ZWMwOTI,Polish,https://api.github.com/repos/spring-projects/spring-framework/commits/5fbd01f28f17965a0fa4661ee31dab3b929ec092/comments,0,2022-02-15T14:25:45Z,Stephane Nicoll,snicoll
+48,d2d54c826f22e885d0401aeccc07c8838cd219c6,https://api.github.com/repos/spring-projects/spring-framework/commits/d2d54c826f22e885d0401aeccc07c8838cd219c6,C_kwDOABGHUdoAKGQyZDU0YzgyNmYyMmU4ODVkMDQwMWFlY2NjMDdjODgzOGNkMjE5YzY,Increase max memory for Gradle to 2048m,https://api.github.com/repos/spring-projects/spring-framework/commits/d2d54c826f22e885d0401aeccc07c8838cd219c6/comments,0,2022-02-15T13:59:26Z,Sam Brannen,sbrannen
+49,c42023f20e6f06f9be55e70102818b3f2e9dbe84,https://api.github.com/repos/spring-projects/spring-framework/commits/c42023f20e6f06f9be55e70102818b3f2e9dbe84,C_kwDOABGHUdoAKGM0MjAyM2YyMGU2ZjA2ZjliZTU1ZTcwMTAyODE4YjNmMmU5ZGJlODQ,"Stop using SocketUtils in WebClientIntegrationTests
+
+See gh-28052",https://api.github.com/repos/spring-projects/spring-framework/commits/c42023f20e6f06f9be55e70102818b3f2e9dbe84/comments,0,2022-02-15T13:59:26Z,Sam Brannen,sbrannen
+50,552e02cb4421ea071bc119c0da3dcebaba0be5ac,https://api.github.com/repos/spring-projects/spring-framework/commits/552e02cb4421ea071bc119c0da3dcebaba0be5ac,C_kwDOABGHUdoAKDU1MmUwMmNiNDQyMWVhMDcxYmMxMTljMGRhM2RjZWJhYmEwYmU1YWM,Polishing,https://api.github.com/repos/spring-projects/spring-framework/commits/552e02cb4421ea071bc119c0da3dcebaba0be5ac/comments,0,2022-02-15T13:44:46Z,Sam Brannen,sbrannen
+51,7412625929f9a35705c8a958d39e68dee6190219,https://api.github.com/repos/spring-projects/spring-framework/commits/7412625929f9a35705c8a958d39e68dee6190219,C_kwDOABGHUdoAKDc0MTI2MjU5MjlmOWEzNTcwNWM4YTk1OGQzOWU2OGRlZTYxOTAyMTk,"Merge branch '5.3.x'
+
+# Conflicts:
+#	spring-web/src/test/java/org/springframework/remoting/caucho/CauchoRemotingTests.java
+#	spring-webflux/src/test/java/org/springframework/web/reactive/function/client/WebClientIntegrationTests.java",https://api.github.com/repos/spring-projects/spring-framework/commits/7412625929f9a35705c8a958d39e68dee6190219/comments,0,2022-02-15T13:35:25Z,Sam Brannen,sbrannen
+52,685a195ba17be18479ab682f808b14d8c586b3fa,https://api.github.com/repos/spring-projects/spring-framework/commits/685a195ba17be18479ab682f808b14d8c586b3fa,C_kwDOABGHUdoAKDY4NWExOTViYTE3YmUxODQ3OWFiNjgyZjgwOGIxNGQ4YzU4NmIzZmE,"Deprecate SocketUtils
+
+SocketUtils was introduced in Spring Framework 4.0, primarily to assist
+in writing integration tests which start an external server on an
+available random port. However, these utilities make no guarantee about
+the subsequent availability of a given port and are therefore
+unreliable. Instead of using SocketUtils to find an available local
+port for a server, it is recommended that users rely on a server's
+ability to start on a random port that it selects or is assigned by the
+operating system. To interact with that server, the user should query
+the server for the port it is currently using.
+
+SocketUtils is now deprecated in 5.3.16 and will be removed in 6.0.
+
+Closes gh-28052",https://api.github.com/repos/spring-projects/spring-framework/commits/685a195ba17be18479ab682f808b14d8c586b3fa/comments,0,2022-02-15T13:28:58Z,Sam Brannen,sbrannen
+53,11de64d60976c1ce6dfb334a160c2f8ddcb623d9,https://api.github.com/repos/spring-projects/spring-framework/commits/11de64d60976c1ce6dfb334a160c2f8ddcb623d9,C_kwDOABGHUdoAKDExZGU2NGQ2MDk3NmMxY2U2ZGZiMzM0YTE2MGMyZjhkZGNiNjIzZDk,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/11de64d60976c1ce6dfb334a160c2f8ddcb623d9/comments,0,2022-02-15T12:48:22Z,Sam Brannen,sbrannen
+54,3188c0f7db54cffdb95e7127e2adde959dd078f9,https://api.github.com/repos/spring-projects/spring-framework/commits/3188c0f7db54cffdb95e7127e2adde959dd078f9,C_kwDOABGHUdoAKDMxODhjMGY3ZGI1NGNmZmRiOTVlNzEyN2UyYWRkZTk1OWRkMDc4Zjk,"Ensure fix for gh-28012 is actually tested
+
+In 3ec612aaf8, I accidentally removed tests that verified support for
+non-synthesizable merged annotations for recursive annotations in
+Kotlin.
+
+This commit reinstates those non-synthesizable tests while retaining
+the synthesizable tests.",https://api.github.com/repos/spring-projects/spring-framework/commits/3188c0f7db54cffdb95e7127e2adde959dd078f9/comments,0,2022-02-15T12:47:03Z,Sam Brannen,sbrannen
+55,c732b56edd1844d45c74626e272e4d0f3b588f38,https://api.github.com/repos/spring-projects/spring-framework/commits/c732b56edd1844d45c74626e272e4d0f3b588f38,C_kwDOABGHUdoAKGM3MzJiNTZlZGQxODQ0ZDQ1Yzc0NjI2ZTI3MmU0ZDBmM2I1ODhmMzg,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/c732b56edd1844d45c74626e272e4d0f3b588f38/comments,0,2022-02-15T12:40:47Z,Stephane Nicoll,snicoll
+56,3ea540adbce6fd61ee745b7b7a103f3a16ef95ec,https://api.github.com/repos/spring-projects/spring-framework/commits/3ea540adbce6fd61ee745b7b7a103f3a16ef95ec,C_kwDOABGHUdoAKDNlYTU0MGFkYmNlNmZkNjFlZTc0NWI3YjdhMTAzZjNhMTZlZjk1ZWM,"Upgrade to Reactor 2020.0.16
+
+Closes gh-28039",https://api.github.com/repos/spring-projects/spring-framework/commits/3ea540adbce6fd61ee745b7b7a103f3a16ef95ec/comments,0,2022-02-15T12:37:08Z,Stephane Nicoll,snicoll
+57,2141373c432dfc18bb665ec4f54b1e3c3b121c99,https://api.github.com/repos/spring-projects/spring-framework/commits/2141373c432dfc18bb665ec4f54b1e3c3b121c99,C_kwDOABGHUdoAKDIxNDEzNzNjNDMyZGZjMThiYjY2NWVjNGY1NGIxZTNjM2IxMjFjOTk,"Introduce AOT variant of BeanPostProcessor
+
+This commit introduces an optional interface that a BeanPostProcessor
+can implement to opt-in for providing a generated code equivalent of
+what it does with a regular runtime.
+
+This commit has a first implementation of this interface with
+AutowiredAnnotationBeanPostProcessor replacing its processing of
+autowired annotations by generated code.
+
+Closes gh-27921",https://api.github.com/repos/spring-projects/spring-framework/commits/2141373c432dfc18bb665ec4f54b1e3c3b121c99/comments,0,2022-02-15T12:27:07Z,Stephane Nicoll,snicoll
+58,5bbc7dbce237f049a53291d47d6b1e5f6f897907,https://api.github.com/repos/spring-projects/spring-framework/commits/5bbc7dbce237f049a53291d47d6b1e5f6f897907,C_kwDOABGHUdoAKDViYmM3ZGJjZTIzN2YwNDlhNTMyOTFkNDdkNmIxZTVmNmY4OTc5MDc,"Polish ProtectedAccess options
+
+This commit improves how protected access analysis operates. Rather than
+providing a static boolean, a function callback for the member to
+analyse is used. This permits to change the decision whether reflection
+can be used, or if the return type is assigned.
+
+Both of those are already applicable, with InjectionGenerator relying
+on reflection for private fields, and DefaultBeanInstanceGenerator
+assigning the bean instance if additional contributors are present.
+
+This commit also moves the logic of computing the options where the code
+is actually generated.
+
+See gh-28030",https://api.github.com/repos/spring-projects/spring-framework/commits/5bbc7dbce237f049a53291d47d6b1e5f6f897907/comments,0,2022-02-15T12:16:39Z,Stephane Nicoll,snicoll
+59,4782d4c080571f20832444f956e8bb4478843c11,https://api.github.com/repos/spring-projects/spring-framework/commits/4782d4c080571f20832444f956e8bb4478843c11,C_kwDOABGHUdoAKDQ3ODJkNGMwODA1NzFmMjA4MzI0NDRmOTU2ZThiYjQ0Nzg4NDNjMTE,Merge branch '5.3.x' into main,https://api.github.com/repos/spring-projects/spring-framework/commits/4782d4c080571f20832444f956e8bb4478843c11/comments,0,2022-02-14T20:52:09Z,rstoyanchev,rstoyanchev
+60,ec03e8830ed0edb3cffbda1395c491127c0353b6,https://api.github.com/repos/spring-projects/spring-framework/commits/ec03e8830ed0edb3cffbda1395c491127c0353b6,C_kwDOABGHUdoAKGVjMDNlODgzMGVkMGVkYjNjZmZiZGExMzk1YzQ5MTEyN2MwMzUzYjY,"Remove path variables from pathWithinMapping
+
+Closes gh-27913",https://api.github.com/repos/spring-projects/spring-framework/commits/ec03e8830ed0edb3cffbda1395c491127c0353b6/comments,0,2022-02-14T20:51:02Z,rstoyanchev,rstoyanchev
+61,11cb93823270e8c7003c6bf21909bef0601f062d,https://api.github.com/repos/spring-projects/spring-framework/commits/11cb93823270e8c7003c6bf21909bef0601f062d,C_kwDOABGHUdoAKDExY2I5MzgyMzI3MGU4YzcwMDNjNmJmMjE5MDliZWYwNjAxZjA2MmQ,"Polishing contribution
+
+Closes gh-28000",https://api.github.com/repos/spring-projects/spring-framework/commits/11cb93823270e8c7003c6bf21909bef0601f062d/comments,0,2022-02-14T20:51:02Z,rstoyanchev,rstoyanchev
+62,f004bb1b64cd9f39d58adc181607a1d5f3034b29,https://api.github.com/repos/spring-projects/spring-framework/commits/f004bb1b64cd9f39d58adc181607a1d5f3034b29,C_kwDOABGHUdoAKGYwMDRiYjFiNjRjZDlmMzlkNThhZGMxODE2MDdhMWQ1ZjMwMzRiMjk,"Add formatting for SockJS GoAway frame
+
+Prevents infinite loop for xhr-polling and xhr-streaming transports.
+
+See gh-28000",https://api.github.com/repos/spring-projects/spring-framework/commits/f004bb1b64cd9f39d58adc181607a1d5f3034b29/comments,0,2022-02-14T20:51:02Z,rstoyanchev,rstoyanchev
+63,c5e1a774a5a1e27eb1ca693b663ec37e6583ac41,https://api.github.com/repos/spring-projects/spring-framework/commits/c5e1a774a5a1e27eb1ca693b663ec37e6583ac41,C_kwDOABGHUdoAKGM1ZTFhNzc0YTVhMWUyN2ViMWNhNjkzYjY2M2VjMzdlNjU4M2FjNDE,"Add bean instance generator infrastructure
+
+This commit provides the necessary infrastructure to let components
+contribute statements that are used to fully instantiate a bean
+instance.
+
+To ease code generation, a dedicated infrastructure to register bean
+definition is provided in the o.s.beans.factory.generator package.
+BeanDefinitionRegistrar offers a builder style API that provides a way
+to hide how injected elements are resolved at runtime and let
+contributors provide code that may throw a checked exception.
+
+BeanInstanceContributor is the interface that components can implement
+to contribute to a bean instance setup. DefaultBeanInstanceGenerator
+generates, for a particular bean definition, the necessary statements
+to instantiate a bean.
+
+Closes gh-28047",https://api.github.com/repos/spring-projects/spring-framework/commits/c5e1a774a5a1e27eb1ca693b663ec37e6583ac41/comments,0,2022-02-14T16:01:32Z,Stephane Nicoll,snicoll
+64,bfe9d4fc49fe50e7f3f0add27146e802ce262d5e,https://api.github.com/repos/spring-projects/spring-framework/commits/bfe9d4fc49fe50e7f3f0add27146e802ce262d5e,C_kwDOABGHUdoAKGJmZTlkNGZjNDlmZTUwZTdmM2YwYWRkMjcxNDZlODAyY2UyNjJkNWU,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/bfe9d4fc49fe50e7f3f0add27146e802ce262d5e/comments,0,2022-02-14T15:23:49Z,Brian Clozel,bclozel
+65,88f73bffa0e98c1e14db065c86d17c5d6295cee0,https://api.github.com/repos/spring-projects/spring-framework/commits/88f73bffa0e98c1e14db065c86d17c5d6295cee0,C_kwDOABGHUdoAKDg4ZjczYmZmYTBlOThjMWUxNGRiMDY1Yzg2ZDE3YzVkNjI5NWNlZTA,"Make assertion message lazy in ServletRequestPathUtils
+
+Closes gh-27946",https://api.github.com/repos/spring-projects/spring-framework/commits/88f73bffa0e98c1e14db065c86d17c5d6295cee0/comments,0,2022-02-14T15:21:41Z,Brian Clozel,bclozel
+66,4c410cbe54e1383cb5e6b6ee7e2f5330023c218a,https://api.github.com/repos/spring-projects/spring-framework/commits/4c410cbe54e1383cb5e6b6ee7e2f5330023c218a,C_kwDOABGHUdoAKDRjNDEwY2JlNTRlMTM4M2NiNWU2YjZlZTdlMmY1MzMwMDIzYzIxOGE,"Remove toolchain configuration for Kotlin
+
+Kotlin currently only supports JDK17 language level, which is our
+minimum requirement so far.
+This commit simplifies the toolchain setup until this is needed again.
+
+See 303e363adfd",https://api.github.com/repos/spring-projects/spring-framework/commits/4c410cbe54e1383cb5e6b6ee7e2f5330023c218a/comments,0,2022-02-14T12:04:09Z,Brian Clozel,bclozel
+67,7ecfce2386016803742e580fe246a3084d17a813,https://api.github.com/repos/spring-projects/spring-framework/commits/7ecfce2386016803742e580fe246a3084d17a813,C_kwDOABGHUdoAKDdlY2ZjZTIzODYwMTY4MDM3NDJlNTgwZmUyNDZhMzA4NGQxN2E4MTM,"Polishing contribution
+
+See gh-27948",https://api.github.com/repos/spring-projects/spring-framework/commits/7ecfce2386016803742e580fe246a3084d17a813/comments,0,2022-02-14T11:26:40Z,rstoyanchev,rstoyanchev
+68,ad2722b3a3ac2bc8b036b37242e263f0d33e6339,https://api.github.com/repos/spring-projects/spring-framework/commits/ad2722b3a3ac2bc8b036b37242e263f0d33e6339,C_kwDOABGHUdoAKGFkMjcyMmIzYTNhYzJiYzhiMDM2YjM3MjQyZTI2M2YwZDMzZTYzMzk,"MissingServletRequestPartException extends ServletRequestBindingException
+
+Closes gh-27948",https://api.github.com/repos/spring-projects/spring-framework/commits/ad2722b3a3ac2bc8b036b37242e263f0d33e6339/comments,0,2022-02-14T11:26:40Z,rstoyanchev,rstoyanchev
+69,303e363adfdfde100f62fc28f08b34ab9fdfb96e,https://api.github.com/repos/spring-projects/spring-framework/commits/303e363adfdfde100f62fc28f08b34ab9fdfb96e,C_kwDOABGHUdoAKDMwM2UzNjNhZGZkZmRlMTAwZjYyZmMyOGYwOGIzNGFiOWZkZmI5NmU,Configure Gradle JVM toolchain for Kotlin tasks,https://api.github.com/repos/spring-projects/spring-framework/commits/303e363adfdfde100f62fc28f08b34ab9fdfb96e/comments,0,2022-02-14T10:47:16Z,Brian Clozel,bclozel
+70,2a0ec0b2dd950c37ac1656cebd829a80e90709cc,https://api.github.com/repos/spring-projects/spring-framework/commits/2a0ec0b2dd950c37ac1656cebd829a80e90709cc,C_kwDOABGHUdoAKDJhMGVjMGIyZGQ5NTBjMzdhYzE2NTZjZWJkODI5YTgwZTkwNzA5Y2M,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/2a0ec0b2dd950c37ac1656cebd829a80e90709cc/comments,0,2022-02-14T09:56:44Z,Brian Clozel,bclozel
+71,0ab054c7b943d65bb9034d1d7987f556e9d54d05,https://api.github.com/repos/spring-projects/spring-framework/commits/0ab054c7b943d65bb9034d1d7987f556e9d54d05,C_kwDOABGHUdoAKDBhYjA1NGM3Yjk0M2Q2NWJiOTAzNGQxZDc5ODdmNTU2ZTlkNTRkMDU,"Upgrade concourse-release-scripts in CI
+
+This commit also reverts the change of resource type for the publication
+of the CI image and fixes a bug in the CI image setup with available
+JDKs.",https://api.github.com/repos/spring-projects/spring-framework/commits/0ab054c7b943d65bb9034d1d7987f556e9d54d05/comments,0,2022-02-14T09:55:07Z,Brian Clozel,bclozel
+72,5e64081ed1973a7defeca7991e82eefafe725128,https://api.github.com/repos/spring-projects/spring-framework/commits/5e64081ed1973a7defeca7991e82eefafe725128,C_kwDOABGHUdoAKDVlNjQwODFlZDE5NzNhN2RlZmVjYTc5OTFlODJlZWZhZmU3MjUxMjg,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/5e64081ed1973a7defeca7991e82eefafe725128/comments,0,2022-02-14T09:51:46Z,Sébastien Deleuze,sdeleuze
+73,8eb618b480896092cae04d1c5e412f7a5dba0c9c,https://api.github.com/repos/spring-projects/spring-framework/commits/8eb618b480896092cae04d1c5e412f7a5dba0c9c,C_kwDOABGHUdoAKDhlYjYxOGI0ODA4OTYwOTJjYWUwNGQxYzVlNDEyZjdhNWRiYTBjOWM,"Make Kotlin functions accessible in CoroutinesUtils
+
+In order to allow using private classes like in Java
+for example.
+
+Closes gh-23840",https://api.github.com/repos/spring-projects/spring-framework/commits/8eb618b480896092cae04d1c5e412f7a5dba0c9c/comments,0,2022-02-14T09:43:31Z,Sébastien Deleuze,sdeleuze
+74,70269addb747dc89222a08d3ffdcfb8291ef2c61,https://api.github.com/repos/spring-projects/spring-framework/commits/70269addb747dc89222a08d3ffdcfb8291ef2c61,C_kwDOABGHUdoAKDcwMjY5YWRkYjc0N2RjODkyMjJhMDhkM2ZmZGNmYjgyOTFlZjJjNjE,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/70269addb747dc89222a08d3ffdcfb8291ef2c61/comments,0,2022-02-14T09:38:41Z,Brian Clozel,bclozel
+75,2f78abd56e39eb95c32fd211ca738359f8eec3e5,https://api.github.com/repos/spring-projects/spring-framework/commits/2f78abd56e39eb95c32fd211ca738359f8eec3e5,C_kwDOABGHUdoAKDJmNzhhYmQ1NmUzOWViOTVjMzJmZDIxMWNhNzM4MzU5ZjhlZWMzZTU,"Upgrade CI pipeline
+
+This commit upgrades the CI pipeline with the following:
+
+* replace JDK16 with JDK17 as build variant
+* upgrade all JDK versions
+* replace docker-image with registry-image resource for CI image",https://api.github.com/repos/spring-projects/spring-framework/commits/2f78abd56e39eb95c32fd211ca738359f8eec3e5/comments,0,2022-02-14T09:29:45Z,Brian Clozel,bclozel
+76,e6ce328be4641a744193100230bb2322bc93af70,https://api.github.com/repos/spring-projects/spring-framework/commits/e6ce328be4641a744193100230bb2322bc93af70,C_kwDOABGHUdoAKGU2Y2UzMjhiZTQ2NDFhNzQ0MTkzMTAwMjMwYmIyMzIyYmM5M2FmNzA,"Merge branch '5.3.x'
+
+# Conflicts:
+#	spring-core/src/test/java/org/springframework/core/annotation/AnnotationTypeMappingsTests.java",https://api.github.com/repos/spring-projects/spring-framework/commits/e6ce328be4641a744193100230bb2322bc93af70/comments,0,2022-02-12T23:00:11Z,Sam Brannen,sbrannen
+77,3ec612aaf8611d2ad6e6f7f3d5868feee5024477,https://api.github.com/repos/spring-projects/spring-framework/commits/3ec612aaf8611d2ad6e6f7f3d5868feee5024477,C_kwDOABGHUdoAKDNlYzYxMmFhZjg2MTFkMmFkNmU2ZjdmM2Q1ODY4ZmVlZTUwMjQ0Nzc,"Support recursive annotations in merged annotations
+
+Although Java does not allow the definition of recursive annotations,
+Kotlin does, and prior to this commit an attempt to synthesize a
+merged annotation using the MergedAnnotation API resulted in a
+StackOverflowError if there was a recursive cycle in the annotation
+definitions.
+
+This commit addresses this issue by tracking which annotations have
+already been visited and short circuits the recursive algorithm if a
+cycle is detected.
+
+Closes gh-28012",https://api.github.com/repos/spring-projects/spring-framework/commits/3ec612aaf8611d2ad6e6f7f3d5868feee5024477/comments,0,2022-02-12T22:42:57Z,Sam Brannen,sbrannen
+78,7b0443333d09b7347af038e972b63a87470c4a2e,https://api.github.com/repos/spring-projects/spring-framework/commits/7b0443333d09b7347af038e972b63a87470c4a2e,C_kwDOABGHUdoAKDdiMDQ0MzMzM2QwOWI3MzQ3YWYwMzhlOTcyYjYzYTg3NDcwYzRhMmU,"Merge branch '5.3.x'
+
+# Conflicts:
+#	build.gradle",https://api.github.com/repos/spring-projects/spring-framework/commits/7b0443333d09b7347af038e972b63a87470c4a2e/comments,0,2022-02-11T19:44:42Z,Sam Brannen,sbrannen
+79,4eaee1e7381d5f3d8cd6e3ab77c8cfcf7ef2d716,https://api.github.com/repos/spring-projects/spring-framework/commits/4eaee1e7381d5f3d8cd6e3ab77c8cfcf7ef2d716,C_kwDOABGHUdoAKDRlYWVlMWU3MzgxZDVmM2Q4Y2Q2ZTNhYjc3YzhjZmNmN2VmMmQ3MTY,Short circuit if-conditions in AttributeMethods,https://api.github.com/repos/spring-projects/spring-framework/commits/4eaee1e7381d5f3d8cd6e3ab77c8cfcf7ef2d716/comments,0,2022-02-11T19:41:23Z,Sam Brannen,sbrannen
+80,eca755ec88a6f9c91d335f4d0931cb79668164ce,https://api.github.com/repos/spring-projects/spring-framework/commits/eca755ec88a6f9c91d335f4d0931cb79668164ce,C_kwDOABGHUdoAKGVjYTc1NWVjODhhNmY5YzkxZDMzNWY0ZDA5MzFjYjc5NjY4MTY0Y2U,"Upgrade to Dokka 1.6.10
+
+Closes gh-28040",https://api.github.com/repos/spring-projects/spring-framework/commits/eca755ec88a6f9c91d335f4d0931cb79668164ce/comments,0,2022-02-11T16:42:06Z,Sébastien Deleuze,sdeleuze
+81,37b03aee82a221c6fb351cc6cab4a29c0d3fa538,https://api.github.com/repos/spring-projects/spring-framework/commits/37b03aee82a221c6fb351cc6cab4a29c0d3fa538,C_kwDOABGHUdoAKDM3YjAzYWVlODJhMjIxYzZmYjM1MWNjNmNhYjRhMjljMGQzZmE1Mzg,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/37b03aee82a221c6fb351cc6cab4a29c0d3fa538/comments,0,2022-02-11T14:49:53Z,Stephane Nicoll,snicoll
+82,420147954621a4b1d653b6f441cbf59ad493173b,https://api.github.com/repos/spring-projects/spring-framework/commits/420147954621a4b1d653b6f441cbf59ad493173b,C_kwDOABGHUdoAKDQyMDE0Nzk1NDYyMWE0YjFkNjUzYjZmNDQxY2JmNTlhZDQ5MzE3M2I,"Start building against Reactor 2020.0.16 snapshots
+
+See gh-28039",https://api.github.com/repos/spring-projects/spring-framework/commits/420147954621a4b1d653b6f441cbf59ad493173b/comments,0,2022-02-11T14:41:49Z,Stephane Nicoll,snicoll
+83,a4e192e33db05afccc0c3df64edf0850ded4b4df,https://api.github.com/repos/spring-projects/spring-framework/commits/a4e192e33db05afccc0c3df64edf0850ded4b4df,C_kwDOABGHUdoAKGE0ZTE5MmUzM2RiMDVhZmNjYzBjM2RmNjRlZGYwODUwZGVkNGI0ZGY,"Merge branch '5.3.x'
+
+# Conflicts:
+#	spring-core/src/test/java/org/springframework/core/annotation/MergedAnnotationsTests.java",https://api.github.com/repos/spring-projects/spring-framework/commits/a4e192e33db05afccc0c3df64edf0850ded4b4df/comments,0,2022-02-11T14:38:54Z,Sam Brannen,sbrannen
+84,b60340b102ac1858c1527faab4c848561a860898,https://api.github.com/repos/spring-projects/spring-framework/commits/b60340b102ac1858c1527faab4c848561a860898,C_kwDOABGHUdoAKGI2MDM0MGIxMDJhYzE4NThjMTUyN2ZhYWI0Yzg0ODU2MWE4NjA4OTg,"Simplify tests for synthesized annotation toString()
+
+See gh-28015",https://api.github.com/repos/spring-projects/spring-framework/commits/b60340b102ac1858c1527faab4c848561a860898/comments,0,2022-02-11T14:33:14Z,Sam Brannen,sbrannen
+85,5ae9217271c2b624821f5c2a3ff681db0d4edf9e,https://api.github.com/repos/spring-projects/spring-framework/commits/5ae9217271c2b624821f5c2a3ff681db0d4edf9e,C_kwDOABGHUdoAKDVhZTkyMTcyNzFjMmI2MjQ4MjFmNWMyYTNmZjY4MWRiMGQ0ZWRmOWU,"Merge branch '5.3.x'
+
+# Conflicts:
+#	spring-core/src/main/java/org/springframework/core/annotation/SynthesizedMergedAnnotationInvocationHandler.java
+#	src/eclipse/org.eclipse.jdt.ui.prefs",https://api.github.com/repos/spring-projects/spring-framework/commits/5ae9217271c2b624821f5c2a3ff681db0d4edf9e/comments,0,2022-02-11T14:01:47Z,Sam Brannen,sbrannen
+86,7257f31ca8181027ef2eab540400d17384b37f62,https://api.github.com/repos/spring-projects/spring-framework/commits/7257f31ca8181027ef2eab540400d17384b37f62,C_kwDOABGHUdoAKDcyNTdmMzFjYTgxODEwMjdlZjJlYWI1NDA0MDBkMTczODRiMzdmNjI,Upgrade Dokka to 1.6.10,https://api.github.com/repos/spring-projects/spring-framework/commits/7257f31ca8181027ef2eab540400d17384b37f62/comments,0,2022-02-11T12:58:56Z,Brian Clozel,bclozel
+87,6c42bcfaec45128f7b0807676288552912a1b234,https://api.github.com/repos/spring-projects/spring-framework/commits/6c42bcfaec45128f7b0807676288552912a1b234,C_kwDOABGHUdoAKDZjNDJiY2ZhZWM0NTEyOGY3YjA4MDc2NzYyODg1NTI5MTJhMWIyMzQ,"Upgrade to Kotlin 1.6.20-M1
+
+This commit upgrades the Kotlin dependencies to 1.6.20-M1 and configures
+the build to generate Java 17 bytecode for Kotlin classes.
+
+Closes gh-27814",https://api.github.com/repos/spring-projects/spring-framework/commits/6c42bcfaec45128f7b0807676288552912a1b234/comments,0,2022-02-11T10:39:32Z,Brian Clozel,bclozel
+88,2019e176ee9c75c2f20ce68a82df2cf1a2af872a,https://api.github.com/repos/spring-projects/spring-framework/commits/2019e176ee9c75c2f20ce68a82df2cf1a2af872a,C_kwDOABGHUdoAKDIwMTllMTc2ZWU5Yzc1YzJmMjBjZTY4YTgyZGYyY2YxYTJhZjg3MmE,"Upgrade to AspectJ 1.9.8
+
+This commit also upgades the dedicated Gradle plugin for AspectJ build
+integration.
+
+Closes gh-27416",https://api.github.com/repos/spring-projects/spring-framework/commits/2019e176ee9c75c2f20ce68a82df2cf1a2af872a/comments,0,2022-02-11T10:13:52Z,Brian Clozel,bclozel
+89,2fd39839f83e8923277cb89bcff0b5dc5a18abfc,https://api.github.com/repos/spring-projects/spring-framework/commits/2fd39839f83e8923277cb89bcff0b5dc5a18abfc,C_kwDOABGHUdoAKDJmZDM5ODM5ZjgzZTg5MjMyNzdjYjg5YmNmZjBiNWRjNWExOGFiZmM,"Improve toString() for synthesized annotations
+
+Although the initial report in gh-28015 only covered inconsistencies
+for arrays and strings in the toString() implementations for
+annotations between the JDK (after Java 9) and Spring, it has since
+come to our attention that there was further room for improvement.
+
+This commit therefore addresses the following in toString() output for
+synthesized annotations.
+
+- characters are now wrapped in single quotes.
+
+- bytes are now properly formatted as ""(byte) 0x##"".
+
+- long, float, and double values are now appended with ""L"", ""f"", and
+  ""d"", respectively. The use of lowercase for ""f"" and ""d"" is solely to
+  align with the choice made by the JDK team.
+
+However, this commit does not address the following issues which we may
+choose to address at a later point in time.
+
+- non-ASCII, non-visible, and non-printable characters within a
+  character or String literal are not escaped.
+
+- formatting for float and double values does not take into account
+  whether a value is not a number (NaN) or infinite.
+
+Closes gh-28015",https://api.github.com/repos/spring-projects/spring-framework/commits/2fd39839f83e8923277cb89bcff0b5dc5a18abfc/comments,0,2022-02-10T16:14:37Z,Sam Brannen,sbrannen
+90,ce87285be5d4be7ab9d981273acac8a8624883dc,https://api.github.com/repos/spring-projects/spring-framework/commits/ce87285be5d4be7ab9d981273acac8a8624883dc,C_kwDOABGHUdoAKGNlODcyODViZTVkNGJlN2FiOWQ5ODEyNzNhY2FjOGE4NjI0ODgzZGM,"Use canonical names for types in synthesized annotation toString
+
+My proposal for the same change in the JDK is currently targeted for
+JDK 19.
+
+- https://bugs.openjdk.java.net/browse/JDK-8281462
+- https://bugs.openjdk.java.net/browse/JDK-8281568
+- https://github.com/openjdk/jdk/pull/7418
+
+See gh-28015",https://api.github.com/repos/spring-projects/spring-framework/commits/ce87285be5d4be7ab9d981273acac8a8624883dc/comments,0,2022-02-10T15:59:00Z,Sam Brannen,sbrannen
+91,1a4573641d3ae35d044e366b472e68cc6daaad8a,https://api.github.com/repos/spring-projects/spring-framework/commits/1a4573641d3ae35d044e366b472e68cc6daaad8a,C_kwDOABGHUdoAKDFhNDU3MzY0MWQzYWUzNWQwNDRlMzY2YjQ3MmU2OGNjNmRhYWFkOGE,"Add code contribution infrastructure
+
+This commit adds an API that lets individual components contribute code,
+runtime hints, and protected access information. This ease the cases
+where code need to be written in a privileged package if necessary and
+let contributors provide hints for the code they generate.
+
+Closes gh-28030",https://api.github.com/repos/spring-projects/spring-framework/commits/1a4573641d3ae35d044e366b472e68cc6daaad8a/comments,0,2022-02-10T14:54:43Z,Stephane Nicoll,snicoll
+92,d64f8c1a05f9b5a3cd6451a20261c5e6f7b4108d,https://api.github.com/repos/spring-projects/spring-framework/commits/d64f8c1a05f9b5a3cd6451a20261c5e6f7b4108d,C_kwDOABGHUdoAKGQ2NGY4YzFhMDVmOWI1YTNjZDY0NTFhMjAyNjFjNWU2ZjdiNDEwOGQ,"Make BeanDefinitionValueResolver public
+
+Closes gh-28029",https://api.github.com/repos/spring-projects/spring-framework/commits/d64f8c1a05f9b5a3cd6451a20261c5e6f7b4108d/comments,0,2022-02-10T14:01:58Z,Stephane Nicoll,snicoll
+93,b3ceb0f625a5b40d1007bb4dfe673be497fc2c9e,https://api.github.com/repos/spring-projects/spring-framework/commits/b3ceb0f625a5b40d1007bb4dfe673be497fc2c9e,C_kwDOABGHUdoAKGIzY2ViMGY2MjVhNWI0MGQxMDA3YmI0ZGZlNjczYmU0OTdmYzJjOWU,"Add core JavaPoet utilities
+
+This commit adds utilities that facilitate code generation patterns
+used by the AOT engine.
+
+Closes gh-28028",https://api.github.com/repos/spring-projects/spring-framework/commits/b3ceb0f625a5b40d1007bb4dfe673be497fc2c9e/comments,0,2022-02-10T13:58:04Z,Stephane Nicoll,snicoll
+94,dfae8effa8c26ab69cf7b237b3c2fdd382f64b75,https://api.github.com/repos/spring-projects/spring-framework/commits/dfae8effa8c26ab69cf7b237b3c2fdd382f64b75,C_kwDOABGHUdoAKGRmYWU4ZWZmYThjMjZhYjY5Y2Y3YjIzN2IzYzJmZGQzODJmNjRiNzU,"Repackage Javapoet in org.springframework.javapoet
+
+This commit repackages the Javapoet library into spring-core so that it
+can be used by the AOT engine without requiring a specific version.
+
+Closes gh-27828",https://api.github.com/repos/spring-projects/spring-framework/commits/dfae8effa8c26ab69cf7b237b3c2fdd382f64b75/comments,0,2022-02-10T13:56:36Z,Stephane Nicoll,snicoll
+95,97582fd0a1f786c2cde12ba2af8196e423d47d87,https://api.github.com/repos/spring-projects/spring-framework/commits/97582fd0a1f786c2cde12ba2af8196e423d47d87,C_kwDOABGHUdoAKDk3NTgyZmQwYTFmNzg2YzJjZGUxMmJhMmFmODE5NmU0MjNkNDdkODc,Update Eclipse template to @since 5.3.16,https://api.github.com/repos/spring-projects/spring-framework/commits/97582fd0a1f786c2cde12ba2af8196e423d47d87/comments,0,2022-02-10T12:43:02Z,Sam Brannen,sbrannen
+96,7a2c9b80c23f3fb3b5fb387d51f2143701316cb2,https://api.github.com/repos/spring-projects/spring-framework/commits/7a2c9b80c23f3fb3b5fb387d51f2143701316cb2,C_kwDOABGHUdoAKDdhMmM5YjgwYzIzZjNmYjNiNWZiMzg3ZDUxZjIxNDM3MDEzMTZjYjI,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/7a2c9b80c23f3fb3b5fb387d51f2143701316cb2/comments,0,2022-02-10T12:15:39Z,Stephane Nicoll,snicoll
+97,d2c7dfb79ee62900a0c5ded12768fc18458d765a,https://api.github.com/repos/spring-projects/spring-framework/commits/d2c7dfb79ee62900a0c5ded12768fc18458d765a,C_kwDOABGHUdoAKGQyYzdkZmI3OWVlNjI5MDBhMGM1ZGVkMTI3NjhmYzE4NDU4ZDc2NWE,"Add convenience factory method for Managed[List|Set|Map]
+
+Closes gh-28026",https://api.github.com/repos/spring-projects/spring-framework/commits/d2c7dfb79ee62900a0c5ded12768fc18458d765a/comments,0,2022-02-10T11:37:19Z,Stephane Nicoll,snicoll
+98,5c60a721a7ab81f50e9b88a031bc8a1d3e17ccb4,https://api.github.com/repos/spring-projects/spring-framework/commits/5c60a721a7ab81f50e9b88a031bc8a1d3e17ccb4,C_kwDOABGHUdoAKDVjNjBhNzIxYTdhYjgxZjUwZTliODhhMDMxYmM4YTFkM2UxN2NjYjQ,"Upgrade to Gradle 7.4
+
+Closes gh-28020",https://api.github.com/repos/spring-projects/spring-framework/commits/5c60a721a7ab81f50e9b88a031bc8a1d3e17ccb4/comments,0,2022-02-08T15:26:37Z,Sam Brannen,sbrannen
+99,1deb6b04b86888d716b3e1bf53245d21e424c3ee,https://api.github.com/repos/spring-projects/spring-framework/commits/1deb6b04b86888d716b3e1bf53245d21e424c3ee,C_kwDOABGHUdoAKDFkZWI2YjA0Yjg2ODg4ZDcxNmIzZTFiZjUzMjQ1ZDIxZTQyNGMzZWU,"Apply ""instanceof pattern matching"" in SynthesizedMergedAnnotationInvocationHandler",https://api.github.com/repos/spring-projects/spring-framework/commits/1deb6b04b86888d716b3e1bf53245d21e424c3ee/comments,0,2022-02-08T13:30:26Z,Sam Brannen,sbrannen
+100,839cc5f7f863669b0e8d59eb81fcc716f2712b79,https://api.github.com/repos/spring-projects/spring-framework/commits/839cc5f7f863669b0e8d59eb81fcc716f2712b79,C_kwDOABGHUdoAKDgzOWNjNWY3Zjg2MzY2OWIwZThkNTllYjgxZmNjNzE2ZjI3MTJiNzk,Remove unnecessary JDK 9+ check in MergedAnnotationsTests,https://api.github.com/repos/spring-projects/spring-framework/commits/839cc5f7f863669b0e8d59eb81fcc716f2712b79/comments,0,2022-02-08T13:19:32Z,Sam Brannen,sbrannen
+101,bf40033e86784e645e9cf1d58e87df37baa154b8,https://api.github.com/repos/spring-projects/spring-framework/commits/bf40033e86784e645e9cf1d58e87df37baa154b8,C_kwDOABGHUdoAKGJmNDAwMzNlODY3ODRlNjQ1ZTljZjFkNThlODdkZjM3YmFhMTU0Yjg,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/bf40033e86784e645e9cf1d58e87df37baa154b8/comments,0,2022-02-08T13:15:25Z,Sam Brannen,sbrannen
+102,7139a877f41f864b3a318c0dadd3450fa67deb19,https://api.github.com/repos/spring-projects/spring-framework/commits/7139a877f41f864b3a318c0dadd3450fa67deb19,C_kwDOABGHUdoAKDcxMzlhODc3ZjQxZjg2NGIzYTMxOGMwZGFkZDM0NTBmYTY3ZGViMTk,"Ensure toString() for synthesized annotations is source code compatible
+
+Since the introduction of synthesized annotation support in Spring
+Framework 4.2 (a.k.a., merged annotations), the toString()
+implementation attempted to align with the formatting used by the JDK
+itself. However, Class annotation attributes were formatted using
+Class#getName in Spring; whereas, the JDK used Class#toString up until
+JDK 9.
+
+In addition, JDK 9 introduced new formatting for toString() for
+annotations, apparently intended to align with the syntax used in the
+source code declaration of the annotation. However, JDK 9+ formats enum
+annotation attributes using Enum#toString instead of Enum#name, which
+can lead to issues if toString() is overridden in an enum.
+
+This commit updates the formatting used for synthesized annotations by
+ensuring that toString() generates a string that is compatible with the
+syntax of the originating source code, going beyond the changes made in
+JDK 9 by using Enum#name instead of Enum#toString.
+
+Closes gh-28015",https://api.github.com/repos/spring-projects/spring-framework/commits/7139a877f41f864b3a318c0dadd3450fa67deb19/comments,0,2022-02-08T13:10:36Z,Sam Brannen,sbrannen
+103,669b05dc1d925cf88a084a1de6e582b6f0a773e1,https://api.github.com/repos/spring-projects/spring-framework/commits/669b05dc1d925cf88a084a1de6e582b6f0a773e1,C_kwDOABGHUdoAKDY2OWIwNWRjMWQ5MjVjZjg4YTA4NGExZGU2ZTU4MmI2ZjBhNzczZTE,Allow AutowiredAnnotationBeanPostProcessor to compile on JDK 11,https://api.github.com/repos/spring-projects/spring-framework/commits/669b05dc1d925cf88a084a1de6e582b6f0a773e1/comments,0,2022-02-08T13:06:27Z,Sam Brannen,sbrannen
+104,a0c97e4c36e5e07bc13bab4409ec740332a57871,https://api.github.com/repos/spring-projects/spring-framework/commits/a0c97e4c36e5e07bc13bab4409ec740332a57871,C_kwDOABGHUdoAKGEwYzk3ZTRjMzZlNWUwN2JjMTNiYWI0NDA5ZWM3NDAzMzJhNTc4NzE,"Polish
+
+See gh-27829",https://api.github.com/repos/spring-projects/spring-framework/commits/a0c97e4c36e5e07bc13bab4409ec740332a57871/comments,0,2022-02-07T11:51:53Z,Stephane Nicoll,snicoll
+105,6936f7e0cb1eae8357f3c700d2c2d33834475ec2,https://api.github.com/repos/spring-projects/spring-framework/commits/6936f7e0cb1eae8357f3c700d2c2d33834475ec2,C_kwDOABGHUdoAKDY5MzZmN2UwY2IxZWFlODM1N2YzYzcwMGQyYzJkMzM4MzQ0NzVlYzI,"Relocate runtime hints to aot package
+
+See gh-27829",https://api.github.com/repos/spring-projects/spring-framework/commits/6936f7e0cb1eae8357f3c700d2c2d33834475ec2/comments,0,2022-02-07T11:51:43Z,Stephane Nicoll,snicoll
+106,e077a753f8ec528979eb47c4d3ce41b88437723d,https://api.github.com/repos/spring-projects/spring-framework/commits/e077a753f8ec528979eb47c4d3ce41b88437723d,C_kwDOABGHUdoAKGUwNzdhNzUzZjhlYzUyODk3OWViNDdjNGQzY2U0MWI4ODQzNzcyM2Q,Polish JsonContentTests,https://api.github.com/repos/spring-projects/spring-framework/commits/e077a753f8ec528979eb47c4d3ce41b88437723d/comments,0,2022-02-05T19:37:42Z,Sam Brannen,sbrannen
+107,2ae6431a5041fba9d350bcc866cc0da627433c19,https://api.github.com/repos/spring-projects/spring-framework/commits/2ae6431a5041fba9d350bcc866cc0da627433c19,C_kwDOABGHUdoAKDJhZTY0MzFhNTA0MWZiYTlkMzUwYmNjODY2Y2MwZGE2Mjc0MzNjMTk,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/2ae6431a5041fba9d350bcc866cc0da627433c19/comments,0,2022-02-05T19:26:10Z,Sam Brannen,sbrannen
+108,038b88e2a1cc64c845aacc438d1b39979110bce5,https://api.github.com/repos/spring-projects/spring-framework/commits/038b88e2a1cc64c845aacc438d1b39979110bce5,C_kwDOABGHUdoAKDAzOGI4OGUyYTFjYzY0Yzg0NWFhY2M0MzhkMWIzOTk3OTExMGJjZTU,Polishing,https://api.github.com/repos/spring-projects/spring-framework/commits/038b88e2a1cc64c845aacc438d1b39979110bce5/comments,0,2022-02-05T19:23:45Z,Sam Brannen,sbrannen
+109,eb84c843736aaa555d9078a544280bd70b714fbb,https://api.github.com/repos/spring-projects/spring-framework/commits/eb84c843736aaa555d9078a544280bd70b714fbb,C_kwDOABGHUdoAKGViODRjODQzNzM2YWFhNTU1ZDkwNzhhNTQ0MjgwYmQ3MGI3MTRmYmI,"Polish contribution
+
+See gh-27993",https://api.github.com/repos/spring-projects/spring-framework/commits/eb84c843736aaa555d9078a544280bd70b714fbb/comments,0,2022-02-05T19:15:30Z,Sam Brannen,sbrannen
+110,920be8e1b201fa947b07941eeace62ecf0f431a9,https://api.github.com/repos/spring-projects/spring-framework/commits/920be8e1b201fa947b07941eeace62ecf0f431a9,C_kwDOABGHUdoAKDkyMGJlOGUxYjIwMWZhOTQ3YjA3OTQxZWVhY2U2MmVjZjBmNDMxYTk,"Add support for strict JSON comparison in WebTestClient
+
+Prior to this commit, WebTestClient only supported ""lenient"" comparison
+of the expected JSON body.
+
+This commit introduces an overloaded variant of `json()` in the
+BodyContentSpec that accepts an additional boolean flag to specify
+whether a ""strict"" comparison should be performed.
+
+This new feature is analogous to the existing support in MockMvc.
+
+Closes gh-27993",https://api.github.com/repos/spring-projects/spring-framework/commits/920be8e1b201fa947b07941eeace62ecf0f431a9/comments,0,2022-02-05T19:15:30Z,Sam Brannen,sbrannen
+111,a13ad3e96932683feb6f1272503aaa30dae6685e,https://api.github.com/repos/spring-projects/spring-framework/commits/a13ad3e96932683feb6f1272503aaa30dae6685e,C_kwDOABGHUdoAKGExM2FkM2U5NjkzMjY4M2ZlYjZmMTI3MjUwM2FhYTMwZGFlNjY4NWU,Polishing,https://api.github.com/repos/spring-projects/spring-framework/commits/a13ad3e96932683feb6f1272503aaa30dae6685e/comments,0,2022-02-05T19:15:30Z,Sam Brannen,sbrannen
+112,04fbfddb13e45a729a93d88c5aee8092bff2ca9c,https://api.github.com/repos/spring-projects/spring-framework/commits/04fbfddb13e45a729a93d88c5aee8092bff2ca9c,C_kwDOABGHUdoAKDA0ZmJmZGRiMTNlNDVhNzI5YTkzZDg4YzVhZWU4MDkyYmZmMmNhOWM,"Polish contribution
+
+See gh-28011",https://api.github.com/repos/spring-projects/spring-framework/commits/04fbfddb13e45a729a93d88c5aee8092bff2ca9c/comments,0,2022-02-05T18:12:13Z,Sam Brannen,sbrannen
+113,1e0e477833c90d13d60b4f8ed0649ab7bb3e1541,https://api.github.com/repos/spring-projects/spring-framework/commits/1e0e477833c90d13d60b4f8ed0649ab7bb3e1541,C_kwDOABGHUdoAKDFlMGU0Nzc4MzNjOTBkMTNkNjBiNGY4ZWQwNjQ5YWI3YmIzZTE1NDE,"Apply ""instanceof pattern matching"" in AbstractRoutingDataSource
+
+Closes gh-28011",https://api.github.com/repos/spring-projects/spring-framework/commits/1e0e477833c90d13d60b4f8ed0649ab7bb3e1541/comments,0,2022-02-05T17:58:08Z,Sam Brannen,sbrannen
+114,9a0f691e86bf1ecf351234f39368de71d3fb426c,https://api.github.com/repos/spring-projects/spring-framework/commits/9a0f691e86bf1ecf351234f39368de71d3fb426c,C_kwDOABGHUdoAKDlhMGY2OTFlODZiZjFlY2YzNTEyMzRmMzkzNjhkZTcxZDNmYjQyNmM,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/9a0f691e86bf1ecf351234f39368de71d3fb426c/comments,0,2022-02-05T12:59:45Z,Stephane Nicoll,snicoll
+115,874432b38a357564d615ce40c3a1c542a4a97e52,https://api.github.com/repos/spring-projects/spring-framework/commits/874432b38a357564d615ce40c3a1c542a4a97e52,C_kwDOABGHUdoAKDg3NDQzMmIzOGEzNTc1NjRkNjE1Y2U0MGMzYTFjNTQyYTRhOTdlNTI,"Merge pull request #28010 from izeye
+
+* pr/28010:
+  Fix Javadoc since for AopProxyUtils.isLambda()
+
+Closes gh-28010",https://api.github.com/repos/spring-projects/spring-framework/commits/874432b38a357564d615ce40c3a1c542a4a97e52/comments,0,2022-02-05T12:59:33Z,Stephane Nicoll,snicoll
+116,4ab03fede8aa6fd501f136803277db7e868d9b7c,https://api.github.com/repos/spring-projects/spring-framework/commits/4ab03fede8aa6fd501f136803277db7e868d9b7c,C_kwDOABGHUdoAKDRhYjAzZmVkZThhYTZmZDUwMWYxMzY4MDMyNzdkYjdlODY4ZDliN2M,"Fix Javadoc since for AopProxyUtils.isLambda()
+
+See gh-28010",https://api.github.com/repos/spring-projects/spring-framework/commits/4ab03fede8aa6fd501f136803277db7e868d9b7c/comments,0,2022-02-05T12:59:01Z,Stephane Nicoll,snicoll
+117,b0bca7f5aed859c947bcccfeeeabc50c5fbde07e,https://api.github.com/repos/spring-projects/spring-framework/commits/b0bca7f5aed859c947bcccfeeeabc50c5fbde07e,C_kwDOABGHUdoAKGIwYmNhN2Y1YWVkODU5Yzk0N2JjY2NmZWVlYWJjNTBjNWZiZGUwN2U,"Merge branch '5.3.x'
+
+# Conflicts:
+#	build.gradle",https://api.github.com/repos/spring-projects/spring-framework/commits/b0bca7f5aed859c947bcccfeeeabc50c5fbde07e/comments,0,2022-02-04T22:55:18Z,Juergen Hoeller,jhoeller
+118,5bbdd36e199dd53b237f168c34c81c7b4dcd8946,https://api.github.com/repos/spring-projects/spring-framework/commits/5bbdd36e199dd53b237f168c34c81c7b4dcd8946,C_kwDOABGHUdoAKDViYmRkMzZlMTk5ZGQ1M2IyMzdmMTY4YzM0YzgxYzdiNGRjZDg5NDY,"Upgrade to Checkstyle 9.3, HtmlUnit 2.58, Apache HttpClient 5.1.3",https://api.github.com/repos/spring-projects/spring-framework/commits/5bbdd36e199dd53b237f168c34c81c7b4dcd8946/comments,0,2022-02-04T22:51:23Z,Juergen Hoeller,jhoeller
+119,a22feac8036393725113222055166eb9e7211c9a,https://api.github.com/repos/spring-projects/spring-framework/commits/a22feac8036393725113222055166eb9e7211c9a,C_kwDOABGHUdoAKGEyMmZlYWM4MDM2MzkzNzI1MTEzMjIyMDU1MTY2ZWI5ZTcyMTFjOWE,"Update license header for https (nohttp rule)
+
+See gh-27802",https://api.github.com/repos/spring-projects/spring-framework/commits/a22feac8036393725113222055166eb9e7211c9a/comments,0,2022-02-04T22:51:05Z,Juergen Hoeller,jhoeller
+120,3eb9886724516183b4d622787ecc00a572b2e8ee,https://api.github.com/repos/spring-projects/spring-framework/commits/3eb9886724516183b4d622787ecc00a572b2e8ee,C_kwDOABGHUdoAKDNlYjk4ODY3MjQ1MTYxODNiNGQ2MjI3ODdlY2MwMGE1NzJiMmU4ZWU,"Merge branch '5.3.x'
+
+# Conflicts:
+#	spring-context-support/src/main/java/org/springframework/scheduling/commonj/WorkManagerTaskExecutor.java
+#	spring-core/src/main/java/org/springframework/core/task/SimpleAsyncTaskExecutor.java
+#	spring-expression/src/main/java/org/springframework/expression/spel/support/ReflectivePropertyAccessor.java
+#	spring-tx/src/main/java/org/springframework/jca/work/SimpleTaskWorkManager.java
+#	spring-tx/src/main/java/org/springframework/jca/work/WorkManagerTaskExecutor.java",https://api.github.com/repos/spring-projects/spring-framework/commits/3eb9886724516183b4d622787ecc00a572b2e8ee/comments,0,2022-02-04T22:24:21Z,Juergen Hoeller,jhoeller
+121,bc9cd9a687b598a3d567ebcd9fb4108e0342ce84,https://api.github.com/repos/spring-projects/spring-framework/commits/bc9cd9a687b598a3d567ebcd9fb4108e0342ce84,C_kwDOABGHUdoAKGJjOWNkOWE2ODdiNTk4YTNkNTY3ZWJjZDlmYjQxMDhlMDM0MmNlODQ,"Find interface method even for late-bound interface declaration in subclass
+
+Closes gh-27995",https://api.github.com/repos/spring-projects/spring-framework/commits/bc9cd9a687b598a3d567ebcd9fb4108e0342ce84/comments,0,2022-02-04T22:21:27Z,Juergen Hoeller,jhoeller
+122,a71a45e71965acd9b4c5d9863bcd6f378990a465,https://api.github.com/repos/spring-projects/spring-framework/commits/a71a45e71965acd9b4c5d9863bcd6f378990a465,C_kwDOABGHUdoAKGE3MWE0NWU3MTk2NWFjZDliNGM1ZDk4NjNiY2Q2ZjM3ODk5MGE0NjU,"Deprecate AsyncTaskExecutor.execute(Runnable task, long startTimeout)
+
+Closes gh-27959",https://api.github.com/repos/spring-projects/spring-framework/commits/a71a45e71965acd9b4c5d9863bcd6f378990a465/comments,0,2022-02-04T22:21:00Z,Juergen Hoeller,jhoeller
+123,132d8c7f453f6770ec5ca08e72446b65fc0c8528,https://api.github.com/repos/spring-projects/spring-framework/commits/132d8c7f453f6770ec5ca08e72446b65fc0c8528,C_kwDOABGHUdoAKDEzMmQ4YzdmNDUzZjY3NzBlYzVjYTA4ZTcyNDQ2YjY1ZmMwYzg1Mjg,"Support for CGLIB BeanMap utility on JDK 17
+
+Closes gh-27802",https://api.github.com/repos/spring-projects/spring-framework/commits/132d8c7f453f6770ec5ca08e72446b65fc0c8528/comments,0,2022-02-04T22:19:06Z,Juergen Hoeller,jhoeller
+124,d07e1be623b607c77afe6faf8c02eda8a1b0b110,https://api.github.com/repos/spring-projects/spring-framework/commits/d07e1be623b607c77afe6faf8c02eda8a1b0b110,C_kwDOABGHUdoAKGQwN2UxYmU2MjNiNjA3Yzc3YWZlNmZhZjhjMDJlZGE4YTFiMGIxMTA,"Retrieve JDBC Connection via JdbcCoordinator (for compatibility with Hibernate 6)
+
+Closes gh-28007",https://api.github.com/repos/spring-projects/spring-framework/commits/d07e1be623b607c77afe6faf8c02eda8a1b0b110/comments,0,2022-02-04T21:24:50Z,Juergen Hoeller,jhoeller
+125,6b1c2dc944e9541720d8fd7de3ce3c54ca03d5c2,https://api.github.com/repos/spring-projects/spring-framework/commits/6b1c2dc944e9541720d8fd7de3ce3c54ca03d5c2,C_kwDOABGHUdoAKDZiMWMyZGM5NDRlOTU0MTcyMGQ4ZmQ3ZGUzY2UzYzU0Y2EwM2Q1YzI,"Consistently override (and prevent overriding for) aliases with bean definitions
+
+Closes gh-27866",https://api.github.com/repos/spring-projects/spring-framework/commits/6b1c2dc944e9541720d8fd7de3ce3c54ca03d5c2/comments,0,2022-02-04T20:12:42Z,Juergen Hoeller,jhoeller
+126,e5af4aa608746faf55ddb96c352f6c95065a9d93,https://api.github.com/repos/spring-projects/spring-framework/commits/e5af4aa608746faf55ddb96c352f6c95065a9d93,C_kwDOABGHUdoAKGU1YWY0YWE2MDg3NDZmYWY1NWRkYjk2YzM1MmY2Yzk1MDY1YTlkOTM,"Initial upgrade to R2DBC Borca
+
+See gh-27976",https://api.github.com/repos/spring-projects/spring-framework/commits/e5af4aa608746faf55ddb96c352f6c95065a9d93/comments,0,2022-02-04T20:09:02Z,Juergen Hoeller,jhoeller
+127,9688e61e2066b2fb45f865e64a75c29c99405192,https://api.github.com/repos/spring-projects/spring-framework/commits/9688e61e2066b2fb45f865e64a75c29c99405192,C_kwDOABGHUdoAKDk2ODhlNjFlMjA2NmIyZmI0NWY4NjVlNjRhNzVjMjljOTk0MDUxOTI,"Upgrade to Groovy 4.0
+
+Closes gh-27985",https://api.github.com/repos/spring-projects/spring-framework/commits/9688e61e2066b2fb45f865e64a75c29c99405192/comments,0,2022-02-04T20:01:02Z,Juergen Hoeller,jhoeller
+128,4358b48b0899ee622012e5646c2166265e91b63f,https://api.github.com/repos/spring-projects/spring-framework/commits/4358b48b0899ee622012e5646c2166265e91b63f,C_kwDOABGHUdoAKDQzNThiNDhiMDg5OWVlNjIyMDEyZTU2NDZjMjE2NjI2NWU5MWI2M2Y,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/4358b48b0899ee622012e5646c2166265e91b63f/comments,0,2022-02-04T19:01:48Z,Sam Brannen,sbrannen
+129,5d7a632965aff526cb6bbd0380b445f102819dca,https://api.github.com/repos/spring-projects/spring-framework/commits/5d7a632965aff526cb6bbd0380b445f102819dca,C_kwDOABGHUdoAKDVkN2E2MzI5NjVhZmY1MjZjYjZiYmQwMzgwYjQ0NWYxMDI4MTlkY2E,"Ensure Spring AOP generates JDK dynamic proxies for lambdas
+
+Prior to this commit, if AOP proxy generation was configured with
+proxyTargetClass=true (which is the default behavior in recent versions
+of Spring Boot), beans implemented as lambda expressions or method
+references could not be proxied with CGLIB on Java 16 or higher without
+specifying `--add-opens java.base/java.lang=ALL-UNNAMED`.
+
+This commit addresses this shortcoming by ensuring that beans
+implemented as lambda expressions or method references are always
+proxied using a JDK dynamic proxy even if proxyTargetClass=true.
+
+Closes gh-27971",https://api.github.com/repos/spring-projects/spring-framework/commits/5d7a632965aff526cb6bbd0380b445f102819dca/comments,0,2022-02-04T18:59:35Z,Sam Brannen,sbrannen
+130,c064e906979406c9bf25f1ed87c09980182bacd9,https://api.github.com/repos/spring-projects/spring-framework/commits/c064e906979406c9bf25f1ed87c09980182bacd9,C_kwDOABGHUdoAKGMwNjRlOTA2OTc5NDA2YzliZjI1ZjFlZDg3YzA5OTgwMTgyYmFjZDk,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/c064e906979406c9bf25f1ed87c09980182bacd9/comments,0,2022-02-04T08:24:50Z,Stephane Nicoll,snicoll
+131,6bc7d417346ea32c79cec64497b6f3c709b09f37,https://api.github.com/repos/spring-projects/spring-framework/commits/6bc7d417346ea32c79cec64497b6f3c709b09f37,C_kwDOABGHUdoAKDZiYzdkNDE3MzQ2ZWEzMmM3OWNlYzY0NDk3YjZmM2M3MDliMDlmMzc,"Merge pull request #28004 from An1s9n
+
+* pr/28004:
+  Polish reference to ManagedBean annotation
+
+Closes gh-28004",https://api.github.com/repos/spring-projects/spring-framework/commits/6bc7d417346ea32c79cec64497b6f3c709b09f37/comments,0,2022-02-04T08:24:30Z,Stephane Nicoll,snicoll
+132,05d3e820f9e1b20afbdbc352ee4d40c126474ff6,https://api.github.com/repos/spring-projects/spring-framework/commits/05d3e820f9e1b20afbdbc352ee4d40c126474ff6,C_kwDOABGHUdoAKDA1ZDNlODIwZjllMWIyMGFmYmRiYzM1MmVlNGQ0MGMxMjY0NzRmZjY,"Polish reference to ManagedBean annotation
+
+See gh-28004",https://api.github.com/repos/spring-projects/spring-framework/commits/05d3e820f9e1b20afbdbc352ee4d40c126474ff6/comments,0,2022-02-04T08:23:32Z,Stephane Nicoll,snicoll
+133,b3f786728ea7ccfc1660cc5b2dfdbc8b4c20ab5f,https://api.github.com/repos/spring-projects/spring-framework/commits/b3f786728ea7ccfc1660cc5b2dfdbc8b4c20ab5f,C_kwDOABGHUdoAKGIzZjc4NjcyOGVhN2NjZmMxNjYwY2M1YjJkZmRiYzhiNGMyMGFiNWY,Use modern language features in tests,https://api.github.com/repos/spring-projects/spring-framework/commits/b3f786728ea7ccfc1660cc5b2dfdbc8b4c20ab5f/comments,0,2022-02-03T14:35:32Z,Sam Brannen,sbrannen
+134,32cd73261a3094a289b8d0d62f76c8e413fe3f86,https://api.github.com/repos/spring-projects/spring-framework/commits/32cd73261a3094a289b8d0d62f76c8e413fe3f86,C_kwDOABGHUdoAKDMyY2Q3MzI2MWEzMDk0YTI4OWI4ZDBkNjJmNzZjOGU0MTNmZTNmODY,"Apply ""switch expressions"" where applicable",https://api.github.com/repos/spring-projects/spring-framework/commits/32cd73261a3094a289b8d0d62f76c8e413fe3f86/comments,0,2022-02-03T14:21:18Z,Sam Brannen,sbrannen
+135,9a5ecd0c46ec81e211fb6286870f6091e7202397,https://api.github.com/repos/spring-projects/spring-framework/commits/9a5ecd0c46ec81e211fb6286870f6091e7202397,C_kwDOABGHUdoAKDlhNWVjZDBjNDZlYzgxZTIxMWZiNjI4Njg3MGY2MDkxZTcyMDIzOTc,"Apply ""instanceof pattern matching"" in spring-r2dbc",https://api.github.com/repos/spring-projects/spring-framework/commits/9a5ecd0c46ec81e211fb6286870f6091e7202397/comments,0,2022-02-03T14:21:09Z,Sam Brannen,sbrannen
+136,12342d7f8e3be33ac9d040451167a33f74a55b3b,https://api.github.com/repos/spring-projects/spring-framework/commits/12342d7f8e3be33ac9d040451167a33f74a55b3b,C_kwDOABGHUdoAKDEyMzQyZDdmOGUzYmUzM2FjOWQwNDA0NTExNjdhMzNmNzRhNTViM2I,Sync ScriptUtilsUnitTests implementations,https://api.github.com/repos/spring-projects/spring-framework/commits/12342d7f8e3be33ac9d040451167a33f74a55b3b/comments,0,2022-02-03T14:20:54Z,Sam Brannen,sbrannen
+137,c263cbfbe486d7712b9e46b80ed151c1eda98c74,https://api.github.com/repos/spring-projects/spring-framework/commits/c263cbfbe486d7712b9e46b80ed151c1eda98c74,C_kwDOABGHUdoAKGMyNjNjYmZiZTQ4NmQ3NzEyYjllNDZiODBlZDE1MWMxZWRhOThjNzQ,Fix broken test missed in merge,https://api.github.com/repos/spring-projects/spring-framework/commits/c263cbfbe486d7712b9e46b80ed151c1eda98c74/comments,0,2022-02-03T14:16:27Z,Sam Brannen,sbrannen
+138,54565e95b57e61cbd5ce1346d2c61f0306735700,https://api.github.com/repos/spring-projects/spring-framework/commits/54565e95b57e61cbd5ce1346d2c61f0306735700,C_kwDOABGHUdoAKDU0NTY1ZTk1YjU3ZTYxY2JkNWNlMTM0NmQyYzYxZjAzMDY3MzU3MDA,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/54565e95b57e61cbd5ce1346d2c61f0306735700/comments,0,2022-02-03T13:58:36Z,Sam Brannen,sbrannen
+139,f8a5a8d7be6040e60c21107c14fc394e67e75e6b,https://api.github.com/repos/spring-projects/spring-framework/commits/f8a5a8d7be6040e60c21107c14fc394e67e75e6b,C_kwDOABGHUdoAKGY4YTVhOGQ3YmU2MDQwZTYwYzIxMTA3YzE0ZmMzOTRlNjdlNzVlNmI,Use modern language features in tests,https://api.github.com/repos/spring-projects/spring-framework/commits/f8a5a8d7be6040e60c21107c14fc394e67e75e6b/comments,0,2022-02-03T13:50:10Z,Sam Brannen,sbrannen
+140,5ad261228da962d21195e0995c30cc2bcbf302b8,https://api.github.com/repos/spring-projects/spring-framework/commits/5ad261228da962d21195e0995c30cc2bcbf302b8,C_kwDOABGHUdoAKDVhZDI2MTIyOGRhOTYyZDIxMTk1ZTA5OTVjMzBjYzJiY2JmMzAyYjg,Upgrade JDK 17 and JDK 18 versions in CI image,https://api.github.com/repos/spring-projects/spring-framework/commits/5ad261228da962d21195e0995c30cc2bcbf302b8/comments,0,2022-02-03T09:22:43Z,Brian Clozel,bclozel
+141,d94298aae5c280cfe2871d35c5e773805700e4d8,https://api.github.com/repos/spring-projects/spring-framework/commits/d94298aae5c280cfe2871d35c5e773805700e4d8,C_kwDOABGHUdoAKGQ5NDI5OGFhZTVjMjgwY2ZlMjg3MWQzNWM1ZTc3MzgwNTcwMGU0ZDg,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/d94298aae5c280cfe2871d35c5e773805700e4d8/comments,0,2022-02-03T08:58:21Z,Stephane Nicoll,snicoll
+142,82a2544918bac14301bece7c651114c278919f30,https://api.github.com/repos/spring-projects/spring-framework/commits/82a2544918bac14301bece7c651114c278919f30,C_kwDOABGHUdoAKDgyYTI1NDQ5MThiYWMxNDMwMWJlY2U3YzY1MTExNGMyNzg5MTlmMzA,Upgrade to spring javaformat 0.0.31,https://api.github.com/repos/spring-projects/spring-framework/commits/82a2544918bac14301bece7c651114c278919f30/comments,0,2022-02-03T07:49:16Z,Stephane Nicoll,snicoll
+143,e702c22da45016cdb15cdc4b47fb361c5063c8b0,https://api.github.com/repos/spring-projects/spring-framework/commits/e702c22da45016cdb15cdc4b47fb361c5063c8b0,C_kwDOABGHUdoAKGU3MDJjMjJkYTQ1MDE2Y2RiMTVjZGM0YjQ3ZmIzNjFjNTA2M2M4YjA,Upgrade Ubuntu version in CI image,https://api.github.com/repos/spring-projects/spring-framework/commits/e702c22da45016cdb15cdc4b47fb361c5063c8b0/comments,0,2022-02-03T07:48:52Z,Stephane Nicoll,snicoll
+144,823958bcc58c981097927496171324e75144e37b,https://api.github.com/repos/spring-projects/spring-framework/commits/823958bcc58c981097927496171324e75144e37b,C_kwDOABGHUdoAKDgyMzk1OGJjYzU4Yzk4MTA5NzkyNzQ5NjE3MTMyNGU3NTE0NGUzN2I,"Merge branch '5.3.x' into main
+
+Remove use of Mockito spy proxies, which don't work on Java 17.",https://api.github.com/repos/spring-projects/spring-framework/commits/823958bcc58c981097927496171324e75144e37b/comments,0,2022-02-02T17:35:54Z,rstoyanchev,rstoyanchev
+145,c4e362500be18bd2e277535d568f45e8a059b0db,https://api.github.com/repos/spring-projects/spring-framework/commits/c4e362500be18bd2e277535d568f45e8a059b0db,C_kwDOABGHUdoAKGM0ZTM2MjUwMGJlMThiZDJlMjc3NTM1ZDU2OGY0NWU4YTA1OWIwZGI,Polishing tests,https://api.github.com/repos/spring-projects/spring-framework/commits/c4e362500be18bd2e277535d568f45e8a059b0db/comments,0,2022-02-02T17:09:04Z,rstoyanchev,rstoyanchev
+146,8d5a6520ce033c38c57a9ec026102e17bd598acc,https://api.github.com/repos/spring-projects/spring-framework/commits/8d5a6520ce033c38c57a9ec026102e17bd598acc,C_kwDOABGHUdoAKDhkNWE2NTIwY2UwMzNjMzhjNTdhOWVjMDI2MTAyZTE3YmQ1OThhY2M,"Ensure all converters don't close InputStream
+
+Closes gh-27969",https://api.github.com/repos/spring-projects/spring-framework/commits/8d5a6520ce033c38c57a9ec026102e17bd598acc/comments,0,2022-02-02T15:55:13Z,rstoyanchev,rstoyanchev
+147,4effca35b500fda26f1f7d8322bc622468e5e93a,https://api.github.com/repos/spring-projects/spring-framework/commits/4effca35b500fda26f1f7d8322bc622468e5e93a,C_kwDOABGHUdoAKDRlZmZjYTM1YjUwMGZkYTI2ZjFmN2Q4MzIyYmM2MjI0NjhlNWU5M2E,"Ignore Content-Type that is invalid (not concrete)
+
+Closes gh-27957",https://api.github.com/repos/spring-projects/spring-framework/commits/4effca35b500fda26f1f7d8322bc622468e5e93a/comments,0,2022-02-02T15:55:07Z,rstoyanchev,rstoyanchev
+148,6e4551131dddffecd7adc00d96e3ecddd4c4911c,https://api.github.com/repos/spring-projects/spring-framework/commits/6e4551131dddffecd7adc00d96e3ecddd4c4911c,C_kwDOABGHUdoAKDZlNDU1MTEzMWRkZGZmZWNkN2FkYzAwZDk2ZTNlY2RkZDRjNDkxMWM,Merge branch '5.3.x',https://api.github.com/repos/spring-projects/spring-framework/commits/6e4551131dddffecd7adc00d96e3ecddd4c4911c/comments,0,2022-02-01T12:52:52Z,Arjen Poutsma,poutsma
+149,8f9a1cdc0c2ab2bee112dddad00a94bb501a3181,https://api.github.com/repos/spring-projects/spring-framework/commits/8f9a1cdc0c2ab2bee112dddad00a94bb501a3181,C_kwDOABGHUdoAKDhmOWExY2RjMGMyYWIyYmVlMTEyZGRkYWQwMGE5NGJiNTAxYTMxODE,"Consider current date in ""1W"" cron expressions
+
+Prior to this commit, the QuartzCronField::weekdayNearestTo would elapse
+until the next month before checking if the current day matched.
+
+After this commit, the current day is checked before we elapse until
+the next month.
+
+Closes gh-27966",https://api.github.com/repos/spring-projects/spring-framework/commits/8f9a1cdc0c2ab2bee112dddad00a94bb501a3181/comments,0,2022-02-01T12:51:40Z,Arjen Poutsma,poutsma
